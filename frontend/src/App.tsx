@@ -46,6 +46,8 @@ import VortexContactForm from './pages/Form/AIOperationalForm';
 
 // ===== DASHBOARD & PAGES =====
 import Dashboard from './Dashboard/Dashboard';
+import ResourcesPage from './pages/Resources';
+
 
 // Component to handle theme class on HTML element
 const ThemeWrapper = ({ children }: { children: React.ReactNode }) => {
@@ -111,6 +113,7 @@ const App = () => {
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPolicyPage />} />
               <Route path="/cookies" element={<CookiePolicyPage />} />
+              <Route path='/resources' element={<ResourcesPage/> }/>
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>
