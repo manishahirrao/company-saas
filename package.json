@@ -4,7 +4,7 @@
   "description": "PostPilot AI Hub - Complete Solution",
   "private": true,
   "scripts": {
-    "vercel-build": "cd frontend && npm install && npm run build"
+    "vercel-build": "echo 'Please deploy the frontend directory directly' && exit 1"
   },
   "engines": {
     "node": ">=16.0.0",
