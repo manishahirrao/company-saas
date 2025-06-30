@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "outDir": "./dist",
     "rootDir": "./src",
@@ -16,18 +16,12 @@
       "@config/*": ["src/config/*"],
       "@api/*": ["src/api/*"],
       "@utils/*": ["src/utils/*"],
-      "@middleware/*": ["src/api/middleware/*"],
-      "@services/*": ["src/api/services/*"],
-      "@controllers/*": ["src/api/controllers/*"],
-      "@routes/*": ["src/api/routes/*"],
-      "@models/*": ["src/api/models/*"],
-      "@interfaces/*": ["src/interfaces/*"],
-      "@types/*": ["src/types/*"],
+      "@middleware/*": ["src/middleware/*"],
+      "@controllers/*": ["src/controllers/*"],
       "@database/*": ["src/database/*"]
     },
     "typeRoots": [
-      "./node_modules/@types",
-      "./src/types"
+      "./node_modules/@types"
     ],
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

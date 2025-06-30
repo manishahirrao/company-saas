@@ -519,7 +519,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.98 }}
             >
               <div className="text-2xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
-                PostPilot
+                Vortex
               </div>
               <motion.div 
                 className="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] rounded-full"
