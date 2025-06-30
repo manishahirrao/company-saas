@@ -1,0 +1,289 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(248, 84%, 98%);
+  --foreground: hsl(240, 10%, 10%);
+  --muted: hsl(210, 40%, 96%);
+  --muted-foreground: hsl(215, 16%, 47%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(240, 10%, 10%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(240, 10%, 10%);
+  --border: hsl(214, 32%, 91%);
+  --input: hsl(214, 32%, 91%);
+  --primary: hsl(283, 91%, 57%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(210, 40%, 96%);
+  --secondary-foreground: hsl(222, 84%, 5%);
+  --accent: hsl(210, 40%, 96%);
+  --accent-foreground: hsl(222, 84%, 5%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(210, 40%, 98%);
+  --ring: hsl(240, 10%, 10%);
+  --radius: 0.5rem;
+  
+  /* VORTEX Custom Properties */
+  --electric-purple: hsl(283, 91%, 57%);
+  --neon-blue: hsl(191, 100%, 50%);
+  --aqua-teal: hsl(169, 100%, 44%);
+  --warm-yellow: hsl(37, 100%, 64%);
+  --electric-green: hsl(155, 100%, 56%);
+  --dark-bg: hsl(0, 0%, 6%);
+  --light-bg: hsl(248, 84%, 98%);
+  --dark-text: hsl(0, 0%, 88%);
+  --light-text: hsl(240, 10%, 10%);
+}
+
+.dark {
+  --background: hsl(0, 0%, 6%);
+  --foreground: hsl(0, 0%, 88%);
+  --muted: hsl(240, 4%, 16%);
+  --muted-foreground: hsl(240, 5%, 65%);
+  --popover: hsl(0, 0%, 6%);
+  --popover-foreground: hsl(0, 0%, 88%);
+  --card: hsl(240, 4%, 9%);
+  --card-foreground: hsl(0, 0%, 88%);
+  --border: hsl(240, 4%, 16%);
+  --input: hsl(240, 4%, 16%);
+  --primary: hsl(283, 91%, 57%);
+  --primary-foreground: hsl(210, 40%, 98%);
+  --secondary: hsl(240, 4%, 16%);
+  --secondary-foreground: hsl(0, 0%, 88%);
+  --accent: hsl(240, 4%, 16%);
+  --accent-foreground: hsl(0, 0%, 88%);
+  --destructive: hsl(0, 63%, 31%);
+  --destructive-foreground: hsl(0, 0%, 88%);
+  --ring: hsl(240, 5%, 84%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom Fonts */
+.font-space {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-inter {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Grid Patterns */
+.grid-pattern {
+  background-image: 
+    linear-gradient(hsla(283, 91%, 57%, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, hsla(283, 91%, 57%, 0.1) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+.grid-pattern-light {
+  background-image: 
+    linear-gradient(hsla(240, 10%, 10%, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, hsla(240, 10%, 10%, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* SVG Grid Patterns */
+:root {
+  --grid-light: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(203 213 225 / 0.5)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+  --grid-dark: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.1)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+}
+
+.bg-grid-light {
+  background-image: var(--grid-light);
+  background-size: 32px 32px;
+  background-repeat: repeat;
+}
+
+.bg-grid-dark {
+  background-image: var(--grid-dark);
+  background-size: 32px 32px;
+  background-repeat: repeat;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(135deg, hsl(283, 91%, 57%), hsl(191, 100%, 50%), hsl(169, 100%, 44%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glow Effects */
+.glow-card {
+  transition: all 0.3s ease;
+}
+
+.glow-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px hsla(283, 91%, 57%, 0.3);
+}
+
+.dark .glow-card:hover {
+  box-shadow: 0 20px 40px hsla(283, 91%, 57%, 0.4);
+}
+
+/* Animations */
+@keyframes orbit {
+  0% { transform: rotate(0deg) translateX(50px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(50px) rotate(-360deg); }
+}
+
+@keyframes orbit-reverse {
+  0% { transform: rotate(0deg) translateX(30px) rotate(0deg); }
+  100% { transform: rotate(-360deg) translateX(30px) rotate(360deg); }
+}
+
+@keyframes glow-pulse {
+  from { filter: drop-shadow(0 0 20px hsla(283, 91%, 57%, 0.5)); }
+  to { filter: drop-shadow(0 0 30px hsla(283, 91%, 57%, 0.8)); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-orbit {
+  animation: orbit 20s linear infinite;
+}
+
+.animate-orbit-reverse {
+  animation: orbit-reverse 15s linear infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite alternate;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.8s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out forwards;
+}
+
+/* Orbital Animation Containers */
+.orbital-container {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.orbit-element {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+}
+
+.orbit-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: -4px 0 0 -4px;
+}
+
+.orbit-ring {
+  width: 100px;
+  height: 100px;
+  border: 1px solid hsla(283, 91%, 57%, 0.3);
+  border-radius: 50%;
+  margin: -50px 0 0 -50px;
+}
+
+/* Scroll Animations */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.animate-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Parallax */
+.parallax-bg {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Custom Utilities */
+.electric-purple {
+  color: hsl(283, 91%, 57%);
+}
+
+.neon-blue {
+  color: hsl(191, 100%, 50%);
+}
+
+.aqua-teal {
+  color: hsl(169, 100%, 44%);
+}
+
+.bg-electric-purple {
+  background-color: hsl(283, 91%, 57%);
+}
+
+.bg-neon-blue {
+  background-color: hsl(191, 100%, 50%);
+}
+
+.bg-aqua-teal {
+  background-color: hsl(169, 100%, 44%);
+}
+
+.bg-warm-yellow {
+  background-color: hsl(37, 100%, 64%);
+}
+
+.bg-electric-green {
+  background-color: hsl(155, 100%, 56%);
+}
+
+.border-electric-purple {
+  border-color: hsl(283, 91%, 57%);
+}
+
+.text-electric-purple {
+  color: hsl(283, 91%, 57%);
+}
+
+.from-electric-purple {
+  --tw-gradient-from: hsl(283, 91%, 57%) var(--tw-gradient-from-position);
+}
+
+.to-neon-blue {
+  --tw-gradient-to: hsl(191, 100%, 50%) var(--tw-gradient-to-position);
+}
+
+.to-aqua-teal {
+  --tw-gradient-to: hsl(169, 100%, 44%) var(--tw-gradient-to-position);
+}
