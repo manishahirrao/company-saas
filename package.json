@@ -3,25 +3,8 @@
   "version": "1.0.0",
   "description": "PostPilot AI Hub - Complete Solution",
   "private": true,
-  "workspaces": [
-    "frontend",
-    "backend"
-  ],
   "scripts": {
-    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-    "start:frontend": "cd frontend && npm run dev",
-    "start:backend": "cd backend && npm run dev",
-    "build": "cd frontend && npm install && npm run build",
-    "build:frontend": "cd frontend && npm install && npm run build",
-    "build:backend": "cd backend && npm install && npm run build",
-    "vercel-build": "npm run build",
-    "test": "concurrently \"npm test --workspace=frontend\" \"npm test --workspace=backend\"",
-    "lint": "concurrently \"npm run lint --workspace=frontend\" \"npm run lint --workspace=backend\"",
-    "format": "concurrently \"npm run format --workspace=frontend\" \"npm run format --workspace=backend\"",
-    "dev": "concurrently -n \"backend,frontend\" -c \"bgBlue.bold,bgGreen.bold\" \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
-  },
-  "devDependencies": {
-    "concurrently": "^8.2.2"
+    "vercel-build": "cd frontend && npm install && npm run build"
   },
   "engines": {
     "node": ">=16.0.0",
