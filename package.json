@@ -1,0 +1,29 @@
+{
+  "name": "postpilot-ai-hub",
+  "version": "1.0.0",
+  "description": "PostPilot AI Hub - Complete Solution",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
+    "start:frontend": "cd frontend && npm run dev",
+    "start:backend": "cd backend && npm run dev",
+    "build": "concurrently \"npm run build:backend\" \"npm run build:frontend\"",
+    "build:frontend": "cd frontend && npm run build",
+    "build:backend": "cd backend && npm run build",
+    "test": "concurrently \"npm test --workspace=frontend\" \"npm test --workspace=backend\"",
+    "lint": "concurrently \"npm run lint --workspace=frontend\" \"npm run lint --workspace=backend\"",
+    "format": "concurrently \"npm run format --workspace=frontend\" \"npm run format --workspace=backend\"",
+    "dev": "concurrently -n \"backend,frontend\" -c \"bgBlue.bold,bgGreen.bold\" \"cd backend && npm run dev\" \"cd frontend && npm run dev\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}
