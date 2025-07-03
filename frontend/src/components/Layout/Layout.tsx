@@ -45,7 +45,7 @@ const Layout: React.FC<LayoutProps> = ({
         />
         
         <div className="relative z-10 flex flex-col min-h-screen">
-          <Navbar />
+          
           <Navbar />
           <Breadcrumb />
           <main id="main-content" className="flex-grow relative z-0">

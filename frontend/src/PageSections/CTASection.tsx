@@ -2,12 +2,16 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Calendar, Play, ArrowRight, Users, Shield, Star, CheckCircle } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function CTASection() {
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
+  const navigate = useNavigate();
+
   const handleStartTrial = () => {
     console.log("Starting free trial...");
+    navigate('/company/register');
   };
 
   const handleScheduleDemo = () => {

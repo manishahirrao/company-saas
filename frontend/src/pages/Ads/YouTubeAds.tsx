@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -26,7 +25,9 @@ import {
   Camera,
   Clock,
   Monitor,
-  Sliders
+  Sliders,
+  Gauge,
+  Rocket
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -37,6 +38,8 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
 interface FormData {
   campaignName: string;
@@ -65,20 +68,26 @@ interface FormData {
   keywords: string[];
   hashtags: string[];
   referenceFiles: File[];
+  generationMode: 'normal' | 'advanced';
 }
 
 interface GeneratedContent {
   videoScript?: string;
+  videoScriptAdvanced?: string[];
   headline?: string;
+  headlineAdvanced?: string[];
   description?: string;
+  descriptionAdvanced?: string[];
   descriptionLine1?: string;
   descriptionLine2?: string;
   companionBannerSpecs?: string;
   thumbnailSpecs?: string;
   videoSpecs?: string;
   bumperAdScript?: string;
+  bumperAdScriptAdvanced?: string[];
   discoveryAdContent?: {
     headline: string;
+    headlineAdvanced?: string[];
     descriptionLine1: string;
     descriptionLine2: string;
   };
@@ -112,7 +121,8 @@ const YouTubeAdsForm: React.FC = () => {
     industryPreset: '',
     keywords: [],
     hashtags: [],
-    referenceFiles: []
+    referenceFiles: [],
+    generationMode: 'normal'
   });
 
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent>({});
@@ -306,8 +316,7 @@ const YouTubeAdsForm: React.FC = () => {
   };
 
   const generateContent = () => {
-    // ... keep existing code (generateContent function implementation)
-    const { adType, businessType, targetAudience, productService, keyMessage, callToAction } = formData;
+    const { adType, businessType, targetAudience, productService, keyMessage, callToAction, generationMode } = formData;
     
     if (!adType || !businessType || !productService) {
       toast({
@@ -355,6 +364,18 @@ SCRIPT NOTES:
 • Captions: Include for accessibility
 • Safe area: Keep important content in center 80%`
         };
+
+        if (generationMode === 'advanced') {
+          generated.videoScriptAdvanced = [
+            `HOOK (0-3s): "Stop wasting money on ${productService}!"
+BODY (4-15s): Our ${productService} saves you time and money with proven results. ${targetAudience ? `Perfect for ${targetAudience}` : ''}
+CTA (16-20s): "${callToAction || 'Get started'} today - limited time offer!"`,
+            
+            `HOOK (0-3s): "${productService} reinvented!"
+BODY (4-15s): Why settle for less? Our ${productService} delivers ${keyMessage || 'exceptional results'} every time.
+CTA (16-20s): "${callToAction || 'Click now'} to experience the difference!"`
+          ];
+        }
         break;
 
       case 'bumper-ads':
@@ -384,6 +405,16 @@ PRODUCTION NOTES:
 • Branding: Include throughout video
 • Text: Minimal, large and readable`
         };
+
+        if (generationMode === 'advanced') {
+          generated.bumperAdScriptAdvanced = [
+            `6-SECOND SCRIPT:
+"${productService} sale! 50% off today only. ${callToAction || 'Shop now'}!"`,
+            
+            `6-SECOND SCRIPT:
+"New ${productService} just launched! ${callToAction || 'Try it free'} today!"`
+          ];
+        }
         break;
 
       case 'discovery-ads':
@@ -407,6 +438,16 @@ PRODUCTION NOTES:
 • Branding: Include subtle logo placement
 • Safe area: Keep key content in center 80%`
         };
+
+        if (generationMode === 'advanced') {
+          generated.discoveryAdContent = {
+            ...generated.discoveryAdContent,
+            headlineAdvanced: [
+              `Best ${productService} Deals Online - Limited Time!`,
+              `Why Everyone Loves Our ${productService} - See Why!`
+            ]
+          };
+        }
         break;
 
       case 'video-action-ads':
@@ -422,6 +463,17 @@ PRODUCTION NOTES:
 • Clear value proposition in first 5 seconds
 • End with strong CTA and branding`
         };
+
+        if (generationMode === 'advanced') {
+          generated.headlineAdvanced = [
+            `Limited Time: ${generateActionHeadline(businessType, productService)}`,
+            `Exclusive Offer: ${generateActionHeadline(businessType, productService)}`
+          ];
+          generated.descriptionAdvanced = [
+            `Don't miss our ${productService} deal!`,
+            `Special ${productService} promotion today!`
+          ];
+        }
         break;
     }
 
@@ -429,7 +481,7 @@ PRODUCTION NOTES:
     setShowGenerated(true);
     toast({
       title: "Success",
-      description: "YouTube ad content generated successfully!"
+      description: `YouTube ad content generated successfully in ${generationMode} mode!`
     });
   };
 
@@ -864,6 +916,39 @@ PRODUCTION NOTES:
       </h3>
 
       <div className="space-y-6">
+        <div>
+          <h4 className="text-sm font-semibold text-gray-700 mb-3">Content Generation Mode</h4>
+          <RadioGroup 
+            defaultValue="normal"
+            value={formData.generationMode}
+            onValueChange={(value: 'normal' | 'advanced') => handleInputChange('generationMode', value)}
+            className="grid grid-cols-2 gap-4"
+          >
+            <div>
+              <RadioGroupItem value="normal" id="normal" className="peer sr-only" />
+              <Label
+                htmlFor="normal"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <Gauge className="mb-3 h-6 w-6" />
+                Normal (1x)
+                <p className="text-xs text-muted-foreground mt-1">Standard content generation</p>
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem value="advanced" id="advanced" className="peer sr-only" />
+              <Label
+                htmlFor="advanced"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <Rocket className="mb-3 h-6 w-6" />
+                Advanced (2x)
+                <p className="text-xs text-muted-foreground mt-1">Multiple variations with enhanced creativity</p>
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
+
         {(formData.adType === 'discovery-ads' || formData.adType === 'video-action-ads') && (
           <div>
             <h4 className="text-sm font-semibold text-gray-700 mb-3">Image Variations</h4>
@@ -1206,29 +1291,50 @@ PRODUCTION NOTES:
             <CardTitle className="flex items-center">
               <Sparkles className="w-5 h-5 mr-2" />
               Generated YouTube Ad Content
+              <span className="ml-auto bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">
+                {formData.generationMode === 'normal' ? 'Normal Mode' : 'Advanced Mode'}
+              </span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {/* ... keep existing code (renderGeneratedContent implementation) */}
-            {formData.adType === 'trueview-instream' && generatedContent.videoScript && (
+            {formData.adType === 'trueview-instream' && (
               <div className="space-y-6">
                 <div>
                   <h3 className="font-semibold mb-3">TrueView In-Stream Ad</h3>
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-sm font-medium mb-2">Video Script</h4>
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
-                        <div className="flex-1">
-                          <pre className="text-sm whitespace-pre-wrap">{generatedContent.videoScript}</pre>
+                      {formData.generationMode === 'normal' ? (
+                        <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
+                          <div className="flex-1">
+                            <pre className="text-sm whitespace-pre-wrap">{generatedContent.videoScript}</pre>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(generatedContent.videoScript || '', 'video-script')}
+                          >
+                            {copiedField === 'video-script' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(generatedContent.videoScript || '', 'video-script')}
-                        >
-                          {copiedField === 'video-script' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {generatedContent.videoScriptAdvanced?.map((script, index) => (
+                            <div key={index} className="flex items-start justify-between bg-gray-50 p-2 rounded">
+                              <div className="flex-1">
+                                <pre className="text-sm whitespace-pre-wrap">{script}</pre>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyToClipboard(script, `video-script-${index}`)}
+                              >
+                                {copiedField === `video-script-${index}` ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <h4 className="text-sm font-medium mb-2">Companion Banner Specifications</h4>
@@ -1265,25 +1371,44 @@ PRODUCTION NOTES:
               </div>
             )}
 
-            {formData.adType === 'bumper-ads' && generatedContent.bumperAdScript && (
+            {formData.adType === 'bumper-ads' && (
               <div className="space-y-6">
                 <div>
                   <h3 className="font-semibold mb-3">Bumper Ad Content</h3>
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-sm font-medium mb-2">6-Second Script</h4>
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
-                        <div className="flex-1">
-                          <pre className="text-sm whitespace-pre-wrap">{generatedContent.bumperAdScript}</pre>
+                      {formData.generationMode === 'normal' ? (
+                        <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
+                          <div className="flex-1">
+                            <pre className="text-sm whitespace-pre-wrap">{generatedContent.bumperAdScript}</pre>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(generatedContent.bumperAdScript || '', 'bumper-script')}
+                          >
+                            {copiedField === 'bumper-script' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(generatedContent.bumperAdScript || '', 'bumper-script')}
-                        >
-                          {copiedField === 'bumper-script' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {generatedContent.bumperAdScriptAdvanced?.map((script, index) => (
+                            <div key={index} className="flex items-start justify-between bg-gray-50 p-2 rounded">
+                              <div className="flex-1">
+                                <pre className="text-sm whitespace-pre-wrap">{script}</pre>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyToClipboard(script, `bumper-script-${index}`)}
+                              >
+                                {copiedField === `bumper-script-${index}` ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <h4 className="text-sm font-medium mb-2">Video Specifications</h4>
@@ -1312,19 +1437,39 @@ PRODUCTION NOTES:
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-sm font-medium mb-2">Headline (100 characters max)</h4>
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
-                        <div className="flex-1">
-                          <span className="text-sm">{generatedContent.discoveryAdContent.headline}</span>
-                          <span className="text-xs text-gray-500 ml-2">({generatedContent.discoveryAdContent.headline.length}/100)</span>
+                      {formData.generationMode === 'normal' ? (
+                        <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
+                          <div className="flex-1">
+                            <span className="text-sm">{generatedContent.discoveryAdContent.headline}</span>
+                            <span className="text-xs text-gray-500 ml-2">({generatedContent.discoveryAdContent.headline.length}/100)</span>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(generatedContent.discoveryAdContent?.headline || '', 'discovery-headline')}
+                          >
+                            {copiedField === 'discovery-headline' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(generatedContent.discoveryAdContent?.headline || '', 'discovery-headline')}
-                        >
-                          {copiedField === 'discovery-headline' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {generatedContent.discoveryAdContent.headlineAdvanced?.map((headline, index) => (
+                            <div key={index} className="flex items-start justify-between bg-gray-50 p-2 rounded">
+                              <div className="flex-1">
+                                <span className="text-sm">{headline}</span>
+                                <span className="text-xs text-gray-500 ml-2">({headline.length}/100)</span>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyToClipboard(headline, `discovery-headline-${index}`)}
+                              >
+                                {copiedField === `discovery-headline-${index}` ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <h4 className="text-sm font-medium mb-2">Description Line 1 (35 characters max)</h4>
@@ -1385,34 +1530,73 @@ PRODUCTION NOTES:
                   <div className="space-y-4">
                     <div>
                       <h4 className="text-sm font-medium mb-2">Headline</h4>
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
-                        <div className="flex-1">
-                          <span className="text-sm">{generatedContent.headline}</span>
+                      {formData.generationMode === 'normal' ? (
+                        <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
+                          <div className="flex-1">
+                            <span className="text-sm">{generatedContent.headline}</span>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(generatedContent.headline || '', 'action-headline')}
+                          >
+                            {copiedField === 'action-headline' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(generatedContent.headline || '', 'action-headline')}
-                        >
-                          {copiedField === 'action-headline' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {generatedContent.headlineAdvanced?.map((headline, index) => (
+                            <div key={index} className="flex items-start justify-between bg-gray-50 p-2 rounded">
+                              <div className="flex-1">
+                                <span className="text-sm">{headline}</span>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyToClipboard(headline, `action-headline-${index}`)}
+                              >
+                                {copiedField === `action-headline-${index}` ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <h4 className="text-sm font-medium mb-2">Description (25 characters max)</h4>
-                      <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
-                        <div className="flex-1">
-                          <span className="text-sm">{generatedContent.description}</span>
-                          <span className="text-xs text-gray-500 ml-2">({generatedContent.description?.length || 0}/25)</span>
+                      {formData.generationMode === 'normal' ? (
+                        <div className="flex items-center justify-between bg-gray-50 p-2 rounded mb-2">
+                          <div className="flex-1">
+                            <span className="text-sm">{generatedContent.description}</span>
+                            <span className="text-xs text-gray-500 ml-2">({generatedContent.description?.length || 0}/25)</span>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => copyToClipboard(generatedContent.description || '', 'action-description')}
+                          >
+                            {copiedField === 'action-description' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                          </Button>
                         </div>
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          onClick={() => copyToClipboard(generatedContent.description || '', 'action-description')}
-                        >
-                          {copiedField === 'action-description' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                        </Button>
-                      </div>
+                      ) : (
+                        <div className="space-y-3">
+                          {generatedContent.descriptionAdvanced?.map((desc, index) => (
+                            <div key={index} className="flex items-start justify-between bg-gray-50 p-2 rounded">
+                              <div className="flex-1">
+                                <span className="text-sm">{desc}</span>
+                                <span className="text-xs text-gray-500 ml-2">({desc.length}/25)</span>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => copyToClipboard(desc, `action-description-${index}`)}
+                              >
+                                {copiedField === `action-description-${index}` ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                              </Button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <h4 className="text-sm font-medium mb-2">Video Specifications</h4>
@@ -1467,6 +1651,10 @@ PRODUCTION NOTES:
               <div>
                 <p className="text-sm font-medium text-gray-500">Call to Action</p>
                 <p>{formData.callToAction || '-'}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Generation Mode</p>
+                <p className="capitalize">{formData.generationMode || '-'}</p>
               </div>
               <div className="md:col-span-2">
                 <p className="text-sm font-medium text-gray-500">Selected Countries</p>
@@ -1531,53 +1719,52 @@ PRODUCTION NOTES:
         <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-6xl mx-auto">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-8 text-center">
-            <h1 className="text-4xl font-bold mb-2">YouTube Ads Generator</h1>
-            <p className="text-xl opacity-90">Complete Campaign Specifications & Content</p>
-          </div>
+              <div className="bg-gradient-to-r from-red-600 to-red-700 text-white p-8 text-center">
+                <h1 className="text-4xl font-bold mb-2">YouTube Ads Generator</h1>
+                <p className="text-xl opacity-90">Complete Campaign Specifications & Content</p>
+              </div>
 
-          <div className="p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  1
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-red-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      1
+                    </div>
+                    <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Basic Info</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-red-600 text-white' : currentStep === 2 ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-600'}`}>
+                      2
+                    </div>
+                    <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Tone & Content</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-red-600 text-white' : currentStep === 3 ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-600'}`}>
+                      3
+                    </div>
+                    <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Media Settings</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-red-600 text-white' : currentStep === 4 ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-600'}`}>
+                      4
+                    </div>
+                    <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Review</span>
+                  </div>
                 </div>
-                <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Basic Info</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-red-600 text-white' : currentStep === 2 ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-600'}`}>
-                  2
-                </div>
-                <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Tone & Content</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-red-600 text-white' : currentStep === 3 ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-600'}`}>
-                  3
-                </div>
-                <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Media Settings</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-red-600 text-white' : currentStep === 4 ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-600'}`}>
-                  4
-                </div>
-                <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-red-600' : 'text-gray-500'}`}>Review</span>
+
+                {currentStep === 1 && renderStep1()}
+                {currentStep === 2 && renderStep2()}
+                {currentStep === 3 && renderStep3()}
+                {currentStep === 4 && renderStep4()}
               </div>
             </div>
-
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
           </div>
-        </div>
-        </div>
-      </main>
-  
-    </motion.div>
-  </AnimatePresence>
+        </main>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

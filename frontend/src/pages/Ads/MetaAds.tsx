@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
@@ -42,6 +41,7 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { useToast } from '@/components/ui/use-toast';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 interface FormData {
   campaignName: string;
@@ -69,6 +69,7 @@ interface FormData {
   contentType: string;
   mood: string;
   industryPreset: string;
+  contentGenerationMode: 'normal' | 'advanced';
 }
 
 interface GeneratedContent {
@@ -152,7 +153,8 @@ const MetaAdsForm: React.FC = () => {
     imageStyle: '',
     contentType: '',
     mood: '',
-    industryPreset: ''
+    industryPreset: '',
+    contentGenerationMode: 'normal'
   });
 
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent>({});
@@ -824,6 +826,47 @@ const MetaAdsForm: React.FC = () => {
             className="w-full"
           />
         </div>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Content Generation Mode</label>
+          <RadioGroup 
+            defaultValue="normal"
+            value={formData.contentGenerationMode}
+            onValueChange={(value: 'normal' | 'advanced') => handleInputChange('contentGenerationMode', value)}
+            className="grid grid-cols-2 gap-4"
+          >
+            <div>
+              <RadioGroupItem value="normal" id="normal" className="peer sr-only" />
+              <Label
+                htmlFor="normal"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-blue-500" />
+                  <span>Normal (1x)</span>
+                </div>
+                <p className="text-sm text-gray-500 mt-2 text-center">
+                  Standard content generation with basic variations
+                </p>
+              </Label>
+            </div>
+            <div>
+              <RadioGroupItem value="advanced" id="advanced" className="peer sr-only" />
+              <Label
+                htmlFor="advanced"
+                className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+              >
+                <div className="flex items-center gap-2">
+                  <Wand2 className="h-4 w-4 text-purple-500" />
+                  <span>Advanced (2x)</span>
+                </div>
+                <p className="text-sm text-gray-500 mt-2 text-center">
+                  Enhanced generation with more creative variations
+                </p>
+              </Label>
+            </div>
+          </RadioGroup>
+        </div>
       </div>
 
       <div className="flex justify-between pt-4">
@@ -903,6 +946,10 @@ const MetaAdsForm: React.FC = () => {
                 <p className="text-sm font-medium text-gray-500">Aspect Ratio</p>
                 <p>{formData.aspectRatio || '-'}</p>
               </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Content Generation</p>
+                <p className="capitalize">{formData.contentGenerationMode || '-'}</p>
+              </div>
               {(formData.mediaType === 'Image' || formData.mediaType === 'Image & Video') && (
                 <div>
                   <p className="text-sm font-medium text-gray-500">Image Variations</p>
@@ -953,53 +1000,52 @@ const MetaAdsForm: React.FC = () => {
         <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-6xl mx-auto">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
-            <h1 className="text-4xl font-bold mb-2">Meta Ads Generator</h1>
-            <p className="text-xl opacity-90">Complete Facebook & Instagram Ad Campaigns</p>
-          </div>
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
+                <h1 className="text-4xl font-bold mb-2">Meta Ads Generator</h1>
+                <p className="text-xl opacity-90">Complete Facebook & Instagram Ad Campaigns</p>
+              </div>
 
-          <div className="p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  1
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      1
+                    </div>
+                    <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Basic Info</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      2
+                    </div>
+                    <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Content</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      3
+                    </div>
+                    <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Media</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      4
+                    </div>
+                    <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
+                  </div>
                 </div>
-                <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Basic Info</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  2
-                </div>
-                <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Content</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  3
-                </div>
-                <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Media</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  4
-                </div>
-                <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
+
+                {currentStep === 1 && renderStep1()}
+                {currentStep === 2 && renderStep2()}
+                {currentStep === 3 && renderStep3()}
+                {currentStep === 4 && renderStep4()}
               </div>
             </div>
-
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
           </div>
-        </div>
-        </div>
-      </main>
-     
-    </motion.div>
-  </AnimatePresence>
+        </main>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

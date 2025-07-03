@@ -2,13 +2,15 @@ import React from 'react';
 import { Bell, CreditCard, User, LogOut, Settings } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { AdvancedVortexAnimation } from '@/Logo/logo';
 
 const DashboardNavbar = () => {
   return (
     <nav className="sticky top-0 z-30 w-full bg-white border-b shadow-sm flex items-center justify-between px-6 py-3 h-16">
       {/* Logo/Brand */}
       <div className="flex items-center space-x-3">
-        <span className="font-bold text-xl text-blue-600 tracking-tight">PostPilot AI</span>
+        <AdvancedVortexAnimation/>
+        <span className="font-bold text-xl text-blue-600 tracking-tight">Vortex</span>
       </div>
 
       {/* Right side controls */}

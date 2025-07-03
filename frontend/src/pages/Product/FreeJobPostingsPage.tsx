@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -6,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, MapPin, Building2, Clock, Plus, Eye, Edit, Trash2, Users, TrendingUp, Briefcase, Star } from 'lucide-react';
+import { Calendar, MapPin, Building2, Clock, Plus, Eye, Edit, Trash2, Users, TrendingUp, Briefcase, Star, ArrowRight } from 'lucide-react';
+import { AIPoweredHelpSystem } from '../Animation/AIPoweredHelpSystem';
 
 interface Job {
   id: string;
@@ -21,6 +23,24 @@ interface Job {
 }
 
 const FreeJobPostingsPage: React.FC = () => {
+  useEffect(() => {
+    document.title = 'VORTEX - Free Job Postings';
+    // Parallax effect for background elements
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const parallaxElements = document.querySelectorAll('.parallax-bg');
+      parallaxElements.forEach((el) => {
+        const speed = 0.5;
+        const element = el as HTMLElement;
+        element.style.transform = `translateY(${scrolled * speed}px)`;
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const [jobs, setJobs] = useState<Job[]>([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -29,45 +49,6 @@ const FreeJobPostingsPage: React.FC = () => {
     employmentType: 'Full-time'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Mock data for demonstration
-  useEffect(() => {
-    setJobs([
-      {
-        id: '1',
-        title: 'Senior Frontend Developer',
-        location: 'San Francisco, CA',
-        description: 'We are looking for an experienced frontend developer to join our innovative team. You will be responsible for building scalable web applications using React, TypeScript, and modern development practices.',
-        employmentType: 'Full-time',
-        status: 'Active',
-        postedAt: '2024-01-15',
-        views: 247,
-        applications: 12
-      },
-      {
-        id: '2',
-        title: 'Product Manager',
-        location: 'Remote',
-        description: 'Join our product team to help shape the future of our platform. We are looking for someone with experience in product strategy, user research, and cross-functional collaboration.',
-        employmentType: 'Full-time',
-        status: 'Active',
-        postedAt: '2024-01-10',
-        views: 189,
-        applications: 8
-      },
-      {
-        id: '3',
-        title: 'UX Designer',
-        location: 'New York, NY',
-        description: 'Creative UX designer needed to craft exceptional user experiences. Must have experience with Figma, user research, and design systems.',
-        employmentType: 'Contract',
-        status: 'Closed',
-        postedAt: '2024-01-05',
-        views: 156,
-        applications: 15
-      }
-    ]);
-  }, []);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -99,10 +80,8 @@ const FreeJobPostingsPage: React.FC = () => {
     }, 1000);
   };
 
-  const handleCloseJob = (jobId: string) => {
-    setJobs(prev => prev.map(job => 
-      job.id === jobId ? { ...job, status: 'Closed' as const } : job
-    ));
+  const deleteJob = (id: string) => {
+    setJobs(prev => prev.filter(job => job.id !== id));
   };
 
   const activeJobs = jobs.filter(job => job.status === 'Active').length;
@@ -110,258 +89,273 @@ const FreeJobPostingsPage: React.FC = () => {
   const totalApplications = jobs.reduce((sum, job) => sum + (job.applications || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Header with gradient background */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 pt-24 pb-16">
-        <div className="absolute inset-0 bg-black/20"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 to-purple-600/90"></div>
-        
-        {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
-          <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-          <div className="absolute top-20 left-1/4 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-        </div>
-        
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
-            <Star className="w-4 h-4 text-yellow-300" />
-            <span className="text-white/90 text-sm font-medium">100% Free • No Hidden Fees</span>
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Free Job Postings
-          </h1>
-          <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-            Post unlimited job openings on our premium job board. Reach thousands of qualified candidates 
-            with zero cost and maximum impact.
-          </p>
-          
-          {/* Stats */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 max-w-2xl mx-auto">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-2xl font-bold text-white">{activeJobs}</div>
-              <div className="text-white/80 text-sm">Active Jobs</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-2xl font-bold text-white">{totalViews}</div>
-              <div className="text-white/80 text-sm">Total Views</div>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4">
-              <div className="text-2xl font-bold text-white">{totalApplications}</div>
-              <div className="text-white/80 text-sm">Applications</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-10">
-        {/* Post New Job Form */}
-        <Card className="mb-8 shadow-2xl border-0 bg-white/80 backdrop-blur-sm">
-          <CardHeader className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white rounded-t-lg">
-            <CardTitle className="flex items-center gap-3 text-xl">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <Plus className="w-5 h-5" />
-              </div>
-              Post a New Job
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8">
-            <div className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <Label htmlFor="title" className="text-sm font-semibold text-foreground/90">Job Title</Label>
-                  <Input
-                    id="title"
-                    value={formData.title}
-                    onChange={(e) => handleInputChange('title', e.target.value)}
-                    placeholder="e.g. Senior Software Engineer"
-                    className="h-12 border-2 border-gray-200 focus:border-indigo-500 rounded-xl"
-                    required
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="location" className="text-sm font-semibold text-foreground/90">Location</Label>
-                  <Input
-                    id="location"
-                    value={formData.location}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
-                    placeholder="e.g. San Francisco, CA or Remote"
-                    className="h-12 border-2 border-gray-200 focus:border-indigo-500 rounded-xl"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="employmentType" className="text-sm font-semibold text-foreground/90">Employment Type</Label>
-                <Select value={formData.employmentType} onValueChange={(value) => handleInputChange('employmentType', value)}>
-                  <SelectTrigger className="h-12 border-2 border-gray-200 focus:border-indigo-500 rounded-xl">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Full-time">Full-time</SelectItem>
-                    <SelectItem value="Part-time">Part-time</SelectItem>
-                    <SelectItem value="Contract">Contract</SelectItem>
-                    <SelectItem value="Internship">Internship</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="description" className="text-sm font-semibold text-foreground/90">Job Description</Label>
-                <Textarea
-                  id="description"
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
-                  placeholder="Describe the role, responsibilities, requirements, and benefits..."
-                  rows={6}
-                  className="border-2 border-gray-200 focus:border-indigo-500 rounded-xl resize-none"
-                  required
-                />
-              </div>
-
-              <Button 
-                type="button" 
-                onClick={handleSubmit}
-                className="w-full h-14 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:from-indigo-700 hover:via-purple-700 hover:to-pink-700 text-white font-semibold rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-200"
-                disabled={isSubmitting}
+    <AnimatePresence>
+      <motion.div 
+        className="min-h-screen bg-background relative" 
+        initial={{ opacity: 0 }} 
+        animate={{ opacity: 1 }} 
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Background Grid Pattern */}
+        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-10 pointer-events-none parallax-bg" />
+        <main className="relative z-10">
+          {/* Hero Section */}
+          <section className="relative overflow-hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 pt-24 pb-16">
+            <div className="absolute inset-0 bg-black/20"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/90 to-purple-600/90"></div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <motion.div 
+                className="text-center"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
               >
-                {isSubmitting ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    Posting Job...
-                  </div>
-                ) : (
-                  <div className="flex items-center gap-2">
-                    <Plus className="w-5 h-5" />
-                    Post Job Free
-                  </div>
-                )}
-              </Button>
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">Free Job Postings</h1>
+                <p className="text-xl text-indigo-100 max-w-3xl mx-auto">
+                  Post your job openings for free and find the best talent for your company.
+                </p>
+              </motion.div>
+              
+              {/* Stats */}
+              <motion.div 
+                className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                  <div className="text-3xl font-bold text-white">{activeJobs}</div>
+                  <div className="text-indigo-100 mt-2">Active Jobs</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                  <div className="text-3xl font-bold text-white">{totalViews}</div>
+                  <div className="text-indigo-100 mt-2">Total Views</div>
+                </div>
+                <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center">
+                  <div className="text-3xl font-bold text-white">{totalApplications}</div>
+                  <div className="text-indigo-100 mt-2">Applications</div>
+                </div>
+              </motion.div>
             </div>
-          </CardContent>
-        </Card>
+          
+            {/* Decorative elements */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+              <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+              <div className="absolute top-20 left-1/4 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
+            </div>
+          </section>
 
-        {/* Job Listings */}
-        <Card className="shadow-2xl border-0 bg-white/80 backdrop-blur-sm mb-12">
-          <CardHeader className="bg-gradient-to-r from-slate-600 to-slate-700 text-white rounded-t-lg">
-            <CardTitle className="flex items-center gap-3">
-              <div className="p-2 bg-white/20 rounded-lg">
-                <Briefcase className="w-5 h-5" />
-              </div>
-              My Job Listings ({jobs.length})
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="p-8">
-            {jobs.length === 0 ? (
-              <div className="text-center py-16">
-                <div className="w-24 h-24 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Building2 className="w-12 h-12 text-indigo-500" />
-                </div>
-                <h3 className="text-xl font-semibold text-foreground mb-2">No job postings yet</h3>
-                <p className="text-foreground/80 mb-6">Create your first job posting above to start attracting top talent!</p>
-                <div className="flex items-center justify-center gap-2 text-sm text-indigo-600">
-                  <Star className="w-4 h-4" />
-                  <span>It's completely free and takes less than 2 minutes</span>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-6">
-                {jobs.map((job) => (
-                  <div key={job.id} className="group bg-white border-2 border-gray-100 rounded-2xl p-6 hover:border-indigo-200 hover:shadow-xl transition-all duration-300">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
-                            <h3 className="text-xl font-bold text-gray-900 group-hover:text-indigo-600 transition-colors">
-                            {job.title}
-                          </h3>
-                          <Badge 
-                            variant={job.status === 'Active' ? 'default' : 'secondary'}
-                            className={`${
-                              job.status === 'Active' 
-                                ? 'bg-green-100 text-green-800 hover:bg-green-200' 
-                                : 'bg-gray-100 text-gray-600'
-                            } px-3 py-1 font-medium`}
-                          >
-                            {job.status}
-                          </Badge>
+          {/* Main Content */}
+          <section className="py-12 bg-gray-50 dark:bg-gray-900">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                {/* Job Posting Form */}
+                <motion.div 
+                  className="lg:col-span-1"
+                  initial={{ x: -20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <Card className="sticky top-6">
+                    <CardHeader>
+                      <CardTitle className="text-xl">Post a New Job</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-4">
+                        <div>
+                          <Label htmlFor="title">Job Title</Label>
+                          <Input
+                            id="title"
+                            value={formData.title}
+                            onChange={(e) => handleInputChange('title', e.target.value)}
+                            placeholder="e.g. Senior Frontend Developer"
+                            className="mt-1"
+                          />
                         </div>
                         
-                        <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/80 mb-3">
-                          <span className="flex items-center gap-1.5">
-                            <MapPin className="w-4 h-4 text-indigo-500" />
-                            {job.location}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <Clock className="w-4 h-4 text-indigo-500" />
-                            {job.employmentType}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="w-4 h-4 text-indigo-500" />
-                            Posted {new Date(job.postedAt).toLocaleDateString()}
-                          </span>
+                        <div>
+                          <Label htmlFor="location">Location</Label>
+                          <Input
+                            id="location"
+                            value={formData.location}
+                            onChange={(e) => handleInputChange('location', e.target.value)}
+                            placeholder="e.g. Remote, San Francisco, etc."
+                            className="mt-1"
+                          />
                         </div>
-
-                        {/* Stats */}
-                        <div className="flex items-center gap-6 mb-4">
-                          <div className="flex items-center gap-1.5 text-sm">
-                            <Eye className="w-4 h-4 text-blue-500" />
-                            <span className="font-medium">{job.views}</span>
-                            <span className="text-foreground/60">views</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-sm">
-                            <Users className="w-4 h-4 text-green-500" />
-                            <span className="font-medium">{job.applications}</span>
-                            <span className="text-foreground/60">applications</span>
-                          </div>
-                          <div className="flex items-center gap-1.5 text-sm">
-                            <TrendingUp className="w-4 h-4 text-orange-500" />
-                            <span className="text-foreground/60">Growing</span>
-                          </div>
+                        
+                        <div>
+                          <Label htmlFor="employmentType">Employment Type</Label>
+                          <Select 
+                            value={formData.employmentType}
+                            onValueChange={(value) => handleInputChange('employmentType', value)}
+                          >
+                            <SelectTrigger className="mt-1">
+                              <SelectValue placeholder="Select employment type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="Full-time">Full-time</SelectItem>
+                              <SelectItem value="Part-time">Part-time</SelectItem>
+                              <SelectItem value="Contract">Contract</SelectItem>
+                              <SelectItem value="Internship">Internship</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 ml-4">
-                        {job.status === 'Active' && (
-                          <>
-                            <Button variant="outline" size="sm" className="hover:bg-blue-50 hover:border-blue-300">
-                              <Edit className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => handleCloseJob(job.id)}
-                              className="hover:bg-red-50 hover:border-red-300 hover:text-red-600"
-                            >
-                              Close Job
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    
-                    <p className="text-foreground/90 leading-relaxed line-clamp-2">{job.description}</p>
-                    
-                    {job.status === 'Active' && (
-                      <div className="mt-4 pt-4 border-t border-gray-100">
+                        
+                        <div>
+                          <Label htmlFor="description">Job Description</Label>
+                          <Textarea
+                            id="description"
+                            value={formData.description}
+                            onChange={(e) => handleInputChange('description', e.target.value)}
+                            placeholder="Describe the job responsibilities, requirements, and benefits..."
+                            className="mt-1 min-h-[150px]"
+                          />
+                        </div>
+                        
                         <Button 
-                          variant="ghost" 
-                          size="sm" 
-                          className="text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 p-0 h-auto font-medium"
+                          onClick={handleSubmit}
+                          disabled={isSubmitting}
+                          className="w-full bg-indigo-600 hover:bg-indigo-700"
                         >
-                          View Applications →
+                          {isSubmitting ? (
+                            <>
+                              <Clock className="w-4 h-4 mr-2 animate-spin" />
+                              Posting...
+                            </>
+                          ) : (
+                            <>
+                              <Plus className="w-4 h-4 mr-2" />
+                              Post Job
+                            </>
+                          )}
                         </Button>
                       </div>
-                    )}
+                    </CardContent>
+                  </Card>
+                </motion.div>
+                
+                {/* Job Listings */}
+                <motion.div 
+                  className="lg:col-span-2 space-y-6"
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-2xl font-semibold">Your Job Postings</h2>
+                    <div className="text-sm text-gray-500">
+                      Showing {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'}
+                    </div>
                   </div>
-                ))}
+                  
+                  {jobs.length === 0 ? (
+                    <motion.div 
+                      className="bg-white dark:bg-gray-800 rounded-lg shadow p-8 text-center"
+                      initial={{ scale: 0.95, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Briefcase className="w-12 h-12 mx-auto text-gray-400" />
+                      <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-white">No jobs posted yet</h3>
+                      <p className="mt-1 text-gray-500 dark:text-gray-400">Get started by posting your first job opening.</p>
+                    </motion.div>
+                  ) : (
+                    <div className="space-y-4">
+                      {jobs.map((job, index) => (
+                        <motion.div
+                          key={job.id}
+                          initial={{ y: 20, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          transition={{ duration: 0.3, delay: index * 0.05 }}
+                        >
+                          <Card className="overflow-hidden hover:shadow-lg transition-shadow">
+                            <CardContent className="p-6">
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                                <div className="flex-1">
+                                  <div className="flex items-center gap-3">
+                                    <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{job.title}</h3>
+                                    <Badge 
+                                      variant={job.status === 'Active' ? 'default' : 'secondary'}
+                                      className={job.status === 'Active' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-200' : ''}
+                                    >
+                                      {job.status}
+                                    </Badge>
+                                  </div>
+                                  
+                                  <div className="flex flex-wrap items-center gap-4 text-sm text-foreground/80 mb-3">
+                                    <span className="flex items-center gap-1.5">
+                                      <MapPin className="w-4 h-4 text-indigo-500" />
+                                      {job.location}
+                                    </span>
+                                    <span className="flex items-center gap-1.5">
+                                      <Briefcase className="w-4 h-4 text-indigo-500" />
+                                      {job.employmentType}
+                                    </span>
+                                    <span className="flex items-center gap-1.5">
+                                      <Calendar className="w-4 h-4 text-indigo-500" />
+                                      Posted on {new Date(job.postedAt).toLocaleDateString()}
+                                    </span>
+                                  </div>
+                                  
+                                  <p className="text-foreground/70 line-clamp-2">
+                                    {job.description}
+                                  </p>
+                                </div>
+                                
+                                <div className="flex items-center gap-2 sm:flex-col sm:items-end">
+                                  <div className="flex items-center gap-2 text-sm text-foreground/70">
+                                    <Eye className="w-4 h-4" />
+                                    <span>{job.views || 0} views</span>
+                                  </div>
+                                  <div className="flex items-center gap-2 text-sm text-foreground/70">
+                                    <Users className="w-4 h-4" />
+                                    <span>{job.applications || 0} applications</span>
+                                  </div>
+                                </div>
+                              </div>
+                              
+                              <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
+                                <div className="flex items-center gap-2">
+                                  <Button variant="outline" size="sm" className="gap-1.5">
+                                    <Edit className="w-4 h-4" />
+                                    Edit
+                                  </Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    className="gap-1.5 text-red-600 hover:text-red-700 hover:bg-red-50 dark:text-red-400 dark:hover:text-red-300 dark:hover:bg-red-900/30"
+                                    onClick={() => deleteJob(job.id)}
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                    Delete
+                                  </Button>
+                                </div>
+                                
+                                <Button size="sm" variant="ghost" className="text-indigo-600 hover:bg-indigo-50 dark:text-indigo-400 dark:hover:bg-indigo-900/30">
+                                  View Details
+                                  <ArrowRight className="w-4 h-4 ml-1.5" />
+                                </Button>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        </motion.div>
+                      ))}
+                    </div>
+                  )}
+                </motion.div>
               </div>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+            </div>
+          </section>
+          
+          {/* AI Help System */}
+          <AIPoweredHelpSystem />
+        </main>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

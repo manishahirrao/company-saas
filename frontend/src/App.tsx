@@ -10,7 +10,7 @@ import Layout from "@/components/Layout/Layout";
 
 import VerifyEmailPage from './pages/Auth/VerifyEmailPage';
 import LoginCompanyPage from './pages/Auth/LoginCompanyPage';
-import CompanyRegisterPage from './pages/Auth/CompanyRegisterPage';
+import CompanyRegisterPage from './pages/Auth/RegisterCompanyPage';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
 
 // ===== LAYOUT COMPONENTS =====

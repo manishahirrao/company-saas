@@ -1,32 +1,9 @@
-
 import React, { useState } from 'react';
-import Navbar from '@/components/Layout/Navbar';
-import Footer from '@/components/Layout/Footer';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  ChevronDown, 
-  Upload, 
-  Type, 
-  Image, 
-  Link, 
-  Zap, 
-  Target, 
-  Copy, 
-  Download,
-  AlertCircle, 
-  Sparkles,
-  RefreshCw,
-  Check,
-  Info,
-  Search,
-  Layout,
-  Maximize,
-  FileText,
-  Wand2,
-  X,
-  Hash,
-  File,
-  User
+  ChevronDown, Upload, Type, Image, Link, Zap, Target, Copy, Download,
+  AlertCircle, Sparkles, RefreshCw, Check, Info, Search, Layout, Maximize,
+  FileText, Wand2, X, Hash, File, User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -39,6 +16,8 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
 
 interface FormData {
   campaignName: string;
@@ -69,6 +48,7 @@ interface FormData {
   businessName: string;
   landingPageUrl: string;
   keyMessage: string;
+  contentGenerationMode: 'normal' | 'advanced';
 }
 
 interface GeneratedContent {
@@ -121,7 +101,8 @@ const LinkedInAdsForm: React.FC = () => {
     adType: '',
     businessName: '',
     landingPageUrl: '',
-    keyMessage: ''
+    keyMessage: '',
+    contentGenerationMode: 'normal'
   });
 
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent>({});
@@ -289,24 +270,41 @@ const LinkedInAdsForm: React.FC = () => {
   const generateWithAI = async (field: 'title' | 'description' | 'hashtags' | 'keyNotes') => {
     setIsGenerating(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise(resolve => setTimeout(resolve, formData.contentGenerationMode === 'advanced' ? 2500 : 1500));
       
       let generatedText = '';
+      const isAdvanced = formData.contentGenerationMode === 'advanced';
+      
       switch(field) {
         case 'title':
-          generatedText = `AI-Generated ${formData.productService || 'LinkedIn Ad'} Title`;
+          generatedText = isAdvanced 
+            ? `Premium AI-Generated ${formData.productService || 'LinkedIn Ad'} Title - Optimized for Engagement`
+            : `AI-Generated ${formData.productService || 'LinkedIn Ad'} Title`;
           break;
         case 'description':
-          generatedText = `This is an AI-generated description for your LinkedIn ad targeting ${formData.targetAudience || 'professionals'}.`;
+          generatedText = isAdvanced
+            ? `This advanced AI-generated description is optimized for LinkedIn's algorithm, targeting ${formData.targetAudience || 'professionals'} with a ${formData.tones[0] || 'professional'} tone. Includes strategic keywords: ${formData.keywords.slice(0, 3).join(', ')}`
+            : `This is an AI-generated description for your LinkedIn ad targeting ${formData.targetAudience || 'professionals'}.`;
           break;
         case 'hashtags':
           const tags = formData.productService 
-            ? [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#LinkedInAds']
-            : ['#Marketing', '#Professional', '#Business'];
+            ? isAdvanced
+              ? [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#LinkedInAds', '#DigitalMarketing', '#B2BMarketing']
+              : [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#LinkedInAds']
+            : isAdvanced
+              ? ['#Marketing', '#Professional', '#Business', '#Networking', '#CareerGrowth']
+              : ['#Marketing', '#Professional', '#Business'];
           handleInputChange('hashtags', tags);
           break;
         case 'keyNotes':
-          generatedText = `Key notes for ${formData.campaignName || 'your LinkedIn campaign'}:
+          generatedText = isAdvanced
+            ? `Advanced key notes for ${formData.campaignName || 'your LinkedIn campaign'}:
+- Target Audience: ${formData.targetAudience || 'professionals'} (${formData.persona || 'Decision Maker'})
+- Primary CTA: ${formData.callToAction || 'Learn More'} optimized for conversion
+- Ad Type: ${formData.adType || 'Sponsored Content'} with ${formData.mediaType || 'image'} media
+- Tone: ${formData.tones.join(', ') || 'Professional'}
+- Keywords: ${formData.keywords.slice(0, 5).join(', ')}`
+            : `Key notes for ${formData.campaignName || 'your LinkedIn campaign'}:
 - Target: ${formData.targetAudience || 'professionals'}
 - Primary CTA: ${formData.callToAction || 'Learn More'}
 - Ad Type: ${formData.adType || 'Sponsored Content'}`;
@@ -319,7 +317,7 @@ const LinkedInAdsForm: React.FC = () => {
 
       toast({
         title: "Success",
-        description: `${field.charAt(0).toUpperCase() + field.slice(1)} generated!`
+        description: `${field.charAt(0).toUpperCase() + field.slice(1)} generated in ${formData.contentGenerationMode} mode!`
       });
     } catch (error) {
       toast({
@@ -356,32 +354,64 @@ const LinkedInAdsForm: React.FC = () => {
     if (!validateForm()) return;
 
     const generated: GeneratedContent = {};
-    const { adType, businessType, targetAudience, productService, keyMessage, callToAction, businessName, landingPageUrl } = formData;
+    const { 
+      adType, 
+      businessType, 
+      targetAudience, 
+      productService, 
+      keyMessage, 
+      callToAction, 
+      businessName, 
+      landingPageUrl,
+      contentGenerationMode 
+    } = formData;
+
+    const isAdvanced = contentGenerationMode === 'advanced';
 
     switch (adType) {
       case 'sponsored-content':
         generated.sponsoredContent = {
-          introText: `Discover how ${productService} can help ${targetAudience} achieve their professional goals.`,
-          headlines: [
-            `${productService} for ${targetAudience}`,
-            `${businessType} - ${productService} Solutions`,
-            `Get ${productService} Results`,
-            `${productService} - Made Simple`,
-            `${businessType} - ${targetAudience} Experts`
-          ],
-          descriptions: [
-            `${keyMessage || `Our ${productService} helps ${targetAudience} succeed.`} Trusted by professionals worldwide.`,
-            `Experience the power of ${productService} - designed for ${targetAudience}.`,
-            `Transform your ${businessType} with our ${productService} solution.`
-          ],
+          introText: isAdvanced
+            ? `Elevate your professional game with ${productService} - the premier solution for ${targetAudience}. Discover how industry leaders are achieving exceptional results.`
+            : `Discover how ${productService} can help ${targetAudience} achieve their professional goals.`,
+          headlines: isAdvanced
+            ? [
+                `${productService} for ${targetAudience}: The Complete Solution`,
+                `Why ${targetAudience} Choose ${productService}`,
+                `${businessType} Excellence: ${productService} in Action`,
+                `The ${productService} Advantage for ${targetAudience}`,
+                `${businessType} Innovation: ${productService} Results`
+              ]
+            : [
+                `${productService} for ${targetAudience}`,
+                `${businessType} - ${productService} Solutions`,
+                `Get ${productService} Results`,
+                `${productService} - Made Simple`,
+                `${businessType} - ${targetAudience} Experts`
+              ],
+          descriptions: isAdvanced
+            ? [
+                `${keyMessage || `Our ${productService} delivers measurable results for ${targetAudience}.`} Backed by data and trusted by professionals worldwide. [${callToAction || 'Learn More'}]`,
+                `Transform your ${businessType} operations with our ${productService} solution. Designed specifically for ${targetAudience} needs. [${callToAction || 'Learn More'}]`,
+                `Experience the difference with ${productService}. Optimized performance, proven methodology, exceptional results for ${targetAudience}. [${callToAction || 'Learn More'}]`
+              ]
+            : [
+                `${keyMessage || `Our ${productService} helps ${targetAudience} succeed.`} Trusted by professionals worldwide.`,
+                `Experience the power of ${productService} - designed for ${targetAudience}.`,
+                `Transform your ${businessType} with our ${productService} solution.`
+              ],
           ctaButton: callToAction || 'Learn More'
         };
         break;
 
       case 'message-ads':
         generated.messageAds = {
-          subjectLine: `${businessName || 'We'} have a professional solution for ${targetAudience}`,
-          messageBody: `Hello,\n\nI noticed you might benefit from our ${productService}. At ${businessName || 'our firm'}, we specialize in helping ${targetAudience} with ${keyMessage || 'their challenges'}.\n\nWould you be open to a quick conversation?\n\nBest regards,\nThe ${businessName || 'Our'} Team`,
+          subjectLine: isAdvanced
+            ? `${businessName || 'Professional Solution'} for ${targetAudience}: Let's Connect`
+            : `${businessName || 'We'} have a professional solution for ${targetAudience}`,
+          messageBody: isAdvanced
+            ? `Hello [First Name],\n\nI noticed your profile and thought our ${productService} might be of interest. At ${businessName || 'our firm'}, we specialize in helping ${targetAudience} with:\n\n• ${keyMessage || 'Their professional challenges'}\n• Industry-specific solutions\n• Measurable results\n\nWould you be open to a brief conversation next week to explore potential synergies?\n\nBest regards,\n[Your Name]\n${businessName || 'Our Team'}`
+            : `Hello,\n\nI noticed you might benefit from our ${productService}. At ${businessName || 'our firm'}, we specialize in helping ${targetAudience} with ${keyMessage || 'their challenges'}.\n\nWould you be open to a quick conversation?\n\nBest regards,\nThe ${businessName || 'Our'} Team`,
           ctaButtonLabel: callToAction || 'Schedule a Call',
           destinationUrl: landingPageUrl || `https://www.${businessName?.toLowerCase().replace(/\s+/g, '') || 'example'}.com`
         };
@@ -389,17 +419,30 @@ const LinkedInAdsForm: React.FC = () => {
 
       case 'text-ads':
         generated.textAds = {
-          headlines: [
-            `${productService} for ${targetAudience}`,
-            `${businessType} Solutions`,
-            `Professional ${productService}`,
-            `${productService} Experts`
-          ],
-          descriptions: [
-            `${keyMessage || `Professional ${productService} solutions`}. Trusted by industry leaders.`,
-            `${productService} for ${businessType} professionals.`,
-            `Elevate your business with ${productService}.`
-          ],
+          headlines: isAdvanced
+            ? [
+                `${productService} for ${targetAudience}: Results-Driven`,
+                `${businessType} Solutions | ${productService}`,
+                `Professional-Grade ${productService}`,
+                `${productService} Experts | ${businessName || 'Trusted'}`
+              ]
+            : [
+                `${productService} for ${targetAudience}`,
+                `${businessType} Solutions`,
+                `Professional ${productService}`,
+                `${productService} Experts`
+              ],
+          descriptions: isAdvanced
+            ? [
+                `${keyMessage || `Professional ${productService} solutions`}. Trusted by industry leaders. ${callToAction || 'Learn more'} today!`,
+                `${productService} for ${businessType} professionals. Optimized for results. ${callToAction || 'Get started'} now!`,
+                `Elevate your business with ${productService}. Proven methodology. ${callToAction || 'Contact us'} today!`
+              ]
+            : [
+                `${keyMessage || `Professional ${productService} solutions`}. Trusted by industry leaders.`,
+                `${productService} for ${businessType} professionals.`,
+                `Elevate your business with ${productService}.`
+              ],
           destinationUrl: landingPageUrl || `https://www.${businessName?.toLowerCase().replace(/\s+/g, '') || 'example'}.com`
         };
         break;
@@ -409,7 +452,7 @@ const LinkedInAdsForm: React.FC = () => {
     setShowGenerated(true);
     toast({
       title: "Success",
-      description: "LinkedIn ad content generated successfully!"
+      description: `LinkedIn ad content generated in ${contentGenerationMode} mode!`
     });
   };
 
@@ -643,7 +686,6 @@ const LinkedInAdsForm: React.FC = () => {
         Content & Tone Selection
       </h3>
 
-      {/* Tone Selection */}
       <div className="bg-white p-4 rounded-lg border">
         <label className="block text-sm font-semibold text-gray-700 mb-3">Content Tone (Select Multiple)</label>
         
@@ -706,7 +748,6 @@ const LinkedInAdsForm: React.FC = () => {
         )}
       </div>
 
-      {/* LinkedIn Ad Type Selection */}
       <div>
         <h4 className="text-sm font-semibold text-gray-700 mb-2">LinkedIn Ad Type</h4>
         <Tabs
@@ -956,6 +997,47 @@ const LinkedInAdsForm: React.FC = () => {
         Visual Style & Options
       </h3>
 
+      <div className="bg-white p-4 rounded-lg border">
+        <label className="block text-sm font-semibold text-gray-700 mb-3">Content Generation Mode</label>
+        <RadioGroup 
+          defaultValue="normal"
+          value={formData.contentGenerationMode}
+          onValueChange={(value: 'normal' | 'advanced') => handleInputChange('contentGenerationMode', value)}
+          className="grid grid-cols-2 gap-4"
+        >
+          <div>
+            <RadioGroupItem value="normal" id="normal" className="peer sr-only" />
+            <Label
+              htmlFor="normal"
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            >
+              <div className="flex items-center gap-2">
+                <FileText className="h-5 w-5" />
+                <span>Normal Mode</span>
+              </div>
+              <p className="text-sm text-muted-foreground text-center mt-2">
+                Standard content generation (1x variants)
+              </p>
+            </Label>
+          </div>
+          <div>
+            <RadioGroupItem value="advanced" id="advanced" className="peer sr-only" />
+            <Label
+              htmlFor="advanced"
+              className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5" />
+                <span>Advanced Mode</span>
+              </div>
+              <p className="text-sm text-muted-foreground text-center mt-2">
+                Enhanced generation (2x variants, optimized)
+              </p>
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
+
       {(formData.mediaType === 'Image' || formData.mediaType === 'Image & Video') && (
         <div className="space-y-6">
           <div className="grid md:grid-cols-2 gap-6">
@@ -1090,10 +1172,15 @@ const LinkedInAdsForm: React.FC = () => {
         <Textarea
           value={formData.keyNotes}
           onChange={(e) => handleInputChange('keyNotes', e.target.value)}
-          placeholder="Any important notes or special instructions"
+          placeholder={`Enter key notes (${formData.contentGenerationMode === 'advanced' ? 'Detailed instructions for advanced generation' : 'Basic instructions'})`}
           rows={4}
           className="w-full"
         />
+        <p className="text-xs text-muted-foreground mt-1">
+          {formData.contentGenerationMode === 'advanced' 
+            ? 'Advanced mode will generate more detailed and optimized content'
+            : 'Normal mode provides standard content generation'}
+        </p>
       </div>
 
       <div className="flex justify-between pt-4">
@@ -1103,7 +1190,7 @@ const LinkedInAdsForm: React.FC = () => {
         <div className="flex gap-2">
           <Button variant="outline" onClick={generateContent}>
             <RefreshCw className="w-4 h-4 mr-2" />
-            Generate Content
+            Generate {formData.contentGenerationMode === 'advanced' ? 'Advanced' : ''} Content
           </Button>
           <Button onClick={nextStep} className="bg-green-600 hover:bg-green-700">
             Next: Review & Submit
@@ -1349,6 +1436,10 @@ const LinkedInAdsForm: React.FC = () => {
                 <p className="text-sm font-medium text-gray-500">Media Type</p>
                 <p>{formData.mediaType || '-'}</p>
               </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Generation Mode</p>
+                <p className="capitalize">{formData.contentGenerationMode || '-'}</p>
+              </div>
               <div className="md:col-span-2">
                 <p className="text-sm font-medium text-gray-500">Target Locations</p>
                 <div className="flex flex-wrap gap-1">
@@ -1492,59 +1583,57 @@ const LinkedInAdsForm: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Background Grid Pattern */}
         <div className="fixed inset-0 grid-pattern dark:grid-pattern opacity-30 pointer-events-none" />
       
         <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8">
           <div className="max-w-6xl mx-auto">
             <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
-            <h1 className="text-4xl font-bold mb-2">LinkedIn Ads Content Forge</h1>
-            <p className="text-xl opacity-90">Professional LinkedIn Ad Campaigns & AI-Generated Content</p>
-          </div>
+              <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
+                <h1 className="text-4xl font-bold mb-2">LinkedIn Ads Content Forge</h1>
+                <p className="text-xl opacity-90">Professional LinkedIn Ad Campaigns & AI-Generated Content</p>
+              </div>
 
-          <div className="p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  1
+              <div className="p-8">
+                <div className="flex items-center justify-between mb-8">
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                      1
+                    </div>
+                    <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Basic Info</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-blue-600 text-white' : currentStep === 2 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                      2
+                    </div>
+                    <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Content & Tone</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : currentStep === 3 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                      3
+                    </div>
+                    <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Visual Style</span>
+                  </div>
+                  <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                  <div className="flex items-center gap-2">
+                    <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : currentStep === 4 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                      4
+                    </div>
+                    <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
+                  </div>
                 </div>
-                <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Basic Info</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-blue-600 text-white' : currentStep === 2 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-                  2
-                </div>
-                <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Content & Tone</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : currentStep === 3 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-                  3
-                </div>
-                <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Visual Style</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : currentStep === 4 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-                  4
-                </div>
-                <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
+
+                {currentStep === 1 && renderStep1()}
+                {currentStep === 2 && renderStep2()}
+                {currentStep === 3 && renderStep3()}
+                {currentStep === 4 && renderStep4()}
               </div>
             </div>
-
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
           </div>
-        </div>
-        </div>
-      </main>
-     
-    </motion.div>
-  </AnimatePresence>
+        </main>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

@@ -50,28 +50,30 @@ const SEOBlog: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen relative">
-        <div className="h-16 bg-muted/20 animate-pulse" />
-        <main className="relative px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto py-24 text-center space-y-8">
-            <div className="h-16 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg animate-pulse mx-auto max-w-2xl" />
-            <div className="h-6 bg-muted/50 rounded mx-auto max-w-3xl animate-pulse" />
-            <div className="h-6 bg-muted/30 rounded mx-auto max-w-xl animate-pulse" />
-            <div className="flex gap-4 justify-center">
-              <div className="h-12 w-32 bg-purple-500/20 rounded-lg animate-pulse" />
-              <div className="h-12 w-32 bg-muted/30 rounded-lg animate-pulse" />
+      <AnimatePresence>
+        <motion.div className="min-h-screen bg-background relative" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-10 pointer-events-none parallax-bg" />
+          <main className="relative z-10 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto py-24 text-center space-y-8">
+              <div className="h-16 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg animate-pulse mx-auto max-w-2xl" />
+              <div className="h-6 bg-muted/50 rounded mx-auto max-w-3xl animate-pulse" />
+              <div className="h-6 bg-muted/30 rounded mx-auto max-w-xl animate-pulse" />
+              <div className="flex gap-4 justify-center">
+                <div className="h-12 w-32 bg-purple-500/20 rounded-lg animate-pulse" />
+                <div className="h-12 w-32 bg-muted/30 rounded-lg animate-pulse" />
+              </div>
             </div>
-          </div>
-          <div className="max-w-7xl mx-auto py-20">
-            <div className="h-12 bg-muted/30 rounded mx-auto max-w-md mb-12 animate-pulse" />
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-              {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-64 bg-muted/20 rounded-lg animate-pulse" />
-              ))}
+            <div className="max-w-7xl mx-auto py-20">
+              <div className="h-12 bg-muted/30 rounded mx-auto max-w-md mb-12 animate-pulse" />
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                {[...Array(4)].map((_, i) => (
+                  <div key={i} className="h-64 bg-muted/20 rounded-lg animate-pulse" />
+                ))}
+              </div>
             </div>
-          </div>
-        </main>
-      </div>
+          </main>
+        </motion.div>
+      </AnimatePresence>
     );
   }
 

@@ -30,6 +30,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { GridBackground } from '@/components/GridBackground';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -38,6 +39,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Slider } from '@/components/ui/slider';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 interface FormData {
   campaignName: string;
@@ -109,6 +111,9 @@ const GoogleAdsForm: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [locationSearch, setLocationSearch] = useState('');
+  const [showGenerationOptions, setShowGenerationOptions] = useState(false);
+  const [generationMode, setGenerationMode] = useState<'normal' | 'advanced'>('normal');
+  const [generationType, setGenerationType] = useState<'normal' | 'advanced'>('normal');
 
   const businessTypes = [
     'E-commerce', 'SaaS/Software', 'Healthcare', 'Education', 'Real Estate', 
@@ -266,22 +271,43 @@ const GoogleAdsForm: React.FC = () => {
       let generatedText = '';
       switch(field) {
         case 'title':
-          generatedText = `AI-Generated ${formData.productService || 'Product'} Title`;
+          generatedText = generationType === 'normal'
+            ? `Engaging ${formData.productService || 'Product'} Title`
+            : `Premium ${formData.productService || 'Product'} Solution - ${formData.targetAudience || 'Your Needs'}`;
           break;
         case 'description':
-          generatedText = `This is an AI-generated description for your ${formData.productService || 'product/service'}. It highlights key benefits and features to attract your target audience.`;
+          generatedText = generationType === 'normal'
+            ? `This is an AI-generated description for your ${formData.productService || 'product/service'}. It highlights key benefits and features to attract your target audience.`
+            : `Experience the next level of ${formData.productService || 'product/service'} with our cutting-edge solution. Key benefits include:\n\n• Enhanced performance\n• Premium features\n• Tailored for ${formData.targetAudience || 'your needs'}\n\n${formData.callToAction ? `${formData.callToAction} now!` : ''}`;
           break;
         case 'hashtags':
-          const tags = formData.productService 
-            ? [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#DigitalMarketing']
-            : ['#Marketing', '#AdCampaign', '#Promotion'];
+          const tags = generationType === 'normal'
+            ? formData.productService 
+              ? [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#DigitalMarketing']
+              : ['#Marketing', '#AdCampaign', '#Promotion']
+            : formData.productService 
+              ? [`#${formData.productService.replace(/\s+/g, '')}Pro`, `#${formData.businessType.replace(/\s+/g, '')}Solutions`, '#Premium', '#BusinessGrowth']
+              : ['#Professional', '#BusinessSolution', '#Enterprise'];
           handleInputChange('hashtags', tags);
           break;
         case 'keyNotes':
-          generatedText = `Key notes for ${formData.campaignName || 'your campaign'}:
+          generatedText = generationType === 'normal'
+            ? `Key notes for ${formData.campaignName || 'your campaign'}:
 - Target audience: ${formData.targetAudience || 'general'}
 - Primary CTA: ${formData.callToAction || 'none'}
-- Main message: ${formData.productService || 'product/service'}`;
+- Main message: ${formData.productService || 'product/service'}`
+            : `Advanced Campaign Strategy:
+            
+Product: ${formData.productService}
+Audience: ${formData.targetAudience}
+Persona: ${formData.persona}
+
+Key Differentiators:
+• Premium features and benefits
+• Competitive advantages
+• ROI-focused messaging
+
+Keywords: ${formData.keywords.join(', ')}`;
           break;
       }
 
@@ -291,7 +317,7 @@ const GoogleAdsForm: React.FC = () => {
 
       toast({
         title: "Success",
-        description: `${field.charAt(0).toUpperCase() + field.slice(1)} generated!`
+        description: `${field.charAt(0).toUpperCase() + field.slice(1)} generated in ${generationType} mode!`
       });
     } catch (error) {
       toast({
@@ -326,26 +352,64 @@ const GoogleAdsForm: React.FC = () => {
 
   const generateContent = () => {
     if (!validateForm()) return;
+    setShowGenerationOptions(true);
+  };
 
-    const generated: GeneratedContent = {
-      title: `Engaging ${formData.productService} for ${formData.targetAudience || 'Your Audience'}`,
-      description: `Discover our amazing ${formData.productService} designed specifically for ${formData.targetAudience || 'your needs'}. ${formData.callToAction ? `${formData.callToAction} today!` : ''}`,
-      hashtags: formData.productService 
-        ? [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#BestDeal']
-        : ['#Promotion', '#SpecialOffer', '#LimitedTime'],
-      keyNotes: `Campaign Focus:
+  const handleGenerateConfirm = (mode: 'normal' | 'advanced') => {
+    setGenerationMode(mode);
+    setShowGenerationOptions(false);
+    setIsGenerating(true);
+    
+    setTimeout(() => {
+      const generated: GeneratedContent = {
+        title: mode === 'normal' 
+          ? `Engaging ${formData.productService} for ${formData.targetAudience || 'Your Audience'}`
+          : `Premium ${formData.productService} Solution for ${formData.targetAudience || 'Professionals'}`,
+        description: mode === 'normal'
+          ? `Discover our amazing ${formData.productService} designed specifically for ${formData.targetAudience || 'your needs'}. ${formData.callToAction ? `${formData.callToAction} today!` : ''}`
+          : `Experience the next level of ${formData.productService} with our cutting-edge solution tailored for ${formData.targetAudience || 'your professional needs'}. Key benefits include:\n\n• Enhanced performance metrics\n• Streamlined workflow integration\n• Premium support options\n\n${formData.callToAction ? `${formData.callToAction} now to unlock exclusive benefits!` : ''}`,
+        hashtags: mode === 'normal'
+          ? formData.productService 
+            ? [`#${formData.productService.replace(/\s+/g, '')}`, `#${formData.businessType.replace(/\s+/g, '')}`, '#BestDeal']
+            : ['#Promotion', '#SpecialOffer', '#LimitedTime']
+          : formData.productService 
+            ? [
+                `#${formData.productService.replace(/\s+/g, '')}Pro`, 
+                `#${formData.businessType.replace(/\s+/g, '')}Solutions`,
+                '#BusinessGrowth',
+                '#IndustryLeaders',
+                '#PremiumService'
+              ]
+            : ['#Professional', '#BusinessSolution', '#Enterprise'],
+        keyNotes: mode === 'normal'
+          ? `Campaign Focus:
 - Primary Product: ${formData.productService}
 - Target: ${formData.targetAudience}
 - Persona: ${formData.persona}
 - Keywords: ${formData.keywords.join(', ')}`
-    };
+          : `Advanced Campaign Strategy:
+          
+Product: ${formData.productService}
+Audience: ${formData.targetAudience}
+Persona: ${formData.persona}
 
-    setGeneratedContent(generated);
-    setShowGenerated(true);
-    toast({
-      title: "Success",
-      description: "Content generated successfully!"
-    });
+Key Differentiators:
+• Premium features and benefits
+• Competitive advantages
+• ROI-focused messaging
+
+Keywords: ${formData.keywords.join(', ')}`
+      };
+
+      setGeneratedContent(generated);
+      setShowGenerated(true);
+      setIsGenerating(false);
+      
+      toast({
+        title: "Success",
+        description: `Content generated in ${mode} mode!`
+      });
+    }, 1500);
   };
 
   const copyToClipboard = async (text: string, field: string) => {
@@ -956,6 +1020,53 @@ const GoogleAdsForm: React.FC = () => {
         </div>
       </div>
 
+      {/* New Content Generation Type Selection */}
+      <div className="md:col-span-2">
+        <label className="block text-sm font-semibold text-gray-700 mb-2">Content Generation Type</label>
+        <div className="grid grid-cols-2 gap-4">
+          <div
+            className={`p-4 border rounded-lg cursor-pointer transition-all ${
+              generationType === 'normal' 
+                ? 'border-blue-500 bg-blue-50' 
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+            onClick={() => setGenerationType('normal')}
+          >
+            <div className="flex items-center gap-3">
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                generationType === 'normal' ? 'border-blue-600 bg-blue-600' : 'border-gray-400'
+              }`}>
+                {generationType === 'normal' && <Check className="w-3 h-3 text-white" />}
+              </div>
+              <div>
+                <h4 className="font-medium">Normal (1x)</h4>
+                <p className="text-sm text-gray-500">Standard quality content</p>
+              </div>
+            </div>
+          </div>
+          <div
+            className={`p-4 border rounded-lg cursor-pointer transition-all ${
+              generationType === 'advanced' 
+                ? 'border-blue-500 bg-blue-50' 
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+            onClick={() => setGenerationType('advanced')}
+          >
+            <div className="flex items-center gap-3">
+              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                generationType === 'advanced' ? 'border-blue-600 bg-blue-600' : 'border-gray-400'
+              }`}>
+                {generationType === 'advanced' && <Check className="w-3 h-3 text-white" />}
+              </div>
+              <div>
+                <h4 className="font-medium">Advanced (2x)</h4>
+                <p className="text-sm text-gray-500">Higher quality, more detailed</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div className="md:col-span-2">
         <div className="flex justify-between items-center mb-2">
           <label className="block text-sm font-semibold text-gray-700">Key Notes</label>
@@ -1147,6 +1258,7 @@ const GoogleAdsForm: React.FC = () => {
                     : '-'}
                 </div>
               </div>
+             
             </div>
 
             <div className="border-t border-gray-200 pt-4">
@@ -1255,66 +1367,101 @@ const GoogleAdsForm: React.FC = () => {
   );
 
   return (
-    <AnimatePresence>
-      <motion.div 
-        className="min-h-screen bg-background relative"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* Background Grid Pattern */}
-        <div className="fixed inset-0 grid-pattern dark:grid-pattern opacity-30 pointer-events-none" />
-       
-        <main className="relative z-10 px-4 sm:px-6 lg:px-8 py-8">
-          <div className="max-w-6xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
-            <h1 className="text-4xl font-bold mb-2">Campaign Content Forge</h1>
-            <p className="text-xl opacity-90">Complete Campaign Specifications & AI-Generated Content</p>
-          </div>
+    <GridBackground>
+      <div className="min-h-screen">
+        <AnimatePresence>
+          <motion.div 
+            className="relative z-10 px-4 sm:px-6 lg:px-8 py-8"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* Background Grid Pattern */}
+            <div className="fixed inset-0 grid-pattern dark:grid-pattern opacity-30 pointer-events-none" />
+           
+            <main className="relative z-10">
+              <div className="max-w-6xl mx-auto">
+                <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                  <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 text-center">
+                    <h1 className="text-4xl font-bold mb-2">Campaign Content Forge</h1>
+                    <p className="text-xl opacity-90">Complete Campaign Specifications & AI-Generated Content</p>
+                  </div>
 
-          <div className="p-8">
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
-                  1
-                </div>
-                <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Basic Info</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-blue-600 text-white' : currentStep === 2 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-                  2
-                </div>
-                <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Content & Tone</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : currentStep === 3 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-                  3
-                </div>
-                <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Visual Style</span>
-              </div>
-              <div className="h-px flex-1 bg-gray-200 mx-2"></div>
-              <div className="flex items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : currentStep === 4 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
-                  4
-                </div>
-                <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
-              </div>
-            </div>
+                  <div className="p-8">
+                    <div className="flex items-center justify-between mb-8">
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'}`}>
+                          1
+                        </div>
+                        <span className={`text-sm ${currentStep >= 1 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Basic Info</span>
+                      </div>
+                      <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 2 ? 'bg-blue-600 text-white' : currentStep === 2 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                          2
+                        </div>
+                        <span className={`text-sm ${currentStep >= 2 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Content & Tone</span>
+                      </div>
+                      <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : currentStep === 3 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                          3
+                        </div>
+                        <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Visual Style</span>
+                      </div>
+                      <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : currentStep === 4 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                          4
+                        </div>
+                        <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
+                      </div>
+                    </div>
 
-            {currentStep === 1 && renderStep1()}
-            {currentStep === 2 && renderStep2()}
-            {currentStep === 3 && renderStep3()}
-            {currentStep === 4 && renderStep4()}
-          </div>
-        </div>
-        </div>
-      </main>
-     
-    </motion.div>
-    </AnimatePresence>
+                    {currentStep === 1 && renderStep1()}
+                    {currentStep === 2 && renderStep2()}
+                    {currentStep === 3 && renderStep3()}
+                    {currentStep === 4 && renderStep4()}
+                  </div>
+                </div>
+              </div>
+            </main>
+
+            {/* Generation Options Dialog */}
+            <Dialog open={showGenerationOptions} onOpenChange={setShowGenerationOptions}>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Select Generation Mode</DialogTitle>
+                  <DialogDescription>
+                    Choose between normal (1x) or advanced (2x) content generation.
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => handleGenerateConfirm('normal')}
+                    className="flex flex-col items-center justify-center h-32"
+                  >
+                    <div className="text-2xl font-bold mb-2">1x</div>
+                    <div className="text-lg">Normal</div>
+                    <p className="text-sm text-gray-500 mt-1">Standard quality content</p>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => handleGenerateConfirm('advanced')}
+                    className="flex flex-col items-center justify-center h-32 border-blue-500 bg-blue-50 hover:bg-blue-100"
+                  >
+                    <div className="text-2xl font-bold mb-2">2x</div>
+                    <div className="text-lg">Advanced</div>
+                    <p className="text-sm text-gray-500 mt-1">Higher quality, more detailed</p>
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </GridBackground>
   );
 };
 

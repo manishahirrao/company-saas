@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { ArrowRight, Shield, Zap, Users, Award, Check, Star, TrendingUp } from 'lucide-react';
+import { GridBackground } from '@/components/GridBackground';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export const WhyUsPage: React.FC = () => {
   const differentiators = [
@@ -70,10 +71,8 @@ export const WhyUsPage: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen pt-16 relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute inset-0 grid-pattern opacity-50" />
-      <div className="absolute inset-0 bg-gradient-to-b from-background/90 to-background/70 backdrop-blur-sm" />
+    <GridBackground>
+      <div className="min-h-screen pt-16 overflow-hidden">
 
       {/* Hero Section */}
       <section className="relative py-24">
@@ -280,7 +279,8 @@ export const WhyUsPage: React.FC = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+      </div>
+    </GridBackground>
   );
 };
 
