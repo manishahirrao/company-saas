@@ -6,7 +6,6 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { Toaster } from '@/components/ui/toaster';
 // Import the main App component
 import App from './App';
-import './index.css';
 
 // Debug: Log environment info
 console.log('Environment:', {
@@ -17,9 +16,33 @@ console.log('Environment:', {
   UserAgent: navigator.userAgent
 });
 
+// Register service worker in production
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator && import.meta.env.PROD) {
+    try {
+      const registration = await navigator.serviceWorker.register('/service-worker.js', {
+        scope: '/',
+      });
+      
+      if (registration.installing) {
+        console.log('Service worker installing');
+      } else if (registration.waiting) {
+        console.log('Service worker installed');
+      } else if (registration.active) {
+        console.log('Service worker active');
+      }
+    } catch (error) {
+      console.error('Service worker registration failed:', error);
+    }
+  }
+};
+
 // Initialize the app
 function initializeApp() {
   console.log('1. Starting application initialization...');
+  
+  // Register service worker
+  registerServiceWorker();
   
   const rootElement = document.getElementById('root');
   if (!rootElement) {

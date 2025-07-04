@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="light">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -12,14 +12,31 @@
     <meta property="og:title" content="VORTEX - AI Operations Platform" />
     <meta property="og:description" content="Enterprise-grade AI automation platform for modern businesses. Features social automation, HR outsourcing, AI ops hub, and joint platform solutions." />
     <meta property="og:type" content="website" />
-    <meta name="theme-color" content="#ffffff" />
+    <!-- Theme Color for Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a" />
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="VORTEX" />
+    <meta name="apple-mobile-web-app-title" content="VORTEX" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon.ico" />
+    <!-- Styles -->
+    <link rel="stylesheet" href="/index.css" />
+    <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Preload critical resources -->
-    <!-- Remove incorrect preload -->
+    <!-- Preload critical CSS -->
+    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
   </head>
-  <body class="min-h-screen bg-background text-foreground">
+  <body class="min-h-screen bg-background text-foreground antialiased">
     <div id="root" style="min-height: 100vh; display: flex; flex-direction: column;">
       <div style="text-align: center; padding: 2rem;">
         <h1>Loading VORTEX...</h1>

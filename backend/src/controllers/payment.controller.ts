@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { razorpay, supabase, SUBSCRIPTION_PLANS, CREDIT_PACKAGES, WEBHOOK_SECRET } from '../config/razorpay';
+import { razorpay, supabase, SUBSCRIPTION_PLANS, CREDIT_PACKAGES, WEBHOOK_SECRET } from '../config/razorpay.js';
 import crypto from 'crypto';
 
 interface User {

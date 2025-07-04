@@ -11,18 +11,10 @@ import { logger, stream } from './config/logger.js';
 import { config } from 'dotenv';
 import path from 'path';
 
-// Import routes with type-safe imports
+// Import available routes
 import authRouter from './api/routes/auth.routes.js';
-import jobPostingRouter from './api/routes/jobPosting.routes.js';
-import hrServiceRouter from './api/routes/hrService.routes.js';
-import contentRouter from './api/routes/content.routes.js';
-import socialMediaRouter from './api/routes/socialMedia.routes.js';
-import aiToolsRouter from './api/routes/aiTools.routes.js';
-import userRouter from './api/routes/user.routes.js';
-import companyRouter from './api/routes/company.routes.js';
-import subscriptionRouter from './api/routes/subscription.routes.js';
-import webhookRouter from './api/routes/webhook.routes.js';
 import testRouter from './api/routes/test.routes.js';
+import paymentRouter from './api/routes/payment.routes.js';
 import { errorHandler, notFoundHandler } from './api/middleware/error.middleware.js';
 
 // Type for HPP options
@@ -255,15 +247,7 @@ class App {
 
     // API routes
     this.app.use('/api/v1/auth', authRouter);
-    this.app.use('/api/v1/job-postings', jobPostingRouter);
-    this.app.use('/api/v1/hr-services', hrServiceRouter);
-    this.app.use('/api/v1/content', contentRouter);
-    this.app.use('/api/v1/social-media', socialMediaRouter);
-    this.app.use('/api/v1/ai-tools', aiToolsRouter);
-    this.app.use('/api/v1/users', userRouter);
-    this.app.use('/api/v1/companies', companyRouter);
-    this.app.use('/api/v1/subscriptions', subscriptionRouter);
-    this.app.use('/api/v1/webhooks', webhookRouter);
+    this.app.use('/api/v1/payments', paymentRouter);
 
     // Test routes - only available in development
     if (this.env === 'development') {

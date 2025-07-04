@@ -1,5 +1,5 @@
-import { razorpay } from '../config/razorpay';
-import { supabase } from '../config/razorpay';
+import { razorpay } from '../config/razorpay.js';
+import { supabase } from '../config/razorpay.js';
 
 export async function createRazorpayCustomer(user: any) {
   try {

@@ -6,7 +6,6 @@ import { StatsSection } from "@/PageSections/StatsSection";
 import { PlatformSection } from "@/PageSections/PlatformSection";
 import { CTASection } from "@/PageSections/CTASection";
 import Footer from "@/components/Layout/Footer";
-import { AIPoweredHelpSystem } from "../Animation/AIPoweredHelpSystem";
 import { SkeletonCard,SkeletonNav } from "../Animation/SkeletonLoader";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -89,9 +88,7 @@ export default function CompanyHome() {
           <PlatformSection />
           <CTASection />
         </main>
-        
-        
-        <AIPoweredHelpSystem />
+
       </motion.div>
     </AnimatePresence>
   );

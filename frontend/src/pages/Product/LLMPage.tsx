@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { SkeletonCard, SkeletonNav } from '../Animation/SkeletonLoader';
+import Navbar from '@/components/Layout/Navbar';
+import { AdvancedVortexAnimation } from "@/Logo/logo";
 import { 
   ArrowRight, 
   Brain, 
@@ -24,6 +27,8 @@ import {
 } from 'lucide-react';
 
 const CustomLLMTrainingPage: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
     document.title = "VORTEX - Custom LLM Training";
     // Parallax effect for background elements
@@ -36,6 +41,7 @@ const CustomLLMTrainingPage: React.FC = () => {
         element.style.transform = `translateY(${scrolled * speed}px)`;
       });
     };
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -226,43 +232,141 @@ const CustomLLMTrainingPage: React.FC = () => {
     { number: '24/7', label: 'Support Available' }
   ];
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background relative">
+        {/* Background Grid Pattern */}
+        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-50 pointer-events-none" />
+        
+        <SkeletonNav />
+        
+        <main className="relative z-10 px-4 sm:px-6 lg:px-8">
+          {/* Hero Skeleton */}
+          <div className="max-w-7xl mx-auto py-24 text-center space-y-8">
+            <div className="h-16 bg-gradient-to-r from-electric-purple/20 to-neon-blue/20 rounded-lg animate-pulse mx-auto max-w-2xl" />
+            <div className="h-6 bg-muted/50 rounded mx-auto max-w-3xl animate-pulse" />
+            <div className="h-6 bg-muted/30 rounded mx-auto max-w-xl animate-pulse" />
+            <div className="flex gap-4 justify-center">
+              <div className="h-12 w-32 bg-electric-purple/20 rounded-lg animate-pulse" />
+              <div className="h-12 w-32 bg-muted/30 rounded-lg animate-pulse" />
+            </div>
+          </div>
+
+          {/* Features Skeleton */}
+          <div className="max-w-7xl mx-auto py-20">
+            <div className="h-12 bg-muted/30 rounded mx-auto max-w-md mb-12 animate-pulse" />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <SkeletonCard key={i} />
+              ))}
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <AnimatePresence>
       <motion.div 
-        className="min-h-screen bg-background relative" 
-        initial={{ opacity: 0 }} 
-        animate={{ opacity: 1 }} 
-        exit={{ opacity: 0 }}
+        className="min-h-screen bg-background relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
         {/* Background Grid Pattern */}
-        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-10 pointer-events-none parallax-bg" />
-        <main className="relative z-10 pt-16">
+        <div className="fixed inset-0 grid-pattern dark:grid-pattern opacity-50 pointer-events-none" />
+        
+        {/* Navbar */}
+        <Navbar />
+        
+        <main className="relative z-10">
           {/* Hero Section */}
-          <section className="py-20 bg-gradient-to-br from-blue-50 via-white to-purple-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <Badge className="mb-4 bg-blue-100 text-blue-800">
+          <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto text-center relative z-10">
+              <motion.div 
+                className="mb-12"
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                {/* Large Advanced Vortex Logo */}
+                <div className="flex justify-center mb-8">
+                  <motion.div
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                  >
+                    <AdvancedVortexAnimation size="xl" complexity="hypnotic" className="scale-125" />
+                  </motion.div>
+                </div>
+                
+                <Badge 
+                  variant="outline" 
+                  className="mb-6 bg-primary/10 text-primary hover:bg-primary/20 border-primary/20 px-4 py-1.5 text-sm font-medium"
+                >
                   Custom LLM Training Services
                 </Badge>
-                <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-                  Build Your Perfect
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                    {" "}AI Language Model
+                
+                <motion.h1 
+                  className="text-4xl md:text-6xl font-bold tracking-tight text-foreground mb-6"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
+                >
+                  Build Your Perfect{" "}
+                  <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                    AI Language Model
                   </span>
-                </h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                </motion.h1>
+                
+                <motion.p 
+                  className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.6 }}
+                >
                   Custom LLM Training, Fine-Tuning, and Deployment – Designed for Your Industry, Data, and Unique Business Requirements.
-                </p>
-              </div>
-
+                </motion.p>
+                
+                <motion.div 
+                  className="flex flex-col sm:flex-row gap-4 justify-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.8 }}
+                >
+                  <Button size="lg" className="px-8 py-6 text-base font-medium">
+                    Get Started
+                    <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                  <Button variant="outline" size="lg" className="px-8 py-6 text-base font-medium">
+                    Learn More
+                  </Button>
+                </motion.div>
+              </motion.div>
+              
               {/* Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-16 max-w-4xl mx-auto">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-5xl mx-auto">
                 {stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-2">{stat.number}</div>
-                    <div className="text-gray-600">{stat.label}</div>
-                  </div>
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    className="bg-card/50 backdrop-blur-sm p-6 rounded-xl border border-border/50 shadow-sm text-center"
+                  >
+                    <motion.div 
+                      className="text-4xl font-bold text-foreground mb-2"
+                      initial={{ scale: 0.5 }}
+                      whileInView={{ scale: 1 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
+                      viewport={{ once: true }}
+                    >
+                      {stat.number}
+                    </motion.div>
+                    <div className="text-muted-foreground text-sm font-medium">{stat.label}</div>
+                  </motion.div>
                 ))}
               </div>
             </div>
@@ -353,44 +457,9 @@ const CustomLLMTrainingPage: React.FC = () => {
                           </CardContent>
                         </Card>
                       </div>
-                      <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-blue-600 rounded-full border-4 border-white flex items-center justify-center">
-                        <span className="text-white font-bold text-sm">{step.number}</span>
-                      </div>
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </section>
-
-          {/* Industry Specializations */}
-          <section className="py-20 bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                  Industry Specializations
-                </h2>
-                <p className="text-xl text-gray-600">
-                  Tailored training for your specific industry needs
-                </p>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {industries.map((industry, index) => (
-                  <Card key={index} className="hover:shadow-lg transition-shadow">
-                    <CardContent className="p-6">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">{industry.title}</h3>
-                      <div className="space-y-2">
-                        {industry.features.map((feature, featureIndex) => (
-                          <div key={featureIndex} className="flex items-start space-x-2">
-                            <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                            <span className="text-gray-600 text-sm">{feature}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
               </div>
             </div>
           </section>

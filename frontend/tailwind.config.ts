@@ -3,6 +3,7 @@ import tailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
+  important: true,
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -20,9 +21,9 @@ const config: Config = {
     },
     extend: {
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(to right, #6366f1, #8b5cf6, #ec4899)', // Indigo → Purple → Pink
-        'grid-light': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 32 32\' width=\'32\' height=\'32\' fill=\'none\' stroke=\'rgb(148, 163, 184, 0.1)\'%3E%3Cpath d=\'M0 .5H31.5V32\'/%3E%3C/svg%3E")',
-        'grid-dark': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 32 32\' width=\'32\' height=\'32\' fill=\'none\' stroke=\'rgb(203, 213, 225, 0.1)\'%3E%3Cpath d=\'M0 .5H31.5V32\'/%3E%3C/svg%3E")'
+        'gradient-primary': 'linear-gradient(to right, #6366f1, #8b5cf6, #ec4899)',
+        'grid-light': 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%239C92AC\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'1\'/%3E%3Ccircle cx=\'3\' cy=\'13\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'8\' cy=\'8\' r=\'1\'/%3E%3C/g%3E%3C/svg%3E")',
+        'grid-dark': 'url("data:image/svg+xml,%3Csvg width=\'20\' height=\'20\' viewBox=\'0 0 20 20\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'%23A78BFA\' fill-opacity=\'0.1\' fill-rule=\'evenodd\'%3E%3Ccircle cx=\'3\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'13\' r=\'1\'/%3E%3Ccircle cx=\'3\' cy=\'13\' r=\'1\'/%3E%3Ccircle cx=\'13\' cy=\'3\' r=\'1\'/%3E%3Ccircle cx=\'8\' cy=\'8\' r=\'1\'/%3E%3C/g%3E%3C/svg%3E")'
       },
       colors: {
         border: 'hsl(var(--border))',

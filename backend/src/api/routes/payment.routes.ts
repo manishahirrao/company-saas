@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { createSubscription, createOrder, handleWebhook } from '../../controllers/payment.controller';
-import { validateRequest } from '../../middleware/validation';
+import { createSubscription, createOrder, handleWebhook } from '../../controllers/payment.controller.js';
+import { validateRequest } from '../../middleware/validation.js';
 import { body } from 'express-validator';
 
 const router = Router();

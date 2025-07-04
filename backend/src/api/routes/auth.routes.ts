@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { validateRequest } from '../middleware/validation.middleware';
-import * as authController from '../controllers/auth.controller';
+import Joi from 'joi';
+import { validateBody } from '../middleware/validation.middleware.js';
+import { commonValidators } from '../../utils/validation.js';
+import * as authController from '../controllers/auth.controller.js';
 
 const router = Router();
 
@@ -19,10 +21,13 @@ router.post(
       .withMessage('Password must contain at least one uppercase letter')
       .matches(/\d/)
       .withMessage('Password must contain at least one number'),
-    body('full_name').trim().notEmpty(),
-    body('user_type').optional().isIn(['user', 'admin', 'hr', 'content_creator']),
+    body('name').trim().notEmpty().withMessage('Name is required'),
   ],
-  validateRequest,
+  validateBody(Joi.object({
+    email: commonValidators.email,
+    password: commonValidators.password,
+    name: Joi.string().required()
+  })),
   authController.register
 );
 
@@ -31,19 +36,19 @@ router.post(
   '/login',
   [
     body('email').isEmail().normalizeEmail(),
-    body('password').notEmpty(),
+    body('password').notEmpty().withMessage('Password is required'),
   ],
-  validateRequest,
+  validateBody(Joi.object({
+    email: commonValidators.email,
+    password: Joi.string().required()
+  })),
   authController.login
 );
 
 // Logout route
 router.post('/logout', authController.logout);
 
-// Get current user
-router.get('/me', authController.getCurrentUser);
-
-// Refresh token
+// Refresh token route
 router.post('/refresh-token', authController.refreshToken);
 
 export default router;

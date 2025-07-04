@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { AIPoweredHelpSystem } from '../Animation/AIPoweredHelpSystem';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -753,8 +752,7 @@ const HiringOutsourcingPage = () => {
         </main>
         
         <Footer />
-        
-        <AIPoweredHelpSystem />
+
         
         {/* Smooth scroll behavior */}
         <style jsx global>{`

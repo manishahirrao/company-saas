@@ -1,47 +1,57 @@
 {
   "compilerOptions": {
+    /* Base Options */
     "target": "ES2020",
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "esModuleInterop": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "@app/*": ["src/*"],
-      "@config/*": ["src/config/*"],
-      "@api/*": ["src/api/*"],
-      "@utils/*": ["src/utils/*"],
-      "@middleware/*": ["src/middleware/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@database/*": ["src/database/*"]
-    },
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "sourceMap": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "composite": true,
     "declaration": true,
+    "sourceMap": true,
     "removeComments": true,
+    
+    /* Paths */
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+    "paths": {
+      "@app/*": ["./src/*"],
+      "@config/*": ["./src/config/*"],
+      "@api/*": ["./src/api/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@middleware/*": ["./src/middleware/*"],
+      "@controllers/*": ["./src/controllers/*"],
+      "@database/*": ["./src/database/*"]
+    },
+    
+    /* Strict Type-Checking Options */
     "noImplicitAny": true,
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
+    
+    /* Additional Checks */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "allowSyntheticDefaultImports": true,
-    "isolatedModules": true,
-    "noEmit": false,
-    "composite": true
+    
+    /* Experimental Options */
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
   "include": [
     "src/**/*.ts"

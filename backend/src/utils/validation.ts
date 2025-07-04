@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
-import { ApiResponseHandler } from './apiResponse';
+import { ApiResponseHandler } from './apiResponse.js';
 
 /**
  * Validation middleware that uses Joi schemas

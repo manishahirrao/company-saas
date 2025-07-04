@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
-import { AIPoweredHelpSystem } from '@/pages/Animation/AIPoweredHelpSystem';
 import { SEOBlogHero } from '@/PageSections/SEOBlogHero';
 import { SEOBlogFeatures } from '@/PageSections/SEOBlogFeatures';
 import { SEOBlogStats } from '@/PageSections/SEOBlogStats';
@@ -86,9 +85,7 @@ export default function SEOBlog() {
           <SEOBlogPlatform />
           <SEOBlogCTA />
         </main>
-        
-      
-        <AIPoweredHelpSystem />
+
       </motion.div>
     </AnimatePresence>
   );

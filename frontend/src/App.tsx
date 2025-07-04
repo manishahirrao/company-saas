@@ -5,6 +5,9 @@ import { ThemeProvider, useTheme } from "@/components/ui/theme-provider";
 import { Routes, Route, Outlet, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import Layout from "@/components/Layout/Layout";
+import PWAInstallPrompt from "@/components/PWA/PWAInstallPrompt";
+import ConnectionStatus from "@/components/ConnectionStatus/ConnectionStatus";
+import IdleTimeoutHandler from "@/components/IdleTimeout/IdleTimeoutHandler";
 
 // ===== AUTH PAGES =====
 
@@ -54,12 +57,31 @@ import ResourcesPage from './pages/Resources';
 
 // Component to handle theme class on HTML element
 const ThemeWrapper = ({ children }: { children: React.ReactNode }) => {
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
+  
+  // Set default theme to dark if not set
   useEffect(() => {
     const root = window.document.documentElement;
+    const currentTheme = theme || 'dark';
+    
+    // Remove all theme classes
     root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-  }, [theme]);
+    
+    // Add the current theme class
+    root.classList.add(currentTheme);
+    
+    // Set data-theme attribute for better CSS variable scoping
+    root.setAttribute('data-theme', currentTheme);
+    
+    // Ensure theme is set in localStorage
+    localStorage.setItem('theme', currentTheme);
+    
+    // Update theme in state if not set
+    if (!theme) {
+      setTheme('dark');
+    }
+  }, [theme, setTheme]);
+  
   return <>{children}</>;
 };
 
@@ -72,7 +94,12 @@ const PublicRoute = ({ children }: { children: JSX.Element }) => {
 
 const App = () => {
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <ThemeProvider 
+      attribute="class" 
+      defaultTheme="dark" 
+      enableSystem={false}
+      disableTransitionOnChange
+    >
       <ThemeWrapper>
         <TooltipProvider>
           <Routes>
@@ -118,10 +145,12 @@ const App = () => {
               <Route path="/cookies" element={<CookiePolicyPage />} />
               <Route path='/resources' element={<ResourcesPage/> }/>
               <Route path="*" element={<NotFound />} />
-
             </Route>
           </Routes>
           <Toaster />
+          <PWAInstallPrompt />
+          <ConnectionStatus />
+          <IdleTimeoutHandler />
         </TooltipProvider>
       </ThemeWrapper>
     </ThemeProvider>
