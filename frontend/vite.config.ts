@@ -7,7 +7,7 @@ import autoprefixer from 'autoprefixer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/', // Changed to root for Vercel
+  base: './', // Use relative paths for better compatibility
   appType: 'spa',
   
   // Development server configuration
@@ -123,10 +123,15 @@ export default defineConfig({
   // Build configuration
   build: {
     outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
     sourcemap: true,
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
+        entryFileNames: 'assets/[name]-[hash].js',
+        chunkFileNames: 'assets/[name]-[hash].js',
+        assetFileNames: 'assets/[name]-[hash][extname]',
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
           vendor: ['framer-motion', 'lucide-react']
