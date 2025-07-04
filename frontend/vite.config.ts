@@ -1,46 +1,47 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { VitePWA } from "vite-plugin-pwa";
-import path from "path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { VitePWA } from 'vite-plugin-pwa';
+import path from 'path';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './', // ✅ important for Vercel/static hosting
-  // This tells Vite to treat the app as a Single Page Application (SPA)
-  // which is necessary for client-side routing to work properly
+  base: '/', // Changed to root for Vercel
   appType: 'spa',
   
+  // Development server configuration
   server: {
-    host: "::",
-    port: 3001,
+    host: '::',
+    port: 3000,
     strictPort: true,
-    // This ensures that the server falls back to index.html for 404s
-    // which is necessary for client-side routing to work properly
-    // When a user refreshes the page or navigates directly to a URL,
-    // the server will serve index.html and React Router will handle the routing
     fs: {
       strict: true,
     },
     headers: {
       'Cache-Control': 'no-store, no-cache, must-revalidate',
       'Pragma': 'no-cache',
-      'Expires': '0'
+      'Expires': '0',
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:5000',
+        target: process.env.VITE_API_URL || 'http://localhost:5000',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, '')
-      }
-    }
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+  
+  // Preview configuration for production build
+  preview: {
+    port: 3000,
+    strictPort: true,
   },
   plugins: [
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'safari-pinned-tab.svg'],
       manifest: {
         name: 'VORTEX AI Platform',
         short_name: 'VORTEX',
@@ -48,6 +49,9 @@ export default defineConfig({
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',
+        start_url: '/',
+        orientation: 'portrait',
+        scope: '/',
         icons: [
           {
             src: '/apple-touch-icon.png',
@@ -106,17 +110,28 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src")
+      '@': path.resolve(__dirname, './src')
     }
   },
-  // Handle SPA fallback for client-side routing
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react'],
+    esbuildOptions: {
+      // Enable esbuild's tree shaking
+      treeShaking: true,
+    }
+  },
+  // Build configuration
   build: {
+    outDir: 'dist',
+    sourcemap: true,
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
-        },
-      },
-    },
+          vendor: ['framer-motion', 'lucide-react']
+        }
+      }
+    }
   }
 });
