@@ -6,15 +6,19 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <base href="/" />
+    
     <title>VORTEX - AI Operations Platform | Enterprise Ready</title>
     <meta name="description" content="Transform your business operations with cutting-edge AI automation. Streamline workflows, enhance productivity, and unlock the full potential of artificial intelligence with VORTEX." />
-    <meta property="og:title" content="VORTEX - AI Operations Platform" />
-    <meta property="og:description" content="Enterprise-grade AI automation platform for modern businesses. Features social automation, HR outsourcing, AI ops hub, and joint platform solutions." />
+    
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <!-- Theme Color for Chrome, Firefox OS and Opera -->
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0f172a" />
+    <meta property="og:url" content="https://your-vercel-app.vercel.app/" />
+    <meta property="og:title" content="VORTEX - AI Operations Platform" />
+    <meta property="og:description" content="Enterprise-grade AI automation platform for modern businesses." />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0f172a" />
+    
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="mobile-web-app-capable" content="yes" />
@@ -22,19 +26,22 @@
     <meta name="application-name" content="VORTEX" />
     <meta name="apple-mobile-web-app-title" content="VORTEX" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/favicon.ico" />
-    <!-- Styles -->
-    <link rel="stylesheet" href="/index.css" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    
     <!-- Preconnect to external domains -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Vite HMR client -->
+    <script type="module" src="/@vite/client"></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- Preload critical CSS -->
-    <link rel="preload" href="/src/index.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/src/index.css"></noscript>
+    
+    <!-- Main CSS (Vite will handle this) -->
+    <link rel="stylesheet" href="/src/index.css">
   </head>
   <body class="min-h-screen bg-background text-foreground antialiased">
     <div id="root" style="min-height: 100vh; display: flex; flex-direction: column;">
