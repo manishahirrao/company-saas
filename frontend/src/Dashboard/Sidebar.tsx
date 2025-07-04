@@ -79,17 +79,12 @@ const menuItems: MenuItem[] = [
     subItems: [
       { id: 'profile', label: 'Profile', icon: User, href: '/dashboard/settings/profile' },
       { id: 'subscription', label: 'Subscription', icon: CreditCard, href: '/dashboard/settings/subscription' },
-      { id: 'api-keys', label: 'API Keys', icon: KeyRound, href: '/dashboard/settings/api-keys' },
+      
     ]
   }
 ];
 
-const WritePostButton = () => (
-  <button className="w-full bg-blue-500 text-white font-semibold py-2.5 px-4 rounded-lg shadow-md hover:bg-blue-600 transition-all duration-200 flex items-center justify-center">
-    <Pencil className="h-4 w-4 mr-2" />
-    Write Post
-  </button>
-);
+
 
 const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   const location = useLocation();
@@ -113,9 +108,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
     const linkClass = cn(
       baseClass,
       'py-2 px-3 rounded-md',
-      isSubmenu ? 'text-gray-500 hover:text-gray-900 hover:bg-gray-100' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
-      active && !isSubmenu && 'bg-blue-50 text-blue-600 font-semibold',
-      active && isSubmenu && 'text-blue-600 font-semibold'
+      isSubmenu ? 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800' : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800',
+      active && !isSubmenu && 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-semibold',
+      active && isSubmenu && 'text-blue-600 dark:text-blue-400 font-semibold',
+      'dark:hover:bg-gray-800/50'
     );
 
     if (hasSubItems) {
@@ -124,8 +120,9 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           <div className={cn(
             baseClass,
             'py-2 px-3 rounded-md',
-            'text-gray-600 hover:text-gray-900 hover:bg-gray-100',
-            'cursor-default'
+            'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800',
+            'cursor-default',
+            'dark:hover:bg-gray-800/50'
           )}>
             <div className="flex items-center">
               <Icon 
@@ -184,17 +181,18 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
         width: collapsed ? 64 : 240,
         transition: { duration: 0.2, ease: 'easeInOut' }
       }}
-      className="fixed left-0 top-0 h-full bg-white z-40 flex flex-col border-r border-gray-200"
+      className="fixed left-0 top-0 h-full bg-white dark:bg-gray-900 z-40 flex flex-col border-r border-gray-200 dark:border-gray-800"
     >
       {/* Logo/Brand */}
       <div className={cn(
-        "flex items-center h-16 px-4 border-b border-gray-200",
-        collapsed ? 'justify-center' : 'justify-between'
+        "flex items-center h-16 px-4 border-b border-gray-200 dark:border-gray-800",
+        collapsed ? 'justify-center' : 'justify-between',
+        'bg-white dark:bg-gray-900'
       )}>
         {!collapsed && (
           <div className="flex items-center">
             <div className="w-8 h-8 rounded-lg bg-blue-500"></div>
-            <span className="font-bold text-lg ml-3 text-gray-800">Supergrow</span>
+            <span className="font-bold text-lg ml-3 text-gray-800 dark:text-gray-200">Vortex</span>
           </div>
         )}
         {collapsed && (
@@ -205,7 +203,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       {/* Collapse Button */}
       <button
         onClick={onToggle}
-        className="absolute -right-3 top-6 w-6 h-6 bg-white border border-gray-300 rounded-full flex items-center justify-center z-50 shadow-md hover:bg-gray-100 transition-colors"
+        className="absolute -right-3 top-6 w-6 h-6 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-full flex items-center justify-center z-50 shadow-md hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
       >
         {collapsed ? (
@@ -218,11 +216,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto py-4 px-2">
         {/* Write Post Button */}
-        {!collapsed && (
-          <div className="px-4 my-4">
-            <WritePostButton />
-          </div>
-        )}
+     
         
         {/* Menu Items */}
         <div className="space-y-1">
@@ -231,8 +225,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       </nav>
 
       {/* User Profile Section */}
-      <div className="border-t border-gray-200 p-2">
-        <div className="flex items-center p-2 rounded-md hover:bg-gray-100">
+      <div className="border-t border-gray-200 dark:border-gray-800 p-2">
+        <div className="flex items-center p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800">
           <img 
             className="h-8 w-8 rounded-full object-cover mr-3" 
             src="https://placehold.co/100x100" 
@@ -240,8 +234,8 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
           />
           {!collapsed && (
             <div>
-              <p className="text-sm font-semibold text-gray-800">Manish</p>
-              <p className="text-xs text-gray-500">m@gmail.com</p>
+              <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">Manish</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400">m@gmail.com</p>
             </div>
           )}
         </div>

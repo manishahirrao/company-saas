@@ -1,94 +1,134 @@
-import React from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { CheckCircle2 } from 'lucide-react';
 
 const Pricing = () => {
   const plans = [
     {
       name: 'Starter',
-      price: 19,
+      price: 49,
       period: 'month',
+      description: 'Perfect for individuals and small teams getting started',
       features: [
-        'Up to 10 users',
-        '5GB storage',
-        'Basic support',
-        'Email support'
-      ]
+        'Up to 5 team members',
+        '10GB storage',
+        'Basic analytics',
+        'Email support',
+        'API access',
+        'Basic security'
+      ],
+      cta: 'Get Started',
+      popular: false
     },
     {
       name: 'Professional',
-      price: 49,
+      price: 99,
       period: 'month',
-      featured: true,
+      description: 'For growing teams that need more power',
       features: [
-        'Up to 50 users',
-        '50GB storage',
+        'Up to 20 team members',
+        '100GB storage',
+        'Advanced analytics',
         'Priority support',
-        '24/7 support',
-        'API access'
-      ]
+        'API access',
+        'Advanced security',
+        'Custom integrations',
+        'SSO'
+      ],
+      cta: 'Start Free Trial',
+      popular: true
     },
     {
       name: 'Enterprise',
-      price: 149,
+      price: 'Custom',
       period: 'month',
+      description: 'For organizations with custom needs',
       features: [
-        'Unlimited users',
+        'Unlimited team members',
         'Unlimited storage',
-        '24/7 priority support',
-        'Dedicated account manager',
-        'Custom integrations'
-      ]
+        'Advanced analytics',
+        '24/7 dedicated support',
+        'Custom API limits',
+        'Enterprise security',
+        'Custom integrations',
+        'SSO & SAML',
+        'Dedicated account manager'
+      ],
+      cta: 'Contact Sales',
+      popular: false
     }
   ];
 
   return (
-    <div className="bg-gray-50 py-12">
-      <div className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-4">Pricing Plans</h1>
-        <p className="text-xl text-center text-gray-600 mb-12 max-w-2xl mx-auto">
-          Choose the perfect plan for your business needs. No hidden fees, cancel anytime.
-        </p>
-        
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+    <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-12">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4">
+            Simple, transparent pricing
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Choose the perfect plan for your team's needs. No hidden fees, cancel anytime.
+          </p>
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
           {plans.map((plan, index) => (
-            <div 
-              key={index}
-              className={`bg-white rounded-lg shadow-md overflow-hidden ${
-                plan.featured ? 'transform scale-105 border-2 border-blue-500' : 'border border-gray-200'
+            <Card 
+              key={plan.name} 
+              className={`relative overflow-hidden transition-all duration-200 hover:shadow-lg ${
+                plan.popular ? 'border-2 border-primary' : ''
               }`}
             >
-              {plan.featured && (
-                <div className="bg-blue-500 text-white text-center py-1 text-sm font-semibold">
+              {plan.popular && (
+                <div className="absolute top-0 right-0 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-bl-md">
                   MOST POPULAR
                 </div>
               )}
-              <div className="p-6">
-                <h2 className="text-2xl font-bold mb-2">{plan.name}</h2>
-                <div className="mb-6">
-                  <span className="text-4xl font-bold">${plan.price}</span>
-                  <span className="text-gray-600">/{plan.period}</span>
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold text-foreground">{plan.name}</CardTitle>
+                <div className="flex items-baseline mt-2">
+                  <span className="text-4xl font-bold text-foreground">
+                    {typeof plan.price === 'number' ? `$${plan.price}` : plan.price}
+                  </span>
+                  {typeof plan.price === 'number' && (
+                    <span className="text-muted-foreground ml-1">/month</span>
+                  )}
                 </div>
-                <ul className="space-y-3 mb-8">
+                <p className="text-muted-foreground mt-2">{plan.description}</p>
+              </CardHeader>
+              <CardContent>
+                <ul className="space-y-3">
                   {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-center">
-                      <svg className="h-5 w-5 text-green-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                      </svg>
-                      {feature}
+                    <li key={i} className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 mr-2 flex-shrink-0" />
+                      <span className="text-foreground">{feature}</span>
                     </li>
                   ))}
                 </ul>
-                <button
-                  className={`w-full py-3 px-4 rounded-md font-semibold ${
-                    plan.featured
-                      ? 'bg-blue-500 hover:bg-blue-600 text-white'
-                      : 'bg-gray-100 hover:bg-gray-200 text-gray-800'
-                  }`}
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  size="lg" 
+                  className={`w-full ${plan.popular ? '' : 'bg-primary/90 hover:bg-primary'}`}
                 >
-                  Get Started
-                </button>
-              </div>
-            </div>
+                  {plan.cta}
+                </Button>
+              </CardFooter>
+            </Card>
           ))}
+        </div>
+
+        <div className="mt-16 bg-muted/50 rounded-lg p-6 md:p-8">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-2xl font-bold text-foreground mb-4">Need something custom?</h2>
+            <p className="text-muted-foreground mb-6">
+              We offer custom plans for large teams and enterprises with specific needs.
+              Our team will work with you to create a solution that fits your requirements.
+            </p>
+            <Button variant="outline" size="lg">
+              Contact Sales
+            </Button>
+          </div>
         </div>
       </div>
     </div>

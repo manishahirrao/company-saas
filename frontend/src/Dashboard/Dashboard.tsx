@@ -11,6 +11,10 @@ import JobSeekerDashboard from '@/pages/AfterPages/Dashboard/Roles/JobSeekerDash
 import EmployerDashboard from '@/pages/AfterPages/Dashboard/Roles/EmployerDashboard';
 import HrAgencyDashboard from '@/pages/AfterPages/Dashboard/Roles/HrAgencyDashboard';
 
+
+//import form
+import AdsForm from '@/pages/Product/AdsForm';
+
 // Import common page components
 import PostBuilderPage from '@/pages/AfterPages/Content/PostBuilderPage';
 import SeoBlogPage from '@/pages/AfterPages/Content/SeoBlogPage';
@@ -22,6 +26,11 @@ import CustomLlmPage from '@/pages/AfterPages/Advanced/CustomLlmPage';
 import ProfilePage from '@/pages/AfterPages/Settings/ProfilePage';
 import SubscriptionPage from '@/pages/AfterPages/Settings/SubscriptionPage';
 import ApiKeysPage from '@/pages/AfterPages/Settings/ApiKeysPage';
+import SocialMediaForm from '@/pages/Product/SocialMediaForm';
+import HRHiringForm from '@/pages/Form/FreeJobPostingForm';
+import VortexContactForm from '@/pages/Form/AIOperationalForm';
+import CompanyProfile from '@/pages/Profile/CompanyProfile';
+import Pricing from '@/pages/Pricing';
 
 // This component determines which dashboard to show based on user role
 const RoleSpecificDashboard = () => {
@@ -50,7 +59,7 @@ const Dashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50 text-gray-800">
+    <div className="flex flex-col h-screen bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
       <DashboardNavbar />
       <div className="flex flex-1 overflow-hidden">
         <Sidebar 
@@ -58,7 +67,7 @@ const Dashboard = () => {
           onToggle={() => setSidebarCollapsed(!sidebarCollapsed)} 
         />
         <main className={cn(
-          "transition-all duration-300 ease-in-out flex-1 overflow-y-auto",
+          "transition-all duration-300 ease-in-out flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900",
           sidebarCollapsed ? "ml-20" : "ml-64"
         )}>
           <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -67,16 +76,15 @@ const Dashboard = () => {
               <Route path="/" element={<RoleSpecificDashboard />} />
               
               {/* Common routes accessible to all roles */}
-              <Route path="/content/post-builder" element={<PostBuilderPage />} />
+              <Route path="/content/post-builder" element={<SocialMediaForm />} />
               <Route path="/content/seo-blog" element={<SeoBlogPage />} />
-              <Route path="/content/ads-copy" element={<AdsCopyPage />} />
-              <Route path="/hiring/post-job" element={<PostJobPage />} />
-              <Route path="/hiring/assist" element={<HireAssistPage />} />
-              <Route path="/advanced/operations" element={<AiOperationsPage />} />
-              <Route path="/advanced/custom-llm" element={<CustomLlmPage />} />
-              <Route path="/settings/profile" element={<ProfilePage />} />
-              <Route path="/settings/subscription" element={<SubscriptionPage />} />
-              <Route path="/settings/api-keys" element={<ApiKeysPage />} />
+              <Route path="/content/ads-copy" element={<AdsForm />} />
+              <Route path="/hiring/post-job" element={<HRHiringForm />} />
+              <Route path="/hiring/assist" element={<HRHiringForm/>} />
+              <Route path="/advanced/operations" element={<VortexContactForm />} />
+              <Route path="/advanced/custom-llm" element={<VortexContactForm />} />
+              <Route path="/settings/profile" element={<CompanyProfile />} />
+              <Route path="/settings/subscription" element={<Pricing />} />
             </Routes>
           </div>
         </main>

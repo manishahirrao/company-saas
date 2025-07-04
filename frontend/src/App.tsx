@@ -16,6 +16,9 @@ import ProtectedRoute from './pages/Auth/ProtectedRoute';
 // ===== LAYOUT COMPONENTS =====
 import NotFound from "./pages/NotFound";
 
+// form import 
+import AdsForm from './pages/Product/AdsForm';
+
 // ===== HOME PAGES =====
 import CompanyHome from "./pages/Home/CompanyHome";
 
@@ -115,6 +118,7 @@ const App = () => {
               <Route path="/cookies" element={<CookiePolicyPage />} />
               <Route path='/resources' element={<ResourcesPage/> }/>
               <Route path="*" element={<NotFound />} />
+
             </Route>
           </Routes>
           <Toaster />
