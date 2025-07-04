@@ -94,7 +94,15 @@ const LoginCompanyPage: React.FC = () => {
       }
 
       if (emailNotVerified) {
-        setError('Please verify your email before logging in.');
+        // Redirect to verification page with email pre-filled
+        navigate('/verify-email', { 
+          state: { 
+            email,
+            from: from, // Keep the original destination
+            message: 'Please verify your email before logging in. A new verification email has been sent.'
+          },
+          replace: true 
+        });
         return;
       }
 

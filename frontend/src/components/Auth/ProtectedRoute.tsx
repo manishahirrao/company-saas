@@ -16,6 +16,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectTo = '/login'
 }) => {
   const { user, profile, loading, signOut } = useAuth();
+  const [isVerified, setIsVerified] = useState<boolean | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const [authChecked, setAuthChecked] = useState(false);
@@ -71,8 +72,23 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           return;
         }
         
+        // Check if email is verified
+        if (user && !user.email_confirmed_at) {
+          // If not verified, redirect to verification page
+          navigate('/verify-email', { 
+            state: { 
+              from: location,
+              email: user.email,
+              message: 'Please verify your email to continue.'
+            },
+            replace: true 
+          });
+          return;
+        }
+        
         // If we get here, all checks passed
         setAuthChecked(true);
+        setIsVerified(true);
         
       } catch (err) {
         console.error('Authentication error:', err);
@@ -97,7 +113,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   }, [user, profile, loading, requiredRole, navigate, location, redirectTo, signOut]);
   
   // Show loading state
-  if (loading || !authChecked) {
+  if (loading || !authChecked || isVerified === null) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-background">
         <div className="flex flex-col items-center space-y-4">

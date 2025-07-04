@@ -66,6 +66,7 @@ interface FormData {
   contentType: string;
   mood: string;
   industryPreset: string;
+  templateId?: number;
 }
 
 interface GeneratedContent {
@@ -74,6 +75,51 @@ interface GeneratedContent {
   hashtags?: string[];
   keyNotes?: string;
 }
+
+const templates = [
+  { id: 1, name: 'The 3rd Person News Story Advertorial', description: 'Use it to mimic an objective news article---open with "According to industry insiders..." or "A recent study reveals...," then tell a compelling story about your product as if it\'s headline news. This builds authority and trust.' },
+  { id: 2, name: 'The Testimonial Advertorial', description: 'Use it to weave real customer stories into a mini case study. Start by introducing the user\'s problem, cite scientific or data-backed evidence for your solution, then close with glowing quotes and concrete before-/after results.' },
+  { id: 3, name: 'Advertorial Jump Page', description: 'Use it to create a high-impact gateway that teases an in-depth article. Lead with an emotional hook or provocative question ("What the beauty industry won\'t tell you..."), then invite readers to "Jump" to the full advertorial---capturing emails or clicks before revealing the full pitch.' },
+  { id: 4, name: 'The False Disqualifier', description: 'Use it to own a perceived weakness ("Yes, we\'re pricier---but here\'s why that premium means better results..."), turning it into a unique selling point.' },
+  { id: 5, name: 'The Damaging Admission', description: 'Use it to build credibility by admitting a hard truth ("I used to overthink every design..."), then reveal how that admission led to your superior process or product.' },
+  { id: 6, name: 'The Secret Sauce', description: 'Use it to promise exclusive insight ("Our secret sauce is a proprietary step nobody else talks about..."), creating intrigue and positioning your solution as next-level.' },
+  { id: 7, name: 'Sworn To Secrecy', description: 'Use it to disqualify broad audiences ("This isn\'t for everyone---only serious entrepreneurs..."), which makes the offer feel more elite and piques curiosity.' },
+  { id: 8, name: 'Silencing The Doubters', description: 'Use it to frame skeptics as underestimating you ("They said it couldn\'t be done---so we did it anyway..."), tapping into underdog energy and social proof.' },
+  { id: 9, name: 'The Godfather Offer', description: 'Use it to stack an irresistible bundle ("Double your leads or we\'ll give you your money back, plus $100 for wasting your time"), making refusal almost impossible.' },
+  { id: 10, name: 'The Buyer State Diagnosis', description: 'Use it to ask targeted diagnostic questions ("Still struggling to convert cold traffic?"), so active buyers see their exact problem mirrored---and your solution as the cure.' },
+  { id: 11, name: 'The Lost Opportunity', description: 'Use it to trigger FOMO ("Don\'t be the one who missed out on 2x growth while your competitors raced ahead"), then present your offer as their second chance.' },
+  { id: 12, name: 'The "Let Me Know"', description: 'Use it to promise follow-up value ("Interested? Let me know and I\'ll send you my entire swipe file"), which builds anticipation and invites engagement.' },
+  { id: 13, name: 'The Unbelievable Question', description: 'Use it to hook with a jaw-dropping question ("What if you could get 1,000 subscribers in 24 hrs---without ads?"), then deliver the method behind that claim.' },
+  { id: 14, name: 'The Envisioned Outcome', description: 'Use it to paint a vivid future scene ("Picture waking up to ₹10,000 in sales before breakfast..."), helping prospects emotionally connect to the end benefit.' },
+  { id: 15, name: 'The Worst Kept Secret', description: 'Use it to leverage social proof ("The industry\'s best-kept secret is out---here\'s how top brands are doing it"), making your method feel both proven and urgent.' },
+  { id: 16, name: 'The Urgent Contact', description: 'Use it to create a mini quiz or checklist ("Which of these 3 mistakes is killing your click-through rate?"), diagnosing pain and prompting immediate action.' },
+  { id: 17, name: 'The Time Collapse', description: 'Use it to promise rapid results ("How to write a bestselling ad in under 60 minutes"), collapsing perceived effort and time barriers.' },
+  { id: 18, name: 'The Decision Maker', description: 'Use it to speak directly to those who hold the purse strings ("If you sign off on this, your team will thank you---and your boss will congratulate you"), framing benefits in terms of both professional and personal gain.' },
+  { id: 19, name: 'The Embedded Error', description: 'Use it to highlight a common mistake ("Here\'s why your email blasts aren\'t converting---and the one tweak to fix them"), demonstrating expertise and offering a quick win.' },
+  { id: 20, name: 'The Can\'t Get Started', description: 'Use it to empathize with paralysis ("Staring at a blank page? You\'re not alone..."), then provide your tool or framework as the kick-start they need.' },
+  { id: 21, name: 'The Shame Game', description: 'Use it to gently shame in a positive way ("Don\'t let another quarter slip by..."), tapping into fear of missing out while offering you as the safeguard.' },
+  { id: 22, name: 'The Gatekeeper', description: 'Use it to call out your ideal avatar ("For solo founders tired of guesswork..."), instantly filtering out non-buyers and resonating deeply with your perfect customer.' },
+  { id: 23, name: 'The Silenced Story', description: 'Use it to share a controversial or little-known insider tale ("They didn\'t want you to hear this story..."), sparking curiosity and positioning your product as the behind-the-scenes hero.' },
+  { id: 24, name: 'Instant Epiphany', description: 'Use it to immediately shake up expectations. Open with a provocative statement that questions a common belief, then guide readers to a new, more powerful way of seeing their problem.' },
+  { id: 25, name: 'The Reverse-Goal Revelation', description: 'Use it to stop them cold. Tell prospects to "STOP chasing X the usual way," then reveal why redirecting their efforts toward your unconventional approach yields faster, better results.' },
+  { id: 26, name: 'The Objection Obliterator', description: 'Use it to preempt common hesitations. Name the top 1-2 objections ("Worried it\'s too expensive?"), validate them, then flip them into reasons why buying now is smart.' },
+  { id: 27, name: 'The Hidden Enemy', description: 'Use it to externalize blame. Introduce an overlooked "villain" (a process, belief, or hidden cost) that\'s sabotaging their efforts---then pitch your solution as the way to neutralize it.' },
+  { id: 28, name: 'The Brutal Truth Bomb', description: 'Use it to shock with a harsh reality check. Drop a hard-hitting fact or myth-busting stat that undercuts complacency and sets the stage for your product as the antidote.' },
+  { id: 29, name: 'The Cheap Trick', description: 'Use it to highlight simplicity. Showcase a low-effort, high-impact hack that resonates with people tired of complex, time-consuming solutions.' },
+  { id: 30, name: 'Scarcity Accelerator', description: 'Use it to ratchet up FOMO with hard deadlines or limited quantities---"Only 5 seats remain at this price."' },
+  { id: 31, name: 'The Timeline Collapse', description: 'Use it to compress time. Describe a rapid journey ("In just 7 days you could..."), creating urgency and illustrating how fast your method delivers results.' }, 
+  { id: 32, name: 'Outcome-Focused Unique Solution', description: 'Use it to lead with the specific result ("Double open rates in 7 days"), then explain the singular mechanism behind it.' },
+  { id: 33, name: 'The Myth Buster', description: 'Use it to debunk a common misconception. Present the myth ("You must spend thousands on ads to see ROI"), then flip it with data or a demo of your cost-efficient alternative.' },
+  { id: 34, name: 'The Unexpected Delivery', description: 'Use it to promise one outcome but deliver something surprising. ("You came for faster results, but here\'s the one thing nobody talks about..."), then tie it back to your core benefit.' },
+  { id: 35, name: 'The Weird Hack', description: 'Use it to reveal an offbeat shortcut. Lead with a quirky question ("What if I told you you\'ve been doing X wrong all along?"), then showcase your unconventional yet effective method.' },
+  { id: 36, name: 'Opportunity Cost Motivator', description: 'Use it to highlight what they\'re missing out on by not acting ("Every day you wait costs you ₹1,000 in lost profits").' },
+  { id: 37, name: 'Contrast Crafting', description: 'Use it to weave a high-stakes story that contrasts "what you have now" vs. "what you could have," then pitch your product as the bridge.' },
+  { id: 38, name: 'The Curiosity Cultivator', description: 'Use it to start with a jaw-dropping fact or question ("Did you know 87% of marketers are ignoring this one metric?"), then follow with your solution.' },
+  { id: 39, name: 'The Paradoxical Truth Framework', description: 'Use it to tease a paradoxical headline ("To gain more, give away first"), unpack the logic, and tie into your offering.' },
+  { id: 40, name: 'PAS - Eliminate Common Problem', description: 'Use it to hook with the Problem, Agitate the pain, then Solve it with your breakthrough---classic but always effective.' },
+  { id: 41, name: 'PAS - What The Hell', description: 'Use it to kick off with a blunt frustration ("What the hell is going on with X?"), then walk them through your solution.' },
+  { id: 42, name: 'UMP (Unique Mechanism of the Problem)', description: 'Use it to pinpoint the real root cause ("It\'s not lack of traffic---it\'s lack of [your UMP]"), then pitch your proprietary fix.' }
+];
 
 const GoogleAdsForm: React.FC = () => {
   const { toast } = useToast();
@@ -101,7 +147,8 @@ const GoogleAdsForm: React.FC = () => {
     imageStyle: '',
     contentType: '',
     mood: '',
-    industryPreset: ''
+    industryPreset: '',
+    templateId: undefined
   });
 
   const [generatedContent, setGeneratedContent] = useState<GeneratedContent>({});
@@ -890,13 +937,96 @@ Keywords: ${formData.keywords.join(', ')}`
           Back
         </Button>
         <Button onClick={nextStep} className="bg-purple-600 hover:bg-purple-700">
-          Next: Visual Style
+          Next: Templates
         </Button>
       </div>
     </div>
   );
 
   const renderStep3 = () => (
+    <div className="space-y-6 p-6 bg-gradient-to-r from-gray-50 to-indigo-50 rounded-xl border-l-4 border-indigo-500">
+      <h3 className="text-xl font-bold text-gray-800 flex items-center">
+        <Layout className="mr-2 text-indigo-600" size={24} />
+        Template Selection
+      </h3>
+
+      <div className="space-y-4">
+        <Alert>
+          <Info className="h-4 w-4" />
+          <AlertTitle>Pro Tip</AlertTitle>
+          <AlertDescription>
+            Select a template that matches your campaign goals. Each template is optimized for different conversion objectives.
+          </AlertDescription>
+        </Alert>
+
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-2">Select Template</label>
+          <Select
+            value={formData.templateId?.toString() || ''}
+            onValueChange={(value) => handleInputChange('templateId', parseInt(value))}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Choose a template..." />
+            </SelectTrigger>
+            <SelectContent className="max-h-[400px] overflow-y-auto">
+              {templates.map(template => (
+                <SelectItem key={template.id} value={template.id.toString()}>
+                  <div className="flex flex-col">
+                    <span className="font-medium">{template.name}</span>
+                    <span className="text-xs text-gray-500">{template.description}</span>
+                  </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {formData.templateId && (
+          <Card>
+            <CardHeader className="pb-3">
+              <CardTitle className="text-lg">
+                {templates.find(t => t.id === formData.templateId)?.name}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-gray-600">
+                {templates.find(t => t.id === formData.templateId)?.description}
+              </p>
+              <div className="mt-4">
+                <Button 
+                  variant="outline" 
+                  onClick={() => {
+                    const template = templates.find(t => t.id === formData.templateId);
+                    if (template) {
+                      handleInputChange('title', `[${template.name}] ${formData.title || ''}`);
+                      toast({
+                        title: "Template Applied",
+                        description: "Template has been applied to your content"
+                      });
+                    }
+                  }}
+                >
+                  <Wand2 className="w-4 h-4 mr-2" />
+                  Apply Template to Content
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+
+      <div className="flex justify-between pt-4">
+        <Button variant="outline" onClick={prevStep}>
+          Back
+        </Button>
+        <Button onClick={nextStep} className="bg-indigo-600 hover:bg-indigo-700">
+          Next: Visual Style
+        </Button>
+      </div>
+    </div>
+  );
+
+  const renderStep4 = () => (
     <div className="space-y-6 p-6 bg-gradient-to-r from-gray-50 to-green-50 rounded-xl border-l-4 border-green-500">
       <h3 className="text-xl font-bold text-gray-800 flex items-center">
         <Image className="mr-2 text-green-600" size={24} />
@@ -1107,7 +1237,7 @@ Keywords: ${formData.keywords.join(', ')}`
     </div>
   );
 
-  const renderStep4 = () => (
+  const renderStep5 = () => (
     <div className="space-y-6">
       <h3 className="text-xl font-bold text-gray-800 flex items-center">
         <Check className="mr-2 text-green-600" size={24} />
@@ -1233,6 +1363,10 @@ Keywords: ${formData.keywords.join(', ')}`
               <div>
                 <p className="text-sm font-medium text-gray-500">Media Type</p>
                 <p>{formData.mediaType || '-'}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Selected Template</p>
+                <p>{formData.templateId ? templates.find(t => t.id === formData.templateId)?.name : '-'}</p>
               </div>
               <div className="md:col-span-2">
                 <p className="text-sm font-medium text-gray-500">Target Locations</p>
@@ -1407,14 +1541,21 @@ Keywords: ${formData.keywords.join(', ')}`
                         <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 3 ? 'bg-blue-600 text-white' : currentStep === 3 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
                           3
                         </div>
-                        <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Visual Style</span>
+                        <span className={`text-sm ${currentStep >= 3 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Template</span>
                       </div>
                       <div className="h-px flex-1 bg-gray-200 mx-2"></div>
                       <div className="flex items-center gap-2">
                         <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 4 ? 'bg-blue-600 text-white' : currentStep === 4 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
                           4
                         </div>
-                        <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
+                        <span className={`text-sm ${currentStep >= 4 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Visual Style</span>
+                      </div>
+                      <div className="h-px flex-1 bg-gray-200 mx-2"></div>
+                      <div className="flex items-center gap-2">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full ${currentStep >= 5 ? 'bg-blue-600 text-white' : currentStep === 5 ? 'bg-blue-100 text-blue-600' : 'bg-gray-200 text-gray-600'}`}>
+                          5
+                        </div>
+                        <span className={`text-sm ${currentStep >= 5 ? 'font-semibold text-blue-600' : 'text-gray-500'}`}>Review</span>
                       </div>
                     </div>
 
@@ -1422,6 +1563,7 @@ Keywords: ${formData.keywords.join(', ')}`
                     {currentStep === 2 && renderStep2()}
                     {currentStep === 3 && renderStep3()}
                     {currentStep === 4 && renderStep4()}
+                    {currentStep === 5 && renderStep5()}
                   </div>
                 </div>
               </div>

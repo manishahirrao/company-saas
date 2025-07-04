@@ -1,9 +1,9 @@
-import React, { useState, FormEvent, useEffect, ChangeEvent } from 'react';
-import { User } from '@supabase/supabase-js';
-import { Building2, Mail, Lock, Globe, Upload, Eye, EyeOff, Loader2, Linkedin, MapPin, ArrowRight, Users } from 'lucide-react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import { Building2, Mail, Lock, Globe, Linkedin, MapPin, Upload, Eye, EyeOff, ArrowRight, Loader2, Users } from 'lucide-react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { supabase } from '@/lib/supabaseClient';
+import type { User } from '@supabase/supabase-js';
 import { toast } from 'react-toastify';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,12 +18,6 @@ interface FormData {
   companyWebsite: string;
   targetAudience: string;
   logo: File | null;
-  industry: string;
-  companySize: string;
-  location: string;
-  linkedinUrl: string;
-  about: string;
-  foundedYear: string;
 }
 
 interface FormErrors {
@@ -42,7 +36,7 @@ const CompanyRegisterPage: React.FC = () => {
   const location = useLocation();
   const { signUp, user } = useAuth();
   
-  // Form state with only the fields that exist in the database schema
+  // Form state - only include fields that exist in the database schema
   const [formData, setFormData] = useState<FormData>({
     companyName: '',
     companyEmail: location.state?.email || '',
@@ -50,13 +44,7 @@ const CompanyRegisterPage: React.FC = () => {
     confirmPassword: '',
     companyWebsite: '',
     targetAudience: '',
-    logo: null,
-    industry: '',
-    companySize: '',
-    location: '',
-    linkedinUrl: '',
-    about: '',
-    foundedYear: ''
+    logo: null
   });
   
   // UI state
@@ -102,16 +90,6 @@ const CompanyRegisterPage: React.FC = () => {
     '1001-5000 employees',
     '5000+ employees'
   ];
-
-  const industries = [
-    'Technology',
-    'Finance',
-    'Healthcare',
-    'Education',
-    'Retail',
-    'Manufacturing',
-    'Other'
-  ];
   const isPersonalEmail = (email: string): boolean => {
     const domain = email.split('@')[1]?.toLowerCase();
     return domain ? personalEmailDomains.includes(domain) : false;
@@ -133,7 +111,7 @@ const CompanyRegisterPage: React.FC = () => {
     }
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       
@@ -199,11 +177,10 @@ const CompanyRegisterPage: React.FC = () => {
       newErrors.companyWebsite = 'Please enter a valid URL (include http:// or https://)';
     }
     
-    if (!formData.industry.trim()) {
       newErrors.industry = 'Industry selection is required';
     }
 
-    if (!formData.companySize.trim()) {
+    if (!formData.companySize) {
       newErrors.companySize = 'Company size selection is required';
     }
 
@@ -219,7 +196,7 @@ const CompanyRegisterPage: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setSubmitError(null);
     setLoading(true);
@@ -373,14 +350,12 @@ const CompanyRegisterPage: React.FC = () => {
         throw signUpError;
       }
 
-      // On successful registration, show success message and redirect to login
-      // The verification email has already been sent by the signUp function
-      toast.success('Registration successful! Please check your email to verify your account.');
-      
-      // Redirect to login page with the email pre-filled
-      navigate('/login', { 
+      // On successful registration, redirect to verify page with the user's email
+      // The user will be automatically redirected to the dashboard after verifying their email
+      navigate('/verify-email', { 
         state: { 
           email: formData.companyEmail,
+          from: '/dashboard', // Redirect to dashboard after verification
           message: 'Registration successful! Please check your email to verify your account.'
         },
         replace: true 
@@ -400,7 +375,6 @@ const CompanyRegisterPage: React.FC = () => {
     }
   };
 
-  // Helper function to render form field with error message
   // Helper function to render form field with error message
   const renderFormField = (
     name: keyof FormData,

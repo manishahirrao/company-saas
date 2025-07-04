@@ -2,10 +2,13 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { AdvancedVortexAnimation } from "@/Logo/logo";
 import { Play } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function HeroSection() {
+ const navigate=useNavigate();
   const handleStartTrial = () => {
     console.log("Starting free trial...");
+    navigate('/login');
   };
 
   const handleWatchDemo = () => {
@@ -13,7 +16,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="pt-24 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <section className="pt-12 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       {/* Background Grid Pattern */}
       <div className="absolute inset-0 grid-pattern dark:grid-pattern opacity-50" />
       

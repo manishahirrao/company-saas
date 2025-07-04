@@ -12,11 +12,12 @@ import GoogleAdsForm from '../Ads/GoogleAds';
 import MetaAdsGenerator from '../Ads/MetaAds';
 import LinkedInAdsForm from '../Ads/LinkedInAds';
 import YouTubeAdsForm from '../Ads/YouTubeAds';
+import { useNavigate } from 'react-router-dom';
 
 const AdsGeneratorPage = () => {
   const [activeTab, setActiveTab] = useState('Google Ads');
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
-
+  const navigate=useNavigate();
   // Tab configuration with form components
   const tabs = [
     { name: 'Google Ads', component: <GoogleAdsForm /> },
@@ -159,6 +160,7 @@ const AdsGeneratorPage = () => {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
+                  onClick={()=>navigate('/login')}
                   className="px-8 py-4 bg-gradient-to-r from-electric-purple to-neon-blue text-white font-medium rounded-full shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group"
                 >
                   Start Generating Ads
@@ -199,17 +201,17 @@ const AdsGeneratorPage = () => {
         </section>
 
         {/* Tabs Section */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background">
+        {/* <section className="py-16 px-4 sm:px-6 lg:px-8 bg-background">
           <div className="max-w-7xl mx-auto">
             <div className="flex flex-col items-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">Generate Ads for Any Platform</h2>
               <p className="text-lg text-muted-foreground text-center max-w-2xl">
                 Create optimized ads for all major advertising platforms with just a few clicks.
               </p>
-            </div>
+            </div> */}
 
             {/* Tabs Navigation */}
-            <div className="flex flex-wrap justify-center gap-2 mb-8">
+            {/* <div className="flex flex-wrap justify-center gap-2 mb-8">
               {tabs.map((tab) => (
                 <button
                   key={tab.name}
@@ -223,14 +225,14 @@ const AdsGeneratorPage = () => {
                   {tab.name}
                 </button>
               ))}
-            </div>
+            </div> */}
 
             {/* Tab Content */}
-            <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
+            {/* <div className="bg-card rounded-2xl p-6 md:p-8 shadow-sm border border-border">
               {renderActiveTab()}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* Features Section */}
         <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/50">
@@ -275,7 +277,9 @@ const AdsGeneratorPage = () => {
               Join thousands of marketers creating high-performing ads in minutes, not hours.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="px-8 py-4 bg-background text-purple-700 font-medium rounded-full hover:bg-background/90 transition-all transform hover:scale-105">
+              <button 
+              onClick={()=>navigate('/login')}
+              className="px-8 py-4 bg-background text-purple-700 font-medium rounded-full hover:bg-background/90 transition-all transform hover:scale-105">
                 Start Free Trial
               </button>
               <button className="px-8 py-4 bg-transparent border-2 border-background text-background font-medium rounded-full hover:bg-white/10 transition-all">

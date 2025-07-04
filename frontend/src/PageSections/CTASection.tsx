@@ -11,7 +11,7 @@ export function CTASection() {
 
   const handleStartTrial = () => {
     console.log("Starting free trial...");
-    navigate('/company/register');
+    navigate('/login');
   };
 
   const handleScheduleDemo = () => {

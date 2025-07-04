@@ -134,7 +134,7 @@ const Navbar = () => {
     { href: '/products/ads-generator', label: 'Ads Copy AI', desc: 'Generate high-converting ad content' },
     { href: '/products/linkedin-posts', label: 'AI Post Builder', desc: 'Craft professional LinkedIn content' },
     { href: '/products/aioperation', label: 'AI Operational Page', desc: 'Automate business operations with AI' },
-    { href: '/products/seo-blog', label: 'SEO Blog Post', desc: 'Generate SEO-optimized blog content' },
+    { href: '/products/blog', label: 'SEO Blog Post', desc: 'Generate SEO-optimized blog content' },
     { href: '/products/llm', label: 'Custom LLM', desc: 'Train and deploy custom language models' },
   ];
 

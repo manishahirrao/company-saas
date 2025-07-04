@@ -21,6 +21,8 @@ const config: Config = {
     extend: {
       backgroundImage: {
         'gradient-primary': 'linear-gradient(to right, #6366f1, #8b5cf6, #ec4899)', // Indigo → Purple → Pink
+        'grid-light': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 32 32\' width=\'32\' height=\'32\' fill=\'none\' stroke=\'rgb(148, 163, 184, 0.1)\'%3E%3Cpath d=\'M0 .5H31.5V32\'/%3E%3C/svg%3E")',
+        'grid-dark': 'url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 32 32\' width=\'32\' height=\'32\' fill=\'none\' stroke=\'rgb(203, 213, 225, 0.1)\'%3E%3Cpath d=\'M0 .5H31.5V32\'/%3E%3C/svg%3E")'
       },
       colors: {
         border: 'hsl(var(--border))',
@@ -65,6 +67,14 @@ const config: Config = {
           'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))'
+        },
+        'electric-purple': {
+          DEFAULT: '#8B5CF6',
+          foreground: '#FFFFFF'
+        },
+        'neon-blue': {
+          DEFAULT: '#3B82F6',
+          foreground: '#FFFFFF'
         }
       },
       borderRadius: {

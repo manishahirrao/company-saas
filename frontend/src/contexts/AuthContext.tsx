@@ -214,15 +214,21 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       });
 
       if (signInError) {
-        if (signInError.message.includes('Invalid login credentials')) {
+        // Check for non-existent user
+        if (signInError.message.includes('Invalid login credentials') || 
+            signInError.message.includes('user not found') ||
+            signInError.message.includes('does not exist')) {
           return { 
-            error: new Error('Invalid email or password. Please try again.'),
+            error: new Error('No account found with this email. Please register.'),
             userNotFound: true
           };
         }
-        if (signInError.message.includes('Email not confirmed')) {
+        if (signInError.message.includes('Email not confirmed') || 
+            signInError.message.includes('email not confirmed')) {
+          // If email is not confirmed, sign out the user and return appropriate error
+          await supabase.auth.signOut();
           return { 
-            error: new Error('Please verify your email before logging in.'),
+            error: new Error('Please verify your email before logging in. Check your inbox for the verification link.'),
             emailNotVerified: true
           };
         }
@@ -230,6 +236,15 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
 
       if (data.user) {
+        // Check if email is verified
+        if (!data.user.email_confirmed_at) {
+          await supabase.auth.signOut();
+          return { 
+            error: new Error('Please verify your email before logging in. Check your inbox for the verification link.'),
+            emailNotVerified: true
+          };
+        }
+
         const userProfile = await fetchUserProfile(data.user.id);
         if (role && userProfile?.user_type !== role) {
           await supabase.auth.signOut();
@@ -258,7 +273,8 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }): Promise<SignUpResult> => {
     try {
       setLoading(true);
-      // 1. First try to sign up the user with email confirmation
+      
+      // 1. Attempt to sign up the user directly
       const { data, error: signUpError } = await supabase.auth.signUp({
         email,
         password,
@@ -273,33 +289,85 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         },
       });
 
+      // 2. Handle signup errors
       if (signUpError) {
-        if (signUpError.message.includes('already registered')) {
-          // If user exists but not verified, send another verification email
-          const { error: signInError } = await signIn(email, password);
-          if (signInError) {
+        console.error('Sign up error:', signUpError);
+        
+        // Handle specific error cases
+        if (signUpError.message.includes('already registered') || 
+            signUpError.message.includes('already exists') ||
+            signUpError.status === 400) {
+          // Try to sign in to check if user exists but email is not verified
+          const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password: 'dummy-password' // We don't care about the password here
+          });
+
+          if (signInError?.message.includes('Invalid login credentials')) {
+            // User exists but password is wrong
             return { 
-              error: new Error('This email is already registered. Please check your email for verification.'),
-              userExists: true 
+              error: new Error('An account with this email already exists. Please log in instead.'),
+              userExists: true
+            };
+          } else if (signInData?.user && !signInData.user.email_confirmed_at) {
+            // User exists but email is not verified - resend verification
+            const { error: resendError } = await supabase.auth.resend({
+              type: 'signup',
+              email,
+              options: {
+                emailRedirectTo: `${window.location.origin}/dashboard`,
+              },
+            });
+
+            if (resendError) {
+              console.error('Resend verification error:', resendError);
+              return {
+                error: new Error('Account exists but verification email could not be resent. Please try again later.'),
+                userExists: true
+              };
+            }
+
+            return {
+              error: new Error('A verification email has been sent to your email address. Please verify your email to continue.'),
+              userExists: true
             };
           }
-        } else {
-          throw signUpError;
-        }
-      }
 
-      // The trigger will handle creating the user profile
-      // Return success and the user data
+          return { 
+            error: new Error('An account with this email already exists. Please log in instead.'),
+            userExists: true
+          };
+        } else if (signUpError.message.includes('signup disabled') || 
+                  signUpError.message.includes('not allowed')) {
+          return { 
+            error: new Error('Email/password signup is not enabled. Please contact support.')
+          };
+        }
+        
+        // For all other errors, return a generic message
+        return { 
+          error: new Error('Failed to create account. Please try again or contact support.')
+        };
+      }
+      
+      // 3. Check if user was created successfully
+      if (!data.user) {
+        throw new Error('Failed to create user account. Please try again.');
+      }
+      
+      // 4. Return success
       return { 
         error: null, 
         userExists: false,
-        user: data.user // Return the user data for potential redirect
+        user: data.user
       };
     } catch (error) {
       console.error('Sign up error:', error);
       return { 
         error: error instanceof Error ? error : new Error('An error occurred during sign up'),
-        userExists: error instanceof Error && error.message.includes('already registered')
+        userExists: error instanceof Error && 
+          (error.message.includes('already registered') || 
+           error.message.includes('already exists'))
       };
     } finally {
       setLoading(false);

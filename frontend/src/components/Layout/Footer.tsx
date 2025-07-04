@@ -212,7 +212,7 @@ const Footer: React.FC = () => {
                 </svg>
               </div>
               <h2 className="text-2xl font-space font-bold bg-gradient-to-r from-electric-purple to-indigo-500 bg-clip-text text-transparent">
-                PostPilot
+                Vortex
               </h2>
             </div>
             <motion.p 

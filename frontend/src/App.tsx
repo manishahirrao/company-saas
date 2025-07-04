@@ -8,7 +8,7 @@ import Layout from "@/components/Layout/Layout";
 
 // ===== AUTH PAGES =====
 
-import VerifyEmailPage from './pages/Auth/VerifyEmailPage';
+import EmailVerification from '@/components/Auth/EmailVerification';
 import LoginCompanyPage from './pages/Auth/LoginCompanyPage';
 import CompanyRegisterPage from './pages/Auth/RegisterCompanyPage';
 import ProtectedRoute from './pages/Auth/ProtectedRoute';
@@ -85,7 +85,7 @@ const App = () => {
             <Route path="/register" element={<PublicRoute><CompanyRegisterPage /></PublicRoute>} />
             <Route path="/company/login" element={<PublicRoute><LoginCompanyPage /></PublicRoute>} />
             <Route path="/company/register" element={<PublicRoute><CompanyRegisterPage /></PublicRoute>} />
-            <Route path="/verify-email" element={<VerifyEmailPage />} />
+            <Route path="/verify-email" element={<EmailVerification />} />
 
             {/* All other public routes with Layout */}
             <Route element={<Layout><Outlet /></Layout>}>
@@ -108,7 +108,7 @@ const App = () => {
               <Route path="/about/management" element={<ManagementPage />} />
               <Route path="/about/investors" element={<InvestorsPage />} />
               <Route path="/contact" element={<ContactPage />} />
-              <Route path="/contact/sales" element={<ContactSalesPage />} />
+              <Route path="/contact-sales" element={<ContactSalesPage />} />
               <Route path="/pricing" element={<PricingPage />} />
               <Route path="/terms" element={<TermsPage />} />
               <Route path="/privacy" element={<PrivacyPolicyPage />} />

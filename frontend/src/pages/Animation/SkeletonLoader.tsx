@@ -63,9 +63,13 @@ export function Skeleton({
   );
 }
 
-export function SkeletonCard() {
+interface SkeletonCardProps {
+  className?: string;
+}
+
+export function SkeletonCard({ className = '' }: SkeletonCardProps) {
   return (
-    <div className="space-y-4 p-4 border border-border rounded-lg">
+    <div className={`space-y-4 p-4 border border-border rounded-lg ${className}`}>
       <div className="flex items-center space-x-4">
         <Skeleton variant="circular" />
         <div className="space-y-2 flex-1">

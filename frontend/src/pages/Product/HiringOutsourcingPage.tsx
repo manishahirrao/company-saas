@@ -16,6 +16,7 @@ import {
 import Navbar from '@/components/Layout/Navbar';
 import Footer from '@/components/Layout/Footer';
 import { cn } from '@/lib/utils';
+import HRHiringForm from '../Form/HROutSourcingForm';
 
 // Types
 type ContactForm = {
@@ -326,7 +327,7 @@ const HiringOutsourcingPage = () => {
                 >
                   <Button 
                     className="h-14 px-8 bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-black font-bold rounded-xl shadow-2xl hover:shadow-3xl transform hover:scale-105 transition-all duration-200"
-                    onClick={() => document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' })}
+                    onClick={() => document.getElementById('HRHiringForm')?.scrollIntoView({ behavior: 'smooth' })}
                     aria-label="Get started with hiring services"
                   >
                     <MessageCircle className="w-5 h-5 mr-2" />
@@ -527,7 +528,7 @@ const HiringOutsourcingPage = () => {
 
           {/* Contact Form */}
           <section className="max-w-4xl mx-auto mb-20 px-4 sm:px-6">
-            <motion.div 
+            {/* <motion.div 
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -695,7 +696,10 @@ const HiringOutsourcingPage = () => {
                   </form>
                 </CardContent>
               </Card>
-            </motion.div>
+            </motion.div> */}
+            <div id="HRHiringForm">
+              <HRHiringForm/>
+            </div>
 
             {/* Trusted By Section */}
             <motion.div 

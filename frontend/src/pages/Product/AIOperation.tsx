@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Bot, Workflow, MessageSquare, BarChart3, Settings, Target, Zap, Shield, Globe, ChevronDown, Menu, X, Star, CheckCircle, Users, TrendingUp, Clock, Award } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface Solution {
   icon: JSX.Element;
@@ -41,6 +42,7 @@ const AIOperationsLanding = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedIndustry, setSelectedIndustry] = useState('retail');
+  const navigate=useNavigate();
 
   const industries: Record<string, Industry> = {
     retail: {
@@ -252,7 +254,9 @@ const AIOperationsLanding = () => {
                       Automate workflows, enhance decision-making, and drive efficiency with our AI-powered operations platform.
                     </p>
                     <div className="flex flex-wrap gap-4">
-                      <button className="px-8 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-medium hover:opacity-90 transition-all duration-200">
+                      <button 
+                      onClick={()=>navigate('/login')}
+                      className="px-8 py-3 bg-gradient-to-r from-purple-500 to-blue-500 text-white rounded-lg font-medium hover:opacity-90 transition-all duration-200">
                         Get Started
                       </button>
                       <button className="px-8 py-3 bg-background/80 backdrop-blur-sm border border-border/40 rounded-lg font-medium hover:bg-accent/50 transition-all duration-200">
@@ -516,10 +520,14 @@ const AIOperationsLanding = () => {
                   Join thousands of businesses that are already automating their operations with our AI solutions.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
-                  <button className="px-8 py-3 bg-white text-purple-600 rounded-lg font-medium hover:bg-white/90 transition-all duration-200">
+                  <button 
+                  onClick={()=>navigate('/login')}
+                  className="px-8 py-3 bg-white text-purple-600 rounded-lg font-medium hover:bg-white/90 transition-all duration-200">
                     Start Free Trial
                   </button>
-                  <button className="px-8 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all duration-200">
+                  <button 
+                  onClick={()=>navigate('/contact-sales')}
+                  className="px-8 py-3 bg-transparent border border-white text-white rounded-lg font-medium hover:bg-white/10 transition-all duration-200">
                     Contact Sales
                   </button>
                 </div>
