@@ -1,28 +1,23 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
-import path from 'path';
 import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
+import path from 'path';
 
 // https://vitejs.dev/config/
+// Determine the base URL based on the environment
+const isProduction = process.env.NODE_ENV === 'production';
+
 export default defineConfig({
-  base: './', // Use relative paths for better compatibility
+  // Use absolute path for Vercel production, relative for development
+  base: isProduction ? 'https://company-saas-frontend.vercel.app/' : '/',
   appType: 'spa',
   
   // Development server configuration
   server: {
-    host: '::',
     port: 3000,
-    strictPort: true,
-    fs: {
-      strict: true,
-    },
-    headers: {
-      'Cache-Control': 'no-store, no-cache, must-revalidate',
-      'Pragma': 'no-cache',
-      'Expires': '0',
-    },
+    open: true,
     proxy: {
       '/api': {
         target: process.env.VITE_API_URL || 'http://localhost:5000',
@@ -32,94 +27,6 @@ export default defineConfig({
     },
   },
   
-  // Preview configuration for production build
-  preview: {
-    port: 3000,
-    strictPort: true,
-  },
-  plugins: [
-    react(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'safari-pinned-tab.svg'],
-      manifest: {
-        name: 'VORTEX AI Platform',
-        short_name: 'VORTEX',
-        description: 'Enterprise AI Operations Platform',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
-        display: 'standalone',
-        start_url: '/',
-        orientation: 'portrait',
-        scope: '/',
-        icons: [
-          {
-            src: '/apple-touch-icon.png',
-            sizes: '192x192',
-            type: 'image/png'
-          },
-          {
-            src: '/apple-touch-icon.png',
-            sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'google-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          },
-          {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
-            handler: 'CacheFirst',
-            options: {
-              cacheName: 'gstatic-fonts-cache',
-              expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // <== 365 days
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ]
-      }
-    })
-  ],
-  css: {
-    postcss: {
-      plugins: [
-        tailwindcss,
-        autoprefixer,
-      ],
-    },
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src')
-    }
-  },
-  optimizeDeps: {
-    include: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react'],
-    esbuildOptions: {
-      // Enable esbuild's tree shaking
-      treeShaking: true,
-    }
-  },
   // Build configuration
   build: {
     outDir: 'dist',
@@ -138,5 +45,107 @@ export default defineConfig({
         }
       }
     }
+  },
+  
+  // Plugins
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'safari-pinned-tab.svg'],
+      manifest: {
+        name: 'VORTEX AI Platform',
+        short_name: 'VORTEX',
+        description: 'Enterprise AI Operations Platform',
+        theme_color: '#0f172a',
+        background_color: '#0f172a',
+        display: 'standalone',
+        start_url: '/',
+        scope: '/',
+        icons: [
+          {
+            src: '/apple-touch-icon.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'any maskable'
+          },
+          {
+            src: '/apple-touch-icon.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'any maskable'
+          }
+        ]
+      },
+      strategies: 'generateSW',
+      srcDir: 'src',
+      filename: 'service-worker.js',
+      devOptions: {
+        enabled: false,
+        type: 'module',
+        navigateFallback: 'index.html',
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
+        navigateFallback: '/index.html',
+        clientsClaim: true,
+        skipWaiting: true,
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'gstatic-fonts-cache',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
+      }
+    })
+  ],
+  
+  // Resolve configuration
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
+  
+  // CSS configuration
+  css: {
+    postcss: {
+      plugins: [
+        tailwindcss,
+        autoprefixer,
+      ],
+    },
+  },
+  
+  // Optimize dependencies
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom'],
+    esbuildOptions: {
+      target: 'es2020',
+    },
   }
 });
