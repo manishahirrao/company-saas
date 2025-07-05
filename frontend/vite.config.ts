@@ -40,7 +40,7 @@ export default defineConfig({
   
   // Build configuration
   build: {
-    outDir: 'dist',
+    outDir: 'public',
     assetsDir: 'assets',
     emptyOutDir: true,
     sourcemap: isPreview ? true : false,
@@ -87,7 +87,16 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       strategies: 'generateSW',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg', 'robots.txt', 'site.webmanifest'],
+      srcDir: 'public',
+      filename: 'sw.js',
+      includeAssets: [
+        'favicon.ico',
+        'apple-touch-icon.png',
+        'safari-pinned-tab.svg',
+        'robots.txt',
+        'site.webmanifest',
+        '**/*.{js,css,html,png,jpg,jpeg,svg,gif,ico,webp,woff,woff2,ttf,eot,json}'
+      ],
       manifest: {
         name: 'VORTEX AI Platform',
         short_name: 'VORTEX',
