@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "$schema": "https://json.schemastore.org/vercel.json",
+  "cleanUrls": true,
+  "trailingSlash": false,
   "builds": [
     {
       "src": "package.json",
@@ -70,32 +73,35 @@
     {
       "src": "/assets/(.*)",
       "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
+        "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
     {
       "src": "/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webmanifest))",
       "dest": "/$1",
       "headers": {
-        "cache-control": "public, max-age=31536000, immutable"
+        "Cache-Control": "public, max-age=31536000, immutable"
       }
     },
     {
       "src": "/service-worker.js",
       "dest": "/service-worker.js",
       "headers": {
-        "cache-control": "no-cache, no-store, must-revalidate"
+        "Cache-Control": "no-cache, no-store, must-revalidate"
       }
     },
     {
       "src": "/manifest.json",
       "headers": {
-        "cache-control": "public, max-age=0, must-revalidate"
+        "Cache-Control": "public, max-age=0, must-revalidate"
       }
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "/index.html",
+      "headers": {
+        "Cache-Control": "no-cache, no-store, must-revalidate"
+      }
     }
   ],
   "env": {

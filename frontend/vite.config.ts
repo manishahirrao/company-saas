@@ -46,14 +46,14 @@ export default defineConfig({
     sourcemap: isPreview ? true : false,
     minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
-    // Ensure files are properly named with hashes for cache busting
     manifest: true,
-    // Don't use dynamic imports for chunks to avoid MIME type issues
+    // Disable dynamic imports for better compatibility
     dynamicImportVarsOptions: {
       exclude: [],
     },
     // Ensure proper MIME types for all assets
     assetsInlineLimit: 0,
+    // Configure Rollup output
     rollupOptions: {
       output: {
         // Ensure consistent file naming
@@ -83,133 +83,184 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      // Service worker configuration
       srcDir: 'src',
       filename: 'service-worker.js',
-      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'safari-pinned-tab.svg'],
+      strategies: 'injectManifest',
+      includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'safari-pinned-tab.svg', 'robots.txt', 'site.webmanifest'],
       manifest: {
         name: 'VORTEX AI Platform',
         short_name: 'VORTEX',
-        description: 'Enterprise AI Operations Platform',
+        description: 'Enterprise-grade AI automation platform for modern businesses',
         theme_color: '#0f172a',
         background_color: '#0f172a',
         display: 'standalone',
         start_url: '/',
-        scope: '/',
-        // Add proper icon paths
         icons: [
           {
-            src: '/apple-touch-icon.png',
-            sizes: '180x180',
-            type: 'image/png',
-            purpose: 'any maskable'
-          },
-          {
-            src: '/apple-touch-icon.png',
+            src: '/pwa-192x192.png',
             sizes: '192x192',
             type: 'image/png',
             purpose: 'any maskable'
           },
           {
-            src: '/apple-touch-icon.png',
+            src: '/pwa-512x512.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'any maskable'
+          },
+          {
+            src: '/pwa-maskable-192x192.png',
+            sizes: '192x192',
+            type: 'image/png',
+            purpose: 'maskable'
+          },
+          {
+            src: '/pwa-maskable-512x512.png',
+            sizes: '512x512',
+            type: 'image/png',
+            purpose: 'maskable'
+          }
+        ],
+        shortcuts: [
+          {
+            name: 'Dashboard',
+            short_name: 'Dashboard',
+            description: 'Go to Dashboard',
+            url: '/dashboard',
+            icons: [{ src: '/pwa-192x192.png', sizes: '192x192' }]
           }
         ]
       },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
         navigateFallback: isPreview ? 'index.html' : '/index.html',
-        navigateFallbackDenylist: [/^\/api/, /\/.*\/api\/.*/],
+        navigateFallbackDenylist: [/^\/api/, /\/.*\/api\//],
         clientsClaim: true,
         skipWaiting: true,
         dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
-        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+        maximumFileSizeToCacheInBytes: 10 * 1024 * 1024, // 10MB
         cleanupOutdatedCaches: true,
-        // Configure runtime caching
         runtimeCaching: [
-          // Cache same-origin requests (HTML, JS, CSS, images, etc.)
+          // Google Fonts
           {
-            urlPattern: /^https?:\/\/(localhost|([^/]+\.)?vercel\.app)/i,
-            handler: 'NetworkFirst',
+            urlPattern: /^https?:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
             options: {
-              cacheName: 'app-assets',
+              cacheName: 'google-fonts-cache',
               expiration: {
-                maxEntries: 100,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
               },
-              matchOptions: {
-                ignoreSearch: true,
-                ignoreVary: true
+              cacheableResponse: {
+                statuses: [0, 200]
               }
             }
           },
-          // Google Fonts stylesheets
+          // Static assets
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            urlPattern: /\.[a-f0-9]{8}\.[a-z0-9]+\.[a-z0-9]+$/i,
             handler: 'StaleWhileRevalidate',
             options: {
-              cacheName: 'google-fonts-stylesheets',
+              cacheName: 'static-assets-cache',
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
               },
-            },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           },
-          // Google Fonts webfonts
+          // API requests
           {
-            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            urlPattern: /^https?:\/\/api\./i,
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              networkTimeoutSeconds: 10,
+              expiration: {
+                maxEntries: 50,
+                maxAgeSeconds: 60 * 5 // 5 minutes
+              },
+              cacheableResponse: {
+                statuses: [0, 200, 404]
+              }
+            }
+          },
+          // Images
+          {
+            urlPattern: /\.(?:png|jpg|jpe?g|svg|gif|webp|avif|ico)$/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'google-fonts-webfonts',
+              cacheName: 'image-cache',
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
               },
-            },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
           },
-          // jsDelivr CDN
+          // Fonts
           {
-            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
+            urlPattern: /\.(?:woff2?|ttf|eot|otf)$/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'jsdelivr-cdn',
+              cacheName: 'font-cache',
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+                maxEntries: 20,
+                maxAgeSeconds: 60 * 60 * 24 * 30 // 30 days
               },
-            },
-          },
-        ],
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
       },
-      // Ensure the service worker is properly scoped
-      selfDestroying: false
+      devOptions: {
+        enabled: isPreview,
+        type: 'module',
+        navigateFallback: 'index.html',
+        suppressWarnings: true
+      },
+      // Add version to force update
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}']
+      }
     })
   ],
   
   // Resolve configuration
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
-    },
+      '@': path.resolve(__dirname, './src')
+    }
   },
   
   // CSS configuration
   css: {
+    devSourcemap: isPreview,
+    modules: {
+      localsConvention: 'camelCaseOnly'
+    },
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/variables.scss";`
+      }
+    },
     postcss: {
       plugins: [
         tailwindcss,
-        autoprefixer,
-      ],
-    },
+        autoprefixer
+      ]
+    }
   },
   
   // Optimize dependencies
   optimizeDeps: {
     include: ['react', 'react-dom', 'react-router-dom'],
-    esbuildOptions: {
-      target: 'es2020',
-    },
+    exclude: ['@vitejs/plugin-react']
   }
 });
