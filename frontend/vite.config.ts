@@ -19,6 +19,13 @@ export default defineConfig({
   server: {
     port: 3000,
     open: true,
+    host: true, // Listen on all network interfaces
+    strictPort: true,
+    hmr: {
+      clientPort: 3000,
+      protocol: 'ws',
+      host: 'localhost',
+    },
     proxy: {
       '/api': {
         target: process.env.VITE_API_URL || 'http://localhost:5000',
@@ -67,7 +74,14 @@ export default defineConfig({
         display: 'standalone',
         start_url: '/',
         scope: '/',
+        // Add proper icon paths
         icons: [
+          {
+            src: '/apple-touch-icon.png',
+            sizes: '180x180',
+            type: 'image/png',
+            purpose: 'any maskable'
+          },
           {
             src: '/apple-touch-icon.png',
             sizes: '192x192',
@@ -82,48 +96,70 @@ export default defineConfig({
           }
         ]
       },
-      strategies: 'generateSW',
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
         navigateFallback: isPreview ? 'index.html' : '/index.html',
         navigateFallbackDenylist: [/^\/api/, /\/.*\/api\/.*/],
         clientsClaim: true,
         skipWaiting: true,
-        // Don't cache the service worker itself
         dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
         maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
-        // Clean up old caches
         cleanupOutdatedCaches: true,
+        // Configure runtime caching
         runtimeCaching: [
+          // Cache same-origin requests (HTML, JS, CSS, images, etc.)
           {
-            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
-            handler: 'CacheFirst',
+            urlPattern: /^https?:\/\/(localhost|([^/]+\.)?vercel\.app)/i,
+            handler: 'NetworkFirst',
             options: {
-              cacheName: 'google-fonts-cache',
+              cacheName: 'app-assets',
               expiration: {
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxEntries: 100,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
               },
-              cacheableResponse: {
-                statuses: [0, 200]
+              matchOptions: {
+                ignoreSearch: true,
+                ignoreVary: true
               }
             }
           },
+          // Google Fonts stylesheets
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'google-fonts-stylesheets',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
+              },
+            },
+          },
+          // Google Fonts webfonts
           {
             urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
             handler: 'CacheFirst',
             options: {
-              cacheName: 'gstatic-fonts-cache',
+              cacheName: 'google-fonts-webfonts',
               expiration: {
                 maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
               },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ]
+            },
+          },
+          // jsDelivr CDN
+          {
+            urlPattern: /^https:\/\/cdn\.jsdelivr\.net\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'jsdelivr-cdn',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
+              },
+            },
+          },
+        ],
       },
       // Ensure the service worker is properly scoped
       selfDestroying: false
