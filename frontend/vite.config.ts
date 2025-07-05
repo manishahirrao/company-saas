@@ -9,7 +9,7 @@ import path from 'path';
 const isPreview = process.env.VITE_PREVIEW === 'true';
 
 export default defineConfig({
-  // Base URL configuration
+  // Base URL configuration for Vercel
   base: '/',
   appType: 'spa',
   
@@ -47,6 +47,9 @@ export default defineConfig({
     minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
     manifest: true,
+    // Ensure Vite's output is compatible with Vercel
+    target: 'es2020',
+    ssr: false,
     // Disable dynamic imports for better compatibility
     dynamicImportVarsOptions: {
       exclude: [],
