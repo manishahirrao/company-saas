@@ -65,3 +65,4 @@ logs
 /frontend/.env.*.local
 /frontend/.svelte-kit
 /frontend/build/
+.vercel
