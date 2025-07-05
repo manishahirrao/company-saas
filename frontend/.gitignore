@@ -12,6 +12,17 @@ node_modules
 dist-ssr
 *.local
 
+# Local development
+.DS_Store
+*.pem
+*.log
+.cache/
+.vercel/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

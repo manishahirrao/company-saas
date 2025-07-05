@@ -40,7 +40,7 @@ export default defineConfig({
   
   // Build configuration
   build: {
-    outDir: 'public',
+    outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
     sourcemap: isPreview ? true : false,
@@ -87,7 +87,7 @@ export default defineConfig({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
       strategies: 'generateSW',
-      srcDir: 'public',
+      srcDir: 'dist',
       filename: 'sw.js',
       includeAssets: [
         'favicon.ico',
