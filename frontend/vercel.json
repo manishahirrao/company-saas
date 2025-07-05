@@ -29,16 +29,18 @@
       "src": "/service-worker.js",
       "dest": "/service-worker.js",
       "headers": {
-        "cache-control": "no-cache, no-store, must-revalidate",
-        "service-worker-allowed": "/"
+        "cache-control": "no-cache, no-store, must-revalidate"
+      }
+    },
+    {
+      "src": "/manifest.json",
+      "headers": {
+        "cache-control": "public, max-age=0, must-revalidate"
       }
     },
     {
       "src": "/(.*)",
-      "dest": "/index.html",
-      "headers": {
-        "cache-control": "no-cache, no-store, must-revalidate"
-      }
+      "dest": "/index.html"
     }
   ],
   "env": {

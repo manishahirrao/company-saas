@@ -6,13 +6,11 @@ import autoprefixer from 'autoprefixer';
 import path from 'path';
 
 // https://vitejs.dev/config/
-// Determine the base URL based on the environment
-const isProduction = process.env.NODE_ENV === 'production';
 const isPreview = process.env.VITE_PREVIEW === 'true';
 
 export default defineConfig({
-  // Use absolute path for Vercel production, relative for development and preview
-  base: isPreview ? './' : isProduction ? 'https://company-saas-frontend.vercel.app/' : '/',
+  // Base URL configuration
+  base: '/',
   appType: 'spa',
   
   // Development server configuration
@@ -40,7 +38,8 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
-    sourcemap: true,
+    sourcemap: isPreview ? true : false,
+    minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
@@ -49,7 +48,8 @@ export default defineConfig({
         assetFileNames: 'assets/[name]-[hash][extname]',
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
-          vendor: ['framer-motion', 'lucide-react']
+          vendor: ['framer-motion', 'lucide-react'],
+          ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu']
         }
       }
     }
