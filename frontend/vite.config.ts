@@ -10,14 +10,14 @@ const isPreview = process.env.VITE_PREVIEW === 'true';
 
 export default defineConfig({
   // Base URL configuration for Vercel
-  base: './',
+  base: '/',
   appType: 'spa',
   
   // Development server configuration
   server: {
     port: 3000,
+    host: true,
     open: true,
-    host: true, // Listen on all network interfaces
     strictPort: true,
     headers: {
       'Content-Type': 'application/javascript',
