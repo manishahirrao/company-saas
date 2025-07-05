@@ -4,7 +4,7 @@
   "description": "PostPilot AI Hub - Complete Solution",
   "private": true,
   "scripts": {
-    "vercel-build": "echo 'Please deploy the frontend directory directly' && exit 1",
+    "vercel-build": "cd frontend && npm install && npm run build",
     "generate:types": "ts-node scripts/generate-types.ts",
     "db:reset": "ts-node scripts/reset-database.ts",
     "db:migrate": "ts-node scripts/run-migrations.ts",
