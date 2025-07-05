@@ -1,8 +1,5 @@
 {
   "version": 2,
-  "$schema": "https://json.schemastore.org/vercel.json",
-  "cleanUrls": true,
-  "trailingSlash": false,
   "builds": [
     {
       "src": "package.json",
@@ -10,63 +7,8 @@
       "config": {
         "distDir": "dist",
         "installCommand": "npm install",
-        "buildCommand": "npm run build",
-        "outputDirectory": "dist"
+        "buildCommand": "npm run build"
       }
-    }
-  ],
-  "headers": [
-    {
-      "source": "/assets/(.*).js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/assets/(.*).css",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
-    {
-      "source": "/(.*).css",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/css; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
     }
   ],
   "routes": [
@@ -104,10 +46,6 @@
       }
     }
   ],
-  "env": {
-    "NODE_ENV": "production"
-  },
   "cleanUrls": true,
-  "trailingSlash": false,
-  "outputDirectory": "dist"
+  "trailingSlash": false
 }
