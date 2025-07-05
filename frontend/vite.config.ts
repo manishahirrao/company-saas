@@ -8,10 +8,11 @@ import path from 'path';
 // https://vitejs.dev/config/
 // Determine the base URL based on the environment
 const isProduction = process.env.NODE_ENV === 'production';
+const isPreview = process.env.VITE_PREVIEW === 'true';
 
 export default defineConfig({
-  // Use absolute path for Vercel production, relative for development
-  base: isProduction ? 'https://company-saas-frontend.vercel.app/' : '/',
+  // Use absolute path for Vercel production, relative for development and preview
+  base: isPreview ? './' : isProduction ? 'https://company-saas-frontend.vercel.app/' : '/',
   appType: 'spa',
   
   // Development server configuration
@@ -52,6 +53,10 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      injectRegister: 'auto',
+      // Service worker configuration
+      srcDir: 'src',
+      filename: 'service-worker.js',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'robots.txt', 'safari-pinned-tab.svg'],
       manifest: {
         name: 'VORTEX AI Platform',
@@ -78,18 +83,17 @@ export default defineConfig({
         ]
       },
       strategies: 'generateSW',
-      srcDir: 'src',
-      filename: 'service-worker.js',
-      devOptions: {
-        enabled: false,
-        type: 'module',
-        navigateFallback: 'index.html',
-      },
       workbox: {
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
-        navigateFallback: '/index.html',
+        navigateFallback: isPreview ? 'index.html' : '/index.html',
+        navigateFallbackDenylist: [/^\/api/, /\/.*\/api\/.*/],
         clientsClaim: true,
         skipWaiting: true,
+        // Don't cache the service worker itself
+        dontCacheBustURLsMatching: /\.[0-9a-f]{8}\./,
+        maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB
+        // Clean up old caches
+        cleanupOutdatedCaches: true,
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
@@ -120,7 +124,9 @@ export default defineConfig({
             }
           }
         ]
-      }
+      },
+      // Ensure the service worker is properly scoped
+      selfDestroying: false
     })
   ],
   
