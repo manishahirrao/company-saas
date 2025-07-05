@@ -10,7 +10,7 @@ const isPreview = process.env.VITE_PREVIEW === 'true';
 
 export default defineConfig({
   // Base URL configuration for Vercel
-  base: process.env.NODE_ENV === 'production' ? '/frontend/dist/' : '/',
+  base: './',
   appType: 'spa',
   
   // Development server configuration
