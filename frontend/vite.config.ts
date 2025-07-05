@@ -19,6 +19,11 @@ export default defineConfig({
     open: true,
     host: true, // Listen on all network interfaces
     strictPort: true,
+    headers: {
+      'Content-Type': 'application/javascript',
+      'X-Content-Type-Options': 'nosniff',
+      'Cache-Control': 'public, max-age=0, must-revalidate'
+    },
     hmr: {
       clientPort: 3000,
       protocol: 'ws',
@@ -41,11 +46,28 @@ export default defineConfig({
     sourcemap: isPreview ? true : false,
     minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
+    // Ensure files are properly named with hashes for cache busting
+    manifest: true,
+    // Don't use dynamic imports for chunks to avoid MIME type issues
+    dynamicImportVarsOptions: {
+      exclude: [],
+    },
+    // Ensure proper MIME types for all assets
+    assetsInlineLimit: 0,
     rollupOptions: {
       output: {
-        entryFileNames: 'assets/[name]-[hash].js',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        assetFileNames: 'assets/[name]-[hash][extname]',
+        // Ensure consistent file naming
+        entryFileNames: 'assets/[name].[hash].js',
+        chunkFileNames: 'assets/[name].[hash].js',
+        assetFileNames: (assetInfo) => {
+          if (!assetInfo.name) return 'assets/[name].[hash][extname]';
+          const info = assetInfo.name.split('.');
+          const ext = info[info.length - 1].toLowerCase();
+          if (ext === 'css') {
+            return 'assets/[name].[hash].css';
+          }
+          return 'assets/[name].[hash][extname]';
+        },
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
           vendor: ['framer-motion', 'lucide-react'],
