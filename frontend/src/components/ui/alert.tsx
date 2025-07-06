@@ -1,6 +1,10 @@
 import * as React from "react"
+import type { 
+  ForwardRefExoticComponent, 
+  HTMLAttributes, 
+  RefAttributes 
+} from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
@@ -19,7 +23,7 @@ const alertVariants = cva(
   }
 )
 
-const Alert = React.forwardRef<
+export const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
 >(({ className, variant, ...props }, ref) => (
@@ -29,10 +33,18 @@ const Alert = React.forwardRef<
     className={cn(alertVariants({ variant }), className)}
     {...props}
   />
-))
-Alert.displayName = "Alert"
+)) as ForwardRefExoticComponent<
+  HTMLAttributes<HTMLDivElement> & 
+  VariantProps<typeof alertVariants> & 
+  RefAttributes<HTMLDivElement>
+> & {
+  Title: typeof AlertTitle;
+  Description: typeof AlertDescription;
+};
 
-const AlertTitle = React.forwardRef<
+Alert.displayName = "Alert";
+
+export const AlertTitle = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
@@ -41,10 +53,11 @@ const AlertTitle = React.forwardRef<
     className={cn("mb-1 font-medium leading-none tracking-tight", className)}
     {...props}
   />
-))
-AlertTitle.displayName = "AlertTitle"
+));
 
-const AlertDescription = React.forwardRef<
+AlertTitle.displayName = "AlertTitle";
+
+export const AlertDescription = React.forwardRef<
   HTMLParagraphElement,
   React.HTMLAttributes<HTMLParagraphElement>
 >(({ className, ...props }, ref) => (
@@ -53,7 +66,10 @@ const AlertDescription = React.forwardRef<
     className={cn("text-sm [&_p]:leading-relaxed", className)}
     {...props}
   />
-))
-AlertDescription.displayName = "AlertDescription"
+));
 
-export { Alert, AlertTitle, AlertDescription }
+AlertDescription.displayName = "AlertDescription";
+
+// Add static properties to Alert
+Alert.Title = AlertTitle;
+Alert.Description = AlertDescription;

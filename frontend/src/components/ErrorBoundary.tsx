@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { Alert } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 
 interface Props {
@@ -32,10 +32,10 @@ export class ErrorBoundary extends Component<Props, State> {
         <div className="min-h-screen flex items-center justify-center p-4">
           <Alert variant="destructive" className="max-w-md">
             <AlertCircle className="h-4 w-4" />
-            <AlertTitle>Something went wrong</AlertTitle>
-            <AlertDescription>
+            <Alert.Title>Something went wrong</Alert.Title>
+            <Alert.Description>
               An unexpected error occurred. Please try refreshing the page or contact support if the problem persists.
-            </AlertDescription>
+            </Alert.Description>
           </Alert>
         </div>
       );
