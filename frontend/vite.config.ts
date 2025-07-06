@@ -15,7 +15,9 @@ export default defineConfig({
   publicDir: 'public',
   define: {
     __DEFINES__: JSON.stringify({}),
-    global: 'window'
+    global: 'window',
+    __HMR_CONFIG_NAME__: JSON.stringify('vite'),
+    'import.meta.env.HMR': 'true'
   },
   
   // Development server configuration
@@ -40,10 +42,19 @@ export default defineConfig({
     assetsDir: 'assets',
     emptyOutDir: true,
     copyPublicDir: true,
-    sourcemap: true,
-    minify: 'esbuild',
+    // Disable sourcemaps in production
+    sourcemap: false,
+    // Use terser for better minification in production
+    minify: 'terser',
     chunkSizeWarningLimit: 1000,
     manifest: true,
+    terserOptions: {
+      compress: {
+        // Remove debugger and console logs in production
+        drop_console: true,
+        drop_debugger: true,
+      },
+    },
     rollupOptions: {
       output: {
         manualChunks: {
