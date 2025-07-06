@@ -15,7 +15,6 @@ export default defineConfig({
   publicDir: 'public',
   define: {
     __DEFINES__: JSON.stringify({}),
-    __HMR_CONFIG_NAME__: JSON.stringify('vite-hmr'),
     global: 'window'
   },
   
@@ -62,16 +61,16 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
-      strategies: 'generateSW',
-      srcDir: 'dist',
+      strategies: 'injectManifest',
+      srcDir: 'src',
       filename: 'sw.js',
       includeAssets: [
         'favicon.ico',
         'apple-touch-icon.png',
         'masked-icon.svg',
-        'robots.txt',
-        'site.webmanifest'
+        'robots.txt'
       ],
+
       manifest: {
         name: 'Company SaaS',
         short_name: 'CompanySaaS',
@@ -99,16 +98,33 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
         navigateFallback: isPreview ? 'index.html' : '/index.html',
         navigateFallbackDenylist: [/^\/api/, /\/.*\/api\//],
+        runtimeCaching: [
+          {
+            urlPattern: new RegExp('^https?://.*'),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ],
         clientsClaim: true,
         skipWaiting: true,
         cleanupOutdatedCaches: true,
         sourcemap: true
       },
       devOptions: {
-        enabled: isPreview,
+        enabled: true, // Enable PWA in development
         type: 'module',
         navigateFallback: 'index.html',
-        suppressWarnings: true
+        suppressWarnings: true,
+        disableRuntimeConfig: true
       }
     })
   ],
