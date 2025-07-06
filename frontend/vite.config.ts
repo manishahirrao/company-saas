@@ -84,12 +84,7 @@ export default defineConfig({
   
   // Plugins
   plugins: [
-    react({
-      jsxImportSource: '@emotion/react',
-      babel: {
-        plugins: ['@emotion/babel-plugin']
-      }
-    }),
+    react(),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',

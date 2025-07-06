@@ -55,6 +55,8 @@
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.28.0",
+    "@emotion/babel-plugin": "^11.13.5",
     "@supabase/supabase-js": "^2.50.2",
     "@types/node": "^22.15.32",
     "@types/react": "^18.3.23",
