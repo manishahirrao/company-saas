@@ -70,6 +70,10 @@ export default defineConfig({
         'masked-icon.svg',
         'robots.txt'
       ],
+      injectManifest: {
+        injectionPoint: 'self.__WB_MANIFEST',
+        maximumFileSizeToCacheInBytes: 5000000, // 5MB
+      },
 
       manifest: {
         name: 'Company SaaS',
