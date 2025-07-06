@@ -68,11 +68,38 @@ export default defineConfig({
         'favicon.ico',
         'apple-touch-icon.png',
         'masked-icon.svg',
-        'robots.txt'
+        'robots.txt',
+        'icon-192x192.png',
+        'icon-512x512.png'
       ],
       injectManifest: {
         injectionPoint: 'self.__WB_MANIFEST',
         maximumFileSizeToCacheInBytes: 5000000, // 5MB
+      },
+      workbox: {
+        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
+        navigateFallback: isPreview ? 'index.html' : '/index.html',
+        navigateFallbackDenylist: [/^\/api/, /\/.*\/api\//],
+        sourcemap: true,
+        cleanupOutdatedCaches: true,
+        skipWaiting: true,
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            urlPattern: new RegExp('^https?://.*'),
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'api-cache',
+              expiration: {
+                maxEntries: 200,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              },
+              cacheableResponse: {
+                statuses: [0, 200]
+              }
+            }
+          }
+        ]
       },
 
       manifest: {
@@ -98,31 +125,7 @@ export default defineConfig({
           }
         ]
       },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
-        navigateFallback: isPreview ? 'index.html' : '/index.html',
-        navigateFallbackDenylist: [/^\/api/, /\/.*\/api\//],
-        runtimeCaching: [
-          {
-            urlPattern: new RegExp('^https?://.*'),
-            handler: 'NetworkFirst',
-            options: {
-              cacheName: 'api-cache',
-              expiration: {
-                maxEntries: 200,
-                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
-              },
-              cacheableResponse: {
-                statuses: [0, 200]
-              }
-            }
-          }
-        ],
-        clientsClaim: true,
-        skipWaiting: true,
-        cleanupOutdatedCaches: true,
-        sourcemap: true
-      },
+
       devOptions: {
         enabled: true, // Enable PWA in development
         type: 'module',

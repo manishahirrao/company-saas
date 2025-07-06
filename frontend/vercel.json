@@ -6,7 +6,7 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "dist",
-        "installCommand": "npm install",
+        "installCommand": "npm install --legacy-peer-deps",
         "buildCommand": "npm run build"
       }
     }
@@ -21,19 +21,34 @@
       "dest": "/favicon.ico"
     },
     {
-      "src": "^/icon.svg",
-      "dest": "/icon.svg"
+      "src": "^/icon-192x192.png",
+      "dest": "/icon-192x192.png"
+    },
+    {
+      "src": "^/icon-512x512.png",
+      "dest": "/icon-512x512.png"
     },
     {
       "src": "^/manifest.webmanifest",
       "dest": "/manifest.webmanifest"
     },
     {
-      "src": "^/service-worker.js",
+      "src": "^/sw.js",
       "headers": {
         "Cache-Control": "no-cache, no-store, must-revalidate"
       },
-      "dest": "/service-worker.js"
+      "dest": "/sw.js"
+    },
+    {
+      "src": "^/workbox-(.*)",
+      "dest": "/workbox-$1"
+    },
+    {
+      "src": "^/assets/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webmanifest))",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "dest": "/assets/$1"
     },
     {
       "src": "^/(.*\\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|webmanifest))",
