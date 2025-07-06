@@ -66,16 +66,16 @@ export default defineConfig({
       includeAssets: [
         'favicon.ico',
         'apple-touch-icon.png',
-        'icon.svg',
+        'masked-icon.svg',
         'robots.txt',
         'site.webmanifest'
       ],
       manifest: {
-        name: 'VORTEX AI Platform',
-        short_name: 'VORTEX',
-        description: 'Enterprise-grade AI automation platform for modern businesses',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
+        name: 'Company SaaS',
+        short_name: 'CompanySaaS',
+        description: 'Company SaaS Application',
+        theme_color: '#ffffff',
+        background_color: '#ffffff',
         display: 'standalone',
         start_url: '/',
         icons: [
