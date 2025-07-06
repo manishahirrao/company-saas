@@ -15,6 +15,8 @@ export default defineConfig({
   publicDir: 'public',
   define: {
     __DEFINES__: JSON.stringify({}),
+    __HMR_CONFIG_NAME__: JSON.stringify('vite-hmr'),
+    global: 'window'
   },
   
   // Development server configuration
