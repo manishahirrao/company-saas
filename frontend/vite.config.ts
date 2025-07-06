@@ -10,7 +10,7 @@ const isPreview = process.env.VITE_PREVIEW === 'true';
 
 export default defineConfig({
   // Base URL configuration for Vercel
-  base: '/',
+  base: process.env.NODE_ENV === 'production' ? '/' : '/',
   appType: 'spa',
   
   // Development server configuration
@@ -43,7 +43,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
-    sourcemap: isPreview ? true : false,
+    sourcemap: true,
     minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
     manifest: true,
@@ -82,7 +82,12 @@ export default defineConfig({
   
   // Plugins
   plugins: [
-    react(),
+    react({
+      jsxImportSource: '@emotion/react',
+      babel: {
+        plugins: ['@emotion/babel-plugin']
+      }
+    }),
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: 'auto',
