@@ -12,6 +12,7 @@ export default defineConfig({
   // Base URL configuration for Vercel
   base: process.env.NODE_ENV === 'production' ? '/' : '/',
   appType: 'spa',
+  publicDir: 'public',
   
   // Development server configuration
   server: {
@@ -43,6 +44,7 @@ export default defineConfig({
     outDir: 'dist',
     assetsDir: 'assets',
     emptyOutDir: true,
+    copyPublicDir: true,
     sourcemap: true,
     minify: 'esbuild',
     chunkSizeWarningLimit: 1000,
