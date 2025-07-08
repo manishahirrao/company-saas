@@ -15,6 +15,8 @@ export default defineConfig({
   publicDir: 'public',
   define: {
     __DEFINES__: JSON.stringify({}),
+    __BASE__: JSON.stringify(process.env.VITE_BASE_URL), // Legacy: migrate all code to use import.meta.env.VITE_BASE_URL
+    __SERVER_HOST__: JSON.stringify(process.env.VITE_SERVER_HOST), // Legacy: migrate all code to use import.meta.env.VITE_SERVER_HOST
     global: 'window',
     __HMR_CONFIG_NAME__: JSON.stringify('vite'),
     'import.meta.env.HMR': 'true'
