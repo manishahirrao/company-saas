@@ -2,6 +2,7 @@ services:
   - type: web
     name: company-saas-backend
     env: node
+    root: backend
     buildCommand: npm install
     startCommand: npm run build && npm start
     envVars:
@@ -23,5 +24,9 @@ services:
         fromDatabase:
           name: supabase
           property: serviceRoleKey
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_SECRET
+        generateValue: true
     healthCheckPath: /api/health
     autoDeploy: true
