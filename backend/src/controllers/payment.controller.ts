@@ -43,7 +43,7 @@ export const createSubscription = async (req: Request, res: Response) => {
       if (error) throw error;
 
       // Update user's credits
-      await updateUserCredits(userId, plan.credits, 'subscription_created', subscription.id);
+      await updateUserCredits(userId, plan.credits, 'subscription_created', subscription.id as string);
       
       return res.json({ subscription, message: 'Free subscription activated successfully' });
     }
@@ -75,7 +75,7 @@ export const createSubscription = async (req: Request, res: Response) => {
         email: req.user?.email || '',
       },
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Subscription creation error:', error);
     res.status(500).json({ error: 'Failed to create subscription' });
   }
@@ -85,9 +85,9 @@ export const createOrder = async (req: Request, res: Response) => {
   try {
     const { packageId, userId, type, serviceId } = req.body;
     
-    let amount = 0;
-    let credits = 0;
-    let description = '';
+    let amount: number;
+    let credits: number;
+    let description: string;
 
     if (type === 'credits') {
       const creditPackage = CREDIT_PACKAGES.find(pkg => pkg.id === packageId);
@@ -109,7 +109,13 @@ export const createOrder = async (req: Request, res: Response) => {
         return res.status(400).json({ error: 'Invalid service ID' });
       }
       
-      amount = service.price;
+      // Ensure the price is a number
+      const servicePrice = Number(service.price);
+      if (isNaN(servicePrice)) {
+        return res.status(500).json({ error: 'Invalid service price' });
+      }
+      
+      amount = servicePrice;
       description = `Payment for HR Service: ${service.name}`;
     } else {
       return res.status(400).json({ error: 'Invalid payment type' });

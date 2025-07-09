@@ -8,17 +8,17 @@ yarn.lock
 
 # Build files
 /dist
+/dist/
 /build
+/build/
 /coverage
+/coverage/
 
 # Environment files
 .env
 .env.*
 !.env.example
-
-# Logs
-/logs
-*.log
+!.env.production
 
 # Editor directories and files
 .idea/
