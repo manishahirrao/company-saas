@@ -32,6 +32,7 @@ export default defineConfig(({ mode }) => {
     publicDir: 'public',
     cacheDir: '.vite', // Clear cache directory
     define: {
+      __BASE__: JSON.stringify(base),
       __DEFINES__: JSON.stringify({}),
       // Remove legacy __BASE__ and use import.meta.env.VITE_BASE_URL directly
       __SERVER_HOST__: JSON.stringify(env.VITE_SERVER_HOST || 'http://localhost:3002'),
