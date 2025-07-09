@@ -1,5 +1,7 @@
 declare module 'razorpay' {
-  interface RazorpayOptions {
+  // Export interfaces at the top level
+export interface RazorpayOptions {
+  // RazorpayOptions is now at the top level
     key_id: string;
     key_secret: string;
   }
@@ -171,5 +173,107 @@ declare module 'razorpay' {
     };
   }
 
+  
+  // Export the Razorpay class as the default export
   export = Razorpay;
+}
+
+// Export all types for direct import
+export interface RazorpayOptions {
+  key_id: string;
+  key_secret: string;
+}
+
+export interface RazorpayOrder {
+  amount: number;
+  currency: string;
+  receipt: string;
+  notes?: Record<string, any>;
+}
+
+export interface RazorpayPayment {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  order_id: string;
+  invoice_id: string | null;
+  international: boolean;
+  method: string;
+  amount_refunded: number;
+  refund_status: string | null;
+  captured: boolean;
+  description: string;
+  card_id: string | null;
+  bank: string | null;
+  wallet: string | null;
+  vpa: string | null;
+  email: string;
+  contact: string;
+  notes: Record<string, any>;
+  fee: number;
+  tax: number;
+  error_code: string | null;
+  error_description: string | null;
+  error_source: string | null;
+  error_step: string | null;
+  error_reason: string | null;
+  created_at: number;
+}
+
+export interface RazorpaySubscription {
+  id: string;
+  entity: string;
+  plan_id: string;
+  status: string;
+  current_start: number | null;
+  current_end: number | null;
+  ended_at: number | null;
+  quantity: number;
+  notes: Record<string, any>;
+  charge_at: number;
+  start_at: number;
+  end_at: number;
+  auth_attempts: number;
+  total_count: number;
+  paid_count: number;
+  customer_notify: boolean;
+  created_at: number;
+  expire_by: number;
+  short_url: string;
+  has_scheduled_changes: boolean;
+  change_scheduled_at: number | null;
+  source: string;
+  offer_id: string | null;
+  remaining_count: number;
+}
+
+export interface RazorpayPlan {
+  id: string;
+  entity: string;
+  interval: number;
+  period: 'daily' | 'weekly' | 'monthly' | 'yearly';
+  item: {
+    name: string;
+    amount: number;
+    currency: string;
+    description: string;
+  };
+  name: string;
+  amount: number;
+  currency: string;
+  description: string;
+  notes: Record<string, any>;
+  created_at: number;
+}
+
+export interface RazorpayCustomer {
+  id: string;
+  entity: string;
+  name: string;
+  email: string;
+  contact: string;
+  gstin: string | null;
+  notes: Record<string, any>;
+  created_at: number;
 }

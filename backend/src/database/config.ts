@@ -89,10 +89,13 @@ export const getClient = async () => {
   };
   
   // Override the query method to track the last query
-  client.query = (...args: any[]) => {
-    (client as any).lastQuery = args[0];
-    return query(...args);
-  };
+  const originalQuery = client.query;
+  client.query = function(...args: any[]) {
+    // First argument is either query text or config object
+    const queryConfig = typeof args[0] === 'string' ? args[0] : args[0]?.text || '';
+    (client as any).lastQuery = queryConfig;
+    return originalQuery.apply(this, args as any);
+  } as typeof originalQuery;
   
   return client;
 };

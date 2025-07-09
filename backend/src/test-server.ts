@@ -1,7 +1,13 @@
-import express from 'express';
+import express, { type Express } from 'express';
 import cors from 'cors';
+import { Server } from 'http';
 
-export function createTestServer(port = 3001) {
+interface TestServer {
+  app: Express;
+  server: Server;
+}
+
+export function createTestServer(port = 3001): TestServer {
   const app = express();
   
   // Middleware

@@ -1,12 +1,17 @@
 import winston, { format } from 'winston';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import 'winston-daily-rotate-file';
 
 const { combine, timestamp, printf, colorize, errors } = format;
 
+// Get the current module's directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Create logs directory if it doesn't exist
-const logDir = path.join(__dirname, '../../logs');
+const logDir = path.join(path.dirname(path.dirname(__dirname)), 'logs');
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir, { recursive: true });
 }

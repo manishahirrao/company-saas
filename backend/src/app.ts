@@ -7,9 +7,10 @@ import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 import { createClient } from '@supabase/supabase-js';
 import { supabaseUrl, supabaseServiceKey, initializeDatabase } from './config/database.js';
-import { logger, stream } from './config/logger.js';
 import { config } from 'dotenv';
 import path from 'path';
+import { fileURLToPath } from 'url';
+import { logger, stream } from './config/logger.js';
 
 // Import available routes
 import authRouter from './api/routes/auth.routes.js';
@@ -139,11 +140,13 @@ const securityMiddleware = {
   }
 };
 
-// Load environment variables
-config({ path: path.join(__dirname, '../../.env') });
+// Get the current module's directory
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-// Initialize Supabase client
-export const supabase = createClient(supabaseUrl, supabaseServiceKey);
+// Load environment variables
+const envPath = path.join(path.dirname(path.dirname(__dirname)), '.env');
+config({ path: envPath });
 
 class App {
   public app: Application;

@@ -38,17 +38,126 @@ if (missingVars.length > 0) {
   }
 }
 
-// Initialize Razorpay
-export const razorpay = new Razorpay({
-  key_id: process.env.RAZORPAY_KEY_ID || '',
-  key_secret: process.env.RAZORPAY_KEY_SECRET || ''
-});
+// Initialize Razorpay with dummy values in development if not provided
+type RazorpayInstance = Razorpay;
+let razorpayInstance: RazorpayInstance | null = null;
+
+// Create a dummy Razorpay instance for development
+const createDummyRazorpay = (): RazorpayInstance => {
+  console.warn('Razorpay credentials not found. Using dummy instance for development.');
+  return {
+    customers: {
+      create: async () => ({ id: 'dummy_customer_id' }),
+      fetch: async () => ({ id: 'dummy_customer_id' }),
+      edit: async () => ({}),
+      all: async () => ({ items: [] })
+    },
+    plans: {
+      create: async () => ({ id: 'dummy_plan_id' }),
+      fetch: async () => ({ id: 'dummy_plan_id' }),
+      all: async () => ({ items: [] })
+    },
+    orders: {
+      create: async () => ({ id: 'dummy_order_id' }),
+      fetch: async () => ({ id: 'dummy_order_id' }),
+      all: async () => ({ items: [] })
+    },
+    subscriptions: {
+      create: async () => ({ id: 'dummy_subscription_id' }),
+      fetch: async () => ({ id: 'dummy_subscription_id' }),
+      all: async () => ({ items: [] }),
+      cancel: async () => ({}),
+      createAddon: async () => ({})
+    },
+    payments: {
+      capture: async () => ({}),
+      fetch: async () => ({}),
+      all: async () => ({ items: [] }),
+      refund: async () => ({}),
+      transfer: async () => ({}),
+      bankTransfer: async () => ({}),
+      fetchCardDetails: async () => ({}),
+      fetchPaymentDowntime: async () => ({}),
+      fetchPaymentDowntimeById: async () => ({}),
+      fetchMultipleRefund: async () => ({}),
+      fetchRefund: async () => ({})
+    }
+  } as unknown as RazorpayInstance;
+};
+
+try {
+  if (process.env.NODE_ENV !== 'production' && 
+      (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET)) {
+    razorpayInstance = createDummyRazorpay();
+  } else if (process.env.RAZORPAY_KEY_ID && process.env.RAZORPAY_KEY_SECRET) {
+    razorpayInstance = new Razorpay({
+      key_id: process.env.RAZORPAY_KEY_ID,
+      key_secret: process.env.RAZORPAY_KEY_SECRET
+    });
+  } else {
+    throw new Error('Missing Razorpay credentials');
+  }
+} catch (error) {
+  console.error('Failed to initialize Razorpay:', error);
+  if (process.env.NODE_ENV === 'production') {
+    throw error;
+  } else {
+    razorpayInstance = createDummyRazorpay();
+  }
+}
+
+export const razorpay = razorpayInstance!;
 
 // Initialize Supabase client
-export const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_ROLE_KEY || ''
-);
+import { SupabaseClient } from '@supabase/supabase-js';
+
+type SupabaseClientType = ReturnType<typeof createClient>;
+let supabaseInstance: SupabaseClientType | null = null;
+
+// Create a dummy Supabase client for development
+const createDummySupabase = (): SupabaseClientType => {
+  console.warn('Supabase credentials not found. Using dummy client for development.');
+  return {
+    from: () => ({
+      select: () => Promise.resolve({ data: [], error: null }),
+      insert: () => Promise.resolve({ data: [], error: null }),
+      update: () => Promise.resolve({ data: [], error: null }),
+      delete: () => Promise.resolve({ data: [], error: null }),
+      upsert: () => Promise.resolve({ data: [], error: null }),
+      on: () => ({ subscribe: () => ({}) })
+    }),
+    auth: {
+      signIn: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+      signUp: () => Promise.resolve({ data: { user: null, session: null }, error: null }),
+      signOut: () => Promise.resolve({ error: null }),
+      user: () => Promise.resolve({ data: { user: null }, error: null }),
+      session: () => Promise.resolve({ data: { session: null }, error: null })
+    },
+    rpc: () => Promise.resolve({ data: null, error: null })
+  } as unknown as SupabaseClientType;
+};
+
+try {
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    supabaseInstance = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+  } else if (process.env.NODE_ENV !== 'production') {
+    supabaseInstance = createDummySupabase();
+  } else {
+    throw new Error('Missing Supabase credentials in production');
+  }
+} catch (error) {
+  console.error('Failed to initialize Supabase:', error);
+  if (process.env.NODE_ENV === 'production') {
+    throw error;
+  } else {
+    supabaseInstance = createDummySupabase();
+  }
+}
+
+export const supabase = supabaseInstance!;
 
 // Webhook secret for verifying webhook signatures
 export const WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || '';

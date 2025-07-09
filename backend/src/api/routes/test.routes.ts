@@ -1,10 +1,10 @@
-import { Router, Request, Response } from 'express';
+import { Router, type Request, type Response, type NextFunction, type Express } from 'express';
 import { razorpay, CREDIT_PACKAGES } from '../../config/razorpay.js';
 import { validateRequest } from '../../middleware/validation.js';
 import { body } from 'express-validator';
 import { logger } from '../../config/logger.js';
 
-const router = Router();
+const router: ReturnType<typeof Router> = Router();
 
 // Test Razorpay connection
 router.get('/razorpay-test', async (_req: Request, res: Response) => {
@@ -59,7 +59,7 @@ router.post(
       }
 
       // Create a test order
-      const order = await razorpay.orders.create({
+      const orderData = {
         amount: creditPackage.amount * 100, // Convert to paise
         currency: 'INR',
         receipt: `test_rcpt_${Date.now()}`,
@@ -67,20 +67,35 @@ router.post(
           userId,
           packageId,
           credits: creditPackage.credits,
-          test: true
+          test: 'true' // Convert boolean to string for Razorpay notes
         },
-      });
+      };
 
-      logger.info(`Test order created: ${order.id} for amount ${order.amount}`);
+      const order = await razorpay.orders.create(orderData);
+      
+      // Ensure we have the order data before proceeding
+      if (!order) {
+        throw new Error('Failed to create test order');
+      }
+
+      // Type assertion to ensure we have the correct shape
+      const orderResponse = order as {
+        id: string;
+        amount: number;
+        currency: string;
+        status: string;
+      };
+
+      logger.info(`Test order created: ${orderResponse.id} for amount ${orderResponse.amount}`);
 
       return res.status(201).json({
         success: true,
         message: 'Test order created successfully',
         data: {
-          orderId: order.id,
-          amount: order.amount,
-          currency: order.currency,
-          status: order.status,
+          orderId: orderResponse.id,
+          amount: orderResponse.amount,
+          currency: orderResponse.currency,
+          status: orderResponse.status,
           package: creditPackage
         }
       });

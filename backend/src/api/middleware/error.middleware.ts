@@ -1,6 +1,16 @@
-import type { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction, RequestHandler } from 'express';
 import { isCelebrateError } from 'celebrate';
 import { logger } from '../../config/logger.js';
+
+export const asyncHandler = (fn: RequestHandler) => 
+  (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };
+
+export const notFoundHandler = (req: Request, res: Response, next: NextFunction) => {
+  const error = new CustomError(`Not Found - ${req.originalUrl}`, 404);
+  next(error);
+};
 
 export interface ValidationError {
   param?: string;

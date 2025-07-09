@@ -10,8 +10,8 @@ config({ path: path.join(__dirname, '../../.env') });
 export const JWT_CONFIG = {
   ACCESS_TOKEN_SECRET: process.env.JWT_ACCESS_SECRET || 'your-access-token-secret',
   REFRESH_TOKEN_SECRET: process.env.JWT_REFRESH_SECRET || 'your-refresh-token-secret',
-  ACCESS_TOKEN_EXPIRES_IN: process.env.JWT_ACCESS_EXPIRES_IN || '15m',
-  REFRESH_TOKEN_EXPIRES_IN: process.env.JWT_REFRESH_EXPIRES_IN || '7d',
+  ACCESS_TOKEN_EXPIRES_IN: '15m',
+  REFRESH_TOKEN_EXPIRES_IN: '7d',
   ISSUER: process.env.JWT_ISSUER || 'postpilot-api',
   AUDIENCE: process.env.JWT_AUDIENCE || 'postpilot-app',
 };
@@ -40,11 +40,25 @@ export const generateToken = (
     ...payload,
   };
 
-  return jwt.sign(tokenPayload, secret, {
-    expiresIn,
+  // Convert string duration to seconds for better type compatibility
+  const expiresInSeconds = (): number => {
+    const duration = type === 'access' ? JWT_CONFIG.ACCESS_TOKEN_EXPIRES_IN : JWT_CONFIG.REFRESH_TOKEN_EXPIRES_IN;
+    if (typeof duration === 'number') return duration;
+    
+    const value = parseInt(duration);
+    if (duration.endsWith('d')) return value * 24 * 60 * 60; // days to seconds
+    if (duration.endsWith('h')) return value * 60 * 60;      // hours to seconds
+    if (duration.endsWith('m')) return value * 60;           // minutes to seconds
+    return value;                                            // assume seconds
+  };
+
+  const options: jwt.SignOptions = {
+    expiresIn: expiresInSeconds(),
     issuer: JWT_CONFIG.ISSUER,
     audience: JWT_CONFIG.AUDIENCE,
-  });
+  };
+  
+  return jwt.sign(tokenPayload, secret, options);
 };
 
 /**

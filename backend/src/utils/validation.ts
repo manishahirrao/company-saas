@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import type { Request, Response, NextFunction } from 'express';
 import Joi from 'joi';
 import { ApiResponseHandler } from './apiResponse.js';
 
@@ -132,9 +132,18 @@ export const validateFilesUpload = (options: {
   } = options;
 
   return (req: Request, res: Response, next: NextFunction) => {
-    const files = req.files as Express.Multer.File[];
+    let files: Express.Multer.File[] = [];
+    
+    if (req.files) {
+      if (Array.isArray(req.files)) {
+        files = req.files;
+      } else {
+        // Convert files object to array
+        files = Object.values(req.files).flat();
+      }
+    }
 
-    if ((!files || files.length === 0) && isRequired) {
+    if (files.length === 0 && isRequired) {
       return ApiResponseHandler.sendError(
         res,
         'At least one file is required',

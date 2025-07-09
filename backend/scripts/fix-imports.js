@@ -1,10 +1,13 @@
-const fs = require('fs');
-const path = require('path');
+import { readFileSync, writeFileSync, readdirSync, statSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
-const distDir = path.join(__dirname, '../dist');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const distDir = join(__dirname, '../dist');
 
 function processFile(filePath) {
-  let content = fs.readFileSync(filePath, 'utf8');
+  let content = readFileSync(filePath, 'utf8');
   
   // Fix .js extensions in imports
   content = content.replace(/(from\s+['"]\.*?)(?<!\.js)(['"])/g, '$1.js$2');
@@ -12,15 +15,15 @@ function processFile(filePath) {
   // Fix directory imports
   content = content.replace(/(from\s+['"]\.*?\/)(['"])/g, '$1index.js$2');
   
-  fs.writeFileSync(filePath, content, 'utf8');
+  writeFileSync(filePath, content, 'utf8');
 }
 
 function processDirectory(directory) {
-  const files = fs.readdirSync(directory);
+  const files = readdirSync(directory);
   
   files.forEach(file => {
-    const fullPath = path.join(directory, file);
-    const stat = fs.statSync(fullPath);
+    const fullPath = join(directory, file);
+    const stat = statSync(fullPath);
     
     if (stat.isDirectory()) {
       processDirectory(fullPath);
@@ -32,4 +35,4 @@ function processDirectory(directory) {
 
 console.log('Fixing imports in compiled files...');
 processDirectory(distDir);
-console.log('Import fixes completed!');
+console.log('Import fixes completed successfully!');

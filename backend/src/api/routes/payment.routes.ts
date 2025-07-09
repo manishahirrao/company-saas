@@ -1,9 +1,9 @@
-import { Router } from 'express';
+import { Router, type Express, type Request, type Response, type NextFunction } from 'express';
 import { createSubscription, createOrder, handleWebhook } from '../../controllers/payment.controller.js';
 import { validateRequest } from '../../middleware/validation.js';
 import { body } from 'express-validator';
 
-const router = Router();
+const router: ReturnType<typeof Router> = Router();
 
 // Create a new subscription
 router.post(

@@ -1,11 +1,11 @@
-import { Router } from 'express';
+import { Router, type Express, type Request, type Response, type NextFunction } from 'express';
 import { body } from 'express-validator';
 import Joi from 'joi';
 import { validateBody } from '../middleware/validation.middleware.js';
 import { commonValidators } from '../../utils/validation.js';
 import * as authController from '../controllers/auth.controller.js';
 
-const router = Router();
+const router: ReturnType<typeof Router> = Router();
 
 // Register route
 router.post(
