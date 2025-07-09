@@ -34,11 +34,9 @@ export default defineConfig(({ mode }) => {
     define: {
       __BASE__: JSON.stringify(base),
       __DEFINES__: JSON.stringify({}),
-      // Remove legacy __BASE__ and use import.meta.env.VITE_BASE_URL directly
+      // Use import.meta.env.VITE_BASE_URL directly instead of __BASE__
       __SERVER_HOST__: JSON.stringify(env.VITE_SERVER_HOST || 'http://localhost:3002'),
-      global: 'window',
-      __HMR_CONFIG_NAME__: JSON.stringify('vite'),
-      'import.meta.env.HMR': 'true'
+      global: 'window'
     },
     
     // Development server configuration
