@@ -1,16 +1,52 @@
+# Render Blueprint for PostPilot AI Hub Backend
+# Reference: https://render.com/docs/blueprint-spec
+
 services:
   - type: web
     name: company-saas-backend
     env: node
-    buildCommand: npm install
-    startCommand: npm run build && npm start
+    region: oregon  # Choose your preferred region
+    plan: free  # or 'starter', 'standard', 'plus' for paid plans
+    
+    # Build configuration
+    buildCommand: |
+      npm install --legacy-peer-deps
+      npm run build
+    
+    # Start command
+    startCommand: node --enable-source-maps dist/index.js
+    
+    # Health check
+    healthCheckPath: /api/health
+    healthCheckTimeout: 10s
+    
+    # Auto-deploy from main branch
+    autoDeploy: true
+    branch: main
+    
+    # Environment variables
     envVars:
+      # Application
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 10000
+        value: 5001
       - key: CORS_ORIGIN
         value: https://company-saas-blvpjp5hp-manishs-projects-79623ce3.vercel.app
+      
+      # JWT Authentication
+      - key: JWT_SECRET
+        generateValue: true
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 30d
+      - key: SESSION_SECRET
+        generateValue: true
+        sync: false
+      
+      # Supabase
       - key: NEXT_PUBLIC_SUPABASE_URL
         fromDatabase:
           name: supabase
@@ -23,5 +59,53 @@ services:
         fromDatabase:
           name: supabase
           property: serviceRoleKey
-    healthCheckPath: /api/health
-    autoDeploy: true
+      
+      # Email (configure these in Render dashboard)
+      - key: SMTP_HOST
+        value: smtp.example.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_SECURE
+        value: 'false'
+      - key: SMTP_USER
+        value: your-email@example.com
+      - key: SMTP_PASS
+        value: your-email-password
+      - key: SMTP_FROM
+        value: noreply@example.com
+      
+      # Razorpay (configure these in Render dashboard)
+      - key: RAZORPAY_KEY_ID
+        value: your_razorpay_key_id
+      - key: RAZORPAY_KEY_SECRET
+        value: your_razorpay_key_secret
+      - key: RAZORPAY_WEBHOOK_SECRET
+        value: your_razorpay_webhook_secret
+      
+      # Storage
+      - key: UPLOAD_DIR
+        value: /opt/render/project/backend/uploads
+      - key: MAX_FILE_SIZE
+        value: '10485760'  # 10MB
+      
+      # Rate Limiting
+      - key: RATE_LIMIT_WINDOW_MS
+        value: '900000'  # 15 minutes
+      - key: RATE_LIMIT_MAX_REQUESTS
+        value: '100'
+      
+      # Security
+      - key: TRUST_PROXY
+        value: '1'
+      - key: HELMET_ENABLED
+        value: 'true'
+      - key: CSP_ENABLED
+        value: 'true'
+    
+    # Instance sizing (for paid plans)
+    # instanceSize: free  # free, starter, standard, plus, pro, pro-plus, pro-max
+    
+    # Build environment variables (if needed)
+    # envVars:
+    #   - key: NPM_CONFIG_PRODUCTION
+    #     value: 'false'

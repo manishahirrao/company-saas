@@ -1,4 +1,4 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express, { Application, Request, Response, NextFunction, Router } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
@@ -16,6 +16,7 @@ import { logger, stream } from './config/logger.js';
 import authRouter from './api/routes/auth.routes.js';
 import testRouter from './api/routes/test.routes.js';
 import paymentRouter from './api/routes/payment.routes.js';
+import { healthRouter } from './api/health.js';
 import { errorHandler, notFoundHandler } from './api/middleware/error.middleware.js';
 
 // Type for HPP options
@@ -239,20 +240,14 @@ class App {
   }
 
   private initializeRoutes() {
-    // Health check endpoint
-    this.app.get('/health', (_req: Request, res: Response) => {
-      res.status(200).json({
-        status: 'success',
-        message: 'Server is running',
-        timestamp: new Date().toISOString(),
-      });
-    });
-
+    // Health check endpoint (mounted at the root)
+    this.app.use('', healthRouter);
+    
     // API routes
     this.app.use('/api/v1/auth', authRouter);
     this.app.use('/api/v1/payments', paymentRouter);
 
-    // Test routes - only available in development
+    // Test routes (only in development)
     if (this.env === 'development') {
       this.app.use('/api/v1/test', testRouter);
       logger.info('Test routes enabled at /api/v1/test');
@@ -342,5 +337,8 @@ class App {
     });
   }
 }
+
+// Export the Express app instance
+export const app = new App().app;
 
 export default App;
