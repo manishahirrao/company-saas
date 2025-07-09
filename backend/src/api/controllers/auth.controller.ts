@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
-import { supabase } from '../../../database/config';
-import { asyncHandler } from '../middleware/error.middleware';
+import { supabase } from '../../../database/config.js';
+import { asyncHandler } from '../middleware/error.middleware.js';
 
 export const register = asyncHandler(async (req: Request, res: Response) => {
   const errors = validationResult(req);

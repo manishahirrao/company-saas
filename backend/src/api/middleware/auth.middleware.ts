@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { supabase } from '../../../database/config';
-import { CustomError } from './error.middleware';
+import { supabase } from '../../../database/config.js';
+import { CustomError } from './error.middleware.js';
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {

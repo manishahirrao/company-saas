@@ -11,22 +11,14 @@ export default defineConfig(({ mode }) => {
   // Load env file based on `mode` in the current working directory
   const env = loadEnv(mode, process.cwd(), '');
   
-  // Log loaded environment variables for debugging
-  console.log('Vite Config - Loaded Environment Variables:', {
-    VITE_API_BASE_URL: env.VITE_API_BASE_URL || 'Not set',
-    VITE_SUPABASE_URL: env.VITE_SUPABASE_URL ? '***' : 'Not set',
-    VITE_SUPABASE_ANON_KEY: env.VITE_SUPABASE_ANON_KEY ? '***' : 'Not set',
-    NODE_ENV: process.env.NODE_ENV,
-    MODE: mode
-  });
-  
-  // Determine base URL based on environment
-  const base = env.VITE_BASE_URL || '/';
+  // Set base URL - use VITE_BASE_URL in production, default to '/' in development
+  const base = mode === 'production' ? env.VITE_BASE_URL || '/' : '/';
   const isDev = mode === 'development';
   
   // Log environment variables for debugging
-  console.log('Environment Variables:', {
-    VITE_API_BASE_URL: env.VITE_API_BASE_URL,
+  console.log('Vite Config - Environment Variables:', {
+    VITE_BASE_URL: base,
+    VITE_API_BASE_URL: env.VITE_API_BASE_URL || 'Not set',
     VITE_SUPABASE_URL: env.VITE_SUPABASE_URL ? '***' : 'Not set',
     VITE_SUPABASE_ANON_KEY: env.VITE_SUPABASE_ANON_KEY ? '***' : 'Not set',
     NODE_ENV: process.env.NODE_ENV,
