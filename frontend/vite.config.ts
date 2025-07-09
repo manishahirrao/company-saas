@@ -28,9 +28,10 @@ export default defineConfig(({ mode }) => {
     cacheDir: '.vite',
     define: {
       __BASE__: JSON.stringify(base),
-      __DEFINES__: JSON.stringify({}),
       __SERVER_HOST__: JSON.stringify(env.VITE_SERVER_HOST || 'http://localhost:3002'),
-      global: 'window'
+      // Ensure process.env is defined for compatibility
+      'process.env.NODE_ENV': JSON.stringify(mode),
+      'process.env': {}
     },
 
     server: {
@@ -38,11 +39,10 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       open: 'http://localhost:3003',
       strictPort: true,
-      hmr: isDev && {
-        protocol: 'ws',
-        host: 'localhost',
-        port: 3003
-      },
+      // HMR is automatically configured by Vite in development mode
+      hmr: isDev ? {
+        overlay: true
+      } : false,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',

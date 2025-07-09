@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite --config vite.config.simple.ts",
-    "build": "tsc && vite build",
-    "preview": "vite preview --host",
+    "build": "tsc && vite build --config vite.config.ts",
+    "preview": "vite preview --port 3003 --host",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "vercel-build": "npm run build",
-    "start": "vite preview --port 3000 --host",
+    "start": "vite preview --port 3003 --host",
     "clean": "rm -rf dist .vercel"
   },
   "engines": {
