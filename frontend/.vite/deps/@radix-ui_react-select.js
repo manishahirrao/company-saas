@@ -1,7 +1,7 @@
 "use client";
 import {
   VISUALLY_HIDDEN_STYLES
-} from "./chunk-YSCUJDZY.js";
+} from "./chunk-AILCI3M7.js";
 import {
   clamp
 } from "./chunk-TCQMTAGU.js";
@@ -14,50 +14,50 @@ import {
   Content,
   Root2,
   createPopperScope
-} from "./chunk-T3F3VOXG.js";
-import {
-  useDirection
-} from "./chunk-JWDMXHVH.js";
-import {
-  createCollection
-} from "./chunk-T6MQHAQ3.js";
-import "./chunk-SMFEHCPM.js";
+} from "./chunk-4H3QLOFS.js";
 import {
   Combination_default,
   FocusScope,
   hideOthers,
   useFocusGuards
-} from "./chunk-CCXAMAUU.js";
+} from "./chunk-ODGYCW27.js";
 import {
   DismissableLayer,
   Portal
-} from "./chunk-ZQ7N7MWR.js";
+} from "./chunk-Q3WPQ6NT.js";
 import {
   useId
-} from "./chunk-NX45TAAP.js";
+} from "./chunk-NTTUA5LP.js";
+import {
+  useDirection
+} from "./chunk-JWDMXHVH.js";
+import {
+  createCollection
+} from "./chunk-6QRW2GMA.js";
+import {
+  useCallbackRef
+} from "./chunk-PGJMDC7L.js";
+import "./chunk-O4HB3ZSY.js";
 import {
   composeEventHandlers,
   useControllableState
-} from "./chunk-GSYC6XG3.js";
-import {
-  useCallbackRef
-} from "./chunk-SW7TCIU5.js";
+} from "./chunk-HP44PDVO.js";
 import {
   useLayoutEffect2
-} from "./chunk-JFB3BJE6.js";
+} from "./chunk-MEWAP6LP.js";
 import {
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   createSlot,
   useComposedRefs
-} from "./chunk-33HT33LB.js";
+} from "./chunk-YVDCDBND.js";
 import {
   require_react_dom
-} from "./chunk-LJXWR6UH.js";
+} from "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -364,10 +364,10 @@ var SelectContentImpl = React.forwardRef(
         const PREVIOUSLY_FOCUSED_ELEMENT = document.activeElement;
         for (const candidate of candidates) {
           if (candidate === PREVIOUSLY_FOCUSED_ELEMENT) return;
-          candidate?.scrollIntoView({ block: "nearest" });
+          candidate == null ? void 0 : candidate.scrollIntoView({ block: "nearest" });
           if (candidate === firstItem && viewport) viewport.scrollTop = 0;
           if (candidate === lastItem && viewport) viewport.scrollTop = viewport.scrollHeight;
-          candidate?.focus();
+          candidate == null ? void 0 : candidate.focus();
           if (document.activeElement !== PREVIOUSLY_FOCUSED_ELEMENT) return;
         }
       },
@@ -387,9 +387,10 @@ var SelectContentImpl = React.forwardRef(
       if (content) {
         let pointerMoveDelta = { x: 0, y: 0 };
         const handlePointerMove = (event) => {
+          var _a, _b;
           pointerMoveDelta = {
-            x: Math.abs(Math.round(event.pageX) - (triggerPointerDownPosRef.current?.x ?? 0)),
-            y: Math.abs(Math.round(event.pageY) - (triggerPointerDownPosRef.current?.y ?? 0))
+            x: Math.abs(Math.round(event.pageX) - (((_a = triggerPointerDownPosRef.current) == null ? void 0 : _a.x) ?? 0)),
+            y: Math.abs(Math.round(event.pageY) - (((_b = triggerPointerDownPosRef.current) == null ? void 0 : _b.y) ?? 0))
           };
         };
         const handlePointerUp = (event) => {
@@ -441,7 +442,7 @@ var SelectContentImpl = React.forwardRef(
       },
       [context.value]
     );
-    const handleItemLeave = React.useCallback(() => content?.focus(), [content]);
+    const handleItemLeave = React.useCallback(() => content == null ? void 0 : content.focus(), [content]);
     const itemTextRefCallback = React.useCallback(
       (node, value, disabled) => {
         const isFirstValidItem = !firstValidItemFoundRef.current && !disabled;
@@ -490,7 +491,8 @@ var SelectContentImpl = React.forwardRef(
               event.preventDefault();
             },
             onUnmountAutoFocus: composeEventHandlers(onCloseAutoFocus, (event) => {
-              context.trigger?.focus({ preventScroll: true });
+              var _a;
+              (_a = context.trigger) == null ? void 0 : _a.focus({ preventScroll: true });
               event.preventDefault();
             }),
             children: (0, import_jsx_runtime.jsx)(
@@ -648,7 +650,7 @@ var SelectItemAlignedPosition = React.forwardRef((props, forwardedRef) => {
       contentWrapper.style.margin = `${CONTENT_MARGIN}px 0`;
       contentWrapper.style.minHeight = minContentHeight + "px";
       contentWrapper.style.maxHeight = availableHeight + "px";
-      onPlaced?.();
+      onPlaced == null ? void 0 : onPlaced();
       requestAnimationFrame(() => shouldExpandOnScrollRef.current = true);
     }
   }, [
@@ -672,7 +674,7 @@ var SelectItemAlignedPosition = React.forwardRef((props, forwardedRef) => {
     (node) => {
       if (node && shouldRepositionRef.current === true) {
         position();
-        focusSelectedItem?.();
+        focusSelectedItem == null ? void 0 : focusSelectedItem();
         shouldRepositionRef.current = false;
       }
     },
@@ -792,7 +794,7 @@ var SelectViewport = React.forwardRef(
           onScroll: composeEventHandlers(viewportProps.onScroll, (event) => {
             const viewport = event.currentTarget;
             const { contentWrapper, shouldExpandOnScrollRef } = viewportContext;
-            if (shouldExpandOnScrollRef?.current && contentWrapper) {
+            if ((shouldExpandOnScrollRef == null ? void 0 : shouldExpandOnScrollRef.current) && contentWrapper) {
               const scrolledBy = Math.abs(prevScrollTopRef.current - viewport.scrollTop);
               if (scrolledBy > 0) {
                 const availableHeight = window.innerHeight - CONTENT_MARGIN * 2;
@@ -856,7 +858,10 @@ var SelectItem = React.forwardRef(
     const [isFocused, setIsFocused] = React.useState(false);
     const composedRefs = useComposedRefs(
       forwardedRef,
-      (node) => contentContext.itemRefCallback?.(node, value, disabled)
+      (node) => {
+        var _a;
+        return (_a = contentContext.itemRefCallback) == null ? void 0 : _a.call(contentContext, node, value, disabled);
+      }
     );
     const textId = useId();
     const pointerTypeRef = React.useRef("touch");
@@ -880,7 +885,7 @@ var SelectItem = React.forwardRef(
         textId,
         isSelected,
         onItemTextChange: React.useCallback((node) => {
-          setTextValue((prevTextValue) => prevTextValue || (node?.textContent ?? "").trim());
+          setTextValue((prevTextValue) => prevTextValue || ((node == null ? void 0 : node.textContent) ?? "").trim());
         }, []),
         children: (0, import_jsx_runtime.jsx)(
           Collection.ItemSlot,
@@ -914,20 +919,23 @@ var SelectItem = React.forwardRef(
                   pointerTypeRef.current = event.pointerType;
                 }),
                 onPointerMove: composeEventHandlers(itemProps.onPointerMove, (event) => {
+                  var _a;
                   pointerTypeRef.current = event.pointerType;
                   if (disabled) {
-                    contentContext.onItemLeave?.();
+                    (_a = contentContext.onItemLeave) == null ? void 0 : _a.call(contentContext);
                   } else if (pointerTypeRef.current === "mouse") {
                     event.currentTarget.focus({ preventScroll: true });
                   }
                 }),
                 onPointerLeave: composeEventHandlers(itemProps.onPointerLeave, (event) => {
+                  var _a;
                   if (event.currentTarget === document.activeElement) {
-                    contentContext.onItemLeave?.();
+                    (_a = contentContext.onItemLeave) == null ? void 0 : _a.call(contentContext);
                   }
                 }),
                 onKeyDown: composeEventHandlers(itemProps.onKeyDown, (event) => {
-                  const isTypingAhead = contentContext.searchRef?.current !== "";
+                  var _a;
+                  const isTypingAhead = ((_a = contentContext.searchRef) == null ? void 0 : _a.current) !== "";
                   if (isTypingAhead && event.key === " ") return;
                   if (SELECTION_KEYS.includes(event.key)) handleSelect();
                   if (event.key === " ") event.preventDefault();
@@ -954,9 +962,12 @@ var SelectItemText = React.forwardRef(
       forwardedRef,
       (node) => setItemTextNode(node),
       itemContext.onItemTextChange,
-      (node) => contentContext.itemTextRefCallback?.(node, itemContext.value, itemContext.disabled)
+      (node) => {
+        var _a;
+        return (_a = contentContext.itemTextRefCallback) == null ? void 0 : _a.call(contentContext, node, itemContext.value, itemContext.disabled);
+      }
     );
-    const textContent = itemTextNode?.textContent;
+    const textContent = itemTextNode == null ? void 0 : itemTextNode.textContent;
     const nativeOption = React.useMemo(
       () => (0, import_jsx_runtime.jsx)("option", { value: itemContext.value, disabled: itemContext.disabled, children: textContent }, itemContext.value),
       [itemContext.disabled, itemContext.value, textContent]
@@ -1066,8 +1077,9 @@ var SelectScrollButtonImpl = React.forwardRef((props, forwardedRef) => {
     return () => clearAutoScrollTimer();
   }, [clearAutoScrollTimer]);
   useLayoutEffect2(() => {
+    var _a;
     const activeItem = getItems().find((item) => item.ref.current === document.activeElement);
-    activeItem?.ref.current?.scrollIntoView({ block: "nearest" });
+    (_a = activeItem == null ? void 0 : activeItem.ref.current) == null ? void 0 : _a.scrollIntoView({ block: "nearest" });
   }, [getItems]);
   return (0, import_jsx_runtime.jsx)(
     Primitive.div,
@@ -1082,7 +1094,8 @@ var SelectScrollButtonImpl = React.forwardRef((props, forwardedRef) => {
         }
       }),
       onPointerMove: composeEventHandlers(scrollIndicatorProps.onPointerMove, () => {
-        contentContext.onItemLeave?.();
+        var _a;
+        (_a = contentContext.onItemLeave) == null ? void 0 : _a.call(contentContext);
         if (autoScrollTimerRef.current === null) {
           autoScrollTimerRef.current = window.setInterval(onAutoScroll, 50);
         }

@@ -34,14 +34,16 @@ function createContextScope(scopeName, createContextScopeDeps = []) {
     const index = defaultContexts.length;
     defaultContexts = [...defaultContexts, defaultContext];
     const Provider = (props) => {
+      var _a;
       const { scope, children, ...context } = props;
-      const Context = scope?.[scopeName]?.[index] || BaseContext;
+      const Context = ((_a = scope == null ? void 0 : scope[scopeName]) == null ? void 0 : _a[index]) || BaseContext;
       const value = React.useMemo(() => context, Object.values(context));
       return (0, import_jsx_runtime.jsx)(Context.Provider, { value, children });
     };
     Provider.displayName = rootComponentName + "Provider";
     function useContext2(consumerName, scope) {
-      const Context = scope?.[scopeName]?.[index] || BaseContext;
+      var _a;
+      const Context = ((_a = scope == null ? void 0 : scope[scopeName]) == null ? void 0 : _a[index]) || BaseContext;
       const context = React.useContext(Context);
       if (context) return context;
       if (defaultContext !== void 0) return defaultContext;
@@ -54,7 +56,7 @@ function createContextScope(scopeName, createContextScopeDeps = []) {
       return React.createContext(defaultContext);
     });
     return function useScope(scope) {
-      const contexts = scope?.[scopeName] || scopeContexts;
+      const contexts = (scope == null ? void 0 : scope[scopeName]) || scopeContexts;
       return React.useMemo(
         () => ({ [`__scope${scopeName}`]: { ...scope, [scopeName]: contexts } }),
         [scope, contexts]
@@ -89,4 +91,4 @@ export {
   createContext2,
   createContextScope
 };
-//# sourceMappingURL=chunk-JIDRSWP3.js.map
+//# sourceMappingURL=chunk-USWVL52G.js.map

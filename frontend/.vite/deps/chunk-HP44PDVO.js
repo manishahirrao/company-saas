@@ -1,6 +1,6 @@
 import {
   useLayoutEffect2
-} from "./chunk-JFB3BJE6.js";
+} from "./chunk-MEWAP6LP.js";
 import {
   require_react
 } from "./chunk-65KY755N.js";
@@ -11,9 +11,9 @@ import {
 // node_modules/@radix-ui/primitive/dist/index.mjs
 function composeEventHandlers(originalEventHandler, ourEventHandler, { checkForDefaultPrevented = true } = {}) {
   return function handleEvent(event) {
-    originalEventHandler?.(event);
+    originalEventHandler == null ? void 0 : originalEventHandler(event);
     if (checkForDefaultPrevented === false || !event.defaultPrevented) {
-      return ourEventHandler?.(event);
+      return ourEventHandler == null ? void 0 : ourEventHandler(event);
     }
   };
 }
@@ -58,10 +58,11 @@ function useControllableState({
   }
   const setValue = React2.useCallback(
     (nextValue) => {
+      var _a;
       if (isControlled) {
         const value2 = isFunction(nextValue) ? nextValue(prop) : nextValue;
         if (value2 !== prop) {
-          onChangeRef.current?.(value2);
+          (_a = onChangeRef.current) == null ? void 0 : _a.call(onChangeRef, value2);
         }
       } else {
         setUncontrolledProp(nextValue);
@@ -82,8 +83,9 @@ function useUncontrolledState({
     onChangeRef.current = onChange;
   }, [onChange]);
   React2.useEffect(() => {
+    var _a;
     if (prevValueRef.current !== value) {
-      onChangeRef.current?.(value);
+      (_a = onChangeRef.current) == null ? void 0 : _a.call(onChangeRef, value);
       prevValueRef.current = value;
     }
   }, [value, prevValueRef]);
@@ -98,4 +100,4 @@ export {
   composeEventHandlers,
   useControllableState
 };
-//# sourceMappingURL=chunk-GSYC6XG3.js.map
+//# sourceMappingURL=chunk-HP44PDVO.js.map

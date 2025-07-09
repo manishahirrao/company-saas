@@ -4,35 +4,35 @@ import {
   FocusScope,
   hideOthers,
   useFocusGuards
-} from "./chunk-CCXAMAUU.js";
+} from "./chunk-ODGYCW27.js";
 import {
   DismissableLayer,
   Portal
-} from "./chunk-ZQ7N7MWR.js";
+} from "./chunk-Q3WPQ6NT.js";
 import {
   useId
-} from "./chunk-NX45TAAP.js";
+} from "./chunk-NTTUA5LP.js";
+import "./chunk-PGJMDC7L.js";
 import {
   Presence
-} from "./chunk-TYY4466L.js";
+} from "./chunk-KMNJNKWD.js";
 import {
   composeEventHandlers,
   useControllableState
-} from "./chunk-GSYC6XG3.js";
-import "./chunk-SW7TCIU5.js";
-import "./chunk-JFB3BJE6.js";
+} from "./chunk-HP44PDVO.js";
+import "./chunk-MEWAP6LP.js";
 import {
   createContext2,
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   createSlot,
   useComposedRefs
-} from "./chunk-33HT33LB.js";
-import "./chunk-LJXWR6UH.js";
+} from "./chunk-YVDCDBND.js";
+import "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -173,8 +173,9 @@ var DialogContentModal = React.forwardRef(
         trapFocus: context.open,
         disableOutsidePointerEvents: true,
         onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
+          var _a;
           event.preventDefault();
-          context.triggerRef.current?.focus();
+          (_a = context.triggerRef.current) == null ? void 0 : _a.focus();
         }),
         onPointerDownOutside: composeEventHandlers(props.onPointerDownOutside, (event) => {
           const originalEvent = event.detail.originalEvent;
@@ -203,16 +204,18 @@ var DialogContentNonModal = React.forwardRef(
         trapFocus: false,
         disableOutsidePointerEvents: false,
         onCloseAutoFocus: (event) => {
-          props.onCloseAutoFocus?.(event);
+          var _a, _b;
+          (_a = props.onCloseAutoFocus) == null ? void 0 : _a.call(props, event);
           if (!event.defaultPrevented) {
-            if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
+            if (!hasInteractedOutsideRef.current) (_b = context.triggerRef.current) == null ? void 0 : _b.focus();
             event.preventDefault();
           }
           hasInteractedOutsideRef.current = false;
           hasPointerDownOutsideRef.current = false;
         },
         onInteractOutside: (event) => {
-          props.onInteractOutside?.(event);
+          var _a, _b;
+          (_a = props.onInteractOutside) == null ? void 0 : _a.call(props, event);
           if (!event.defaultPrevented) {
             hasInteractedOutsideRef.current = true;
             if (event.detail.originalEvent.type === "pointerdown") {
@@ -220,7 +223,7 @@ var DialogContentNonModal = React.forwardRef(
             }
           }
           const target = event.target;
-          const targetIsTrigger = context.triggerRef.current?.contains(target);
+          const targetIsTrigger = (_b = context.triggerRef.current) == null ? void 0 : _b.contains(target);
           if (targetIsTrigger) event.preventDefault();
           if (event.detail.originalEvent.type === "focusin" && hasPointerDownOutsideRef.current) {
             event.preventDefault();
@@ -332,7 +335,8 @@ var DescriptionWarning = ({ contentRef, descriptionId }) => {
   const descriptionWarningContext = useWarningContext(DESCRIPTION_WARNING_NAME);
   const MESSAGE = `Warning: Missing \`Description\` or \`aria-describedby={undefined}\` for {${descriptionWarningContext.contentName}}.`;
   React.useEffect(() => {
-    const describedById = contentRef.current?.getAttribute("aria-describedby");
+    var _a;
+    const describedById = (_a = contentRef.current) == null ? void 0 : _a.getAttribute("aria-describedby");
     if (descriptionId && describedById) {
       const hasDescription = document.getElementById(descriptionId);
       if (!hasDescription) console.warn(MESSAGE);

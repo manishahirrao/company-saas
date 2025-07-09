@@ -12,10 +12,13 @@ function useCallbackRef(callback) {
   React.useEffect(() => {
     callbackRef.current = callback;
   });
-  return React.useMemo(() => (...args) => callbackRef.current?.(...args), []);
+  return React.useMemo(() => (...args) => {
+    var _a;
+    return (_a = callbackRef.current) == null ? void 0 : _a.call(callbackRef, ...args);
+  }, []);
 }
 
 export {
   useCallbackRef
 };
-//# sourceMappingURL=chunk-SW7TCIU5.js.map
+//# sourceMappingURL=chunk-PGJMDC7L.js.map

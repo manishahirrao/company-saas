@@ -1,42 +1,42 @@
 "use client";
 import {
   Root
-} from "./chunk-YSCUJDZY.js";
+} from "./chunk-AILCI3M7.js";
 import {
   Anchor,
   Arrow,
   Content,
   Root2,
   createPopperScope
-} from "./chunk-T3F3VOXG.js";
-import "./chunk-SMFEHCPM.js";
+} from "./chunk-4H3QLOFS.js";
 import {
   DismissableLayer,
   Portal
-} from "./chunk-ZQ7N7MWR.js";
+} from "./chunk-Q3WPQ6NT.js";
 import {
   useId
-} from "./chunk-NX45TAAP.js";
+} from "./chunk-NTTUA5LP.js";
+import "./chunk-PGJMDC7L.js";
 import {
   Presence
-} from "./chunk-TYY4466L.js";
+} from "./chunk-KMNJNKWD.js";
+import "./chunk-O4HB3ZSY.js";
 import {
   composeEventHandlers,
   useControllableState
-} from "./chunk-GSYC6XG3.js";
-import "./chunk-SW7TCIU5.js";
-import "./chunk-JFB3BJE6.js";
+} from "./chunk-HP44PDVO.js";
+import "./chunk-MEWAP6LP.js";
 import {
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   createSlottable,
   useComposedRefs
-} from "./chunk-33HT33LB.js";
-import "./chunk-LJXWR6UH.js";
+} from "./chunk-YVDCDBND.js";
+import "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -130,7 +130,7 @@ var Tooltip = (props) => {
       } else {
         providerContext.onClose();
       }
-      onOpenChange?.(open2);
+      onOpenChange == null ? void 0 : onOpenChange(open2);
     },
     caller: TOOLTIP_NAME
   });
@@ -308,7 +308,7 @@ var TooltipContentHoverable = React.forwardRef((props, forwardedRef) => {
       const handleTrackPointerGrace = (event) => {
         const target = event.target;
         const pointerPosition = { x: event.clientX, y: event.clientY };
-        const hasEnteredTarget = trigger?.contains(target) || content?.contains(target);
+        const hasEnteredTarget = (trigger == null ? void 0 : trigger.contains(target)) || (content == null ? void 0 : content.contains(target));
         const isPointerOutsideGraceArea = !isPointInPolygon(pointerPosition, pointerGraceArea);
         if (hasEnteredTarget) {
           handleRemoveGraceArea();
@@ -346,7 +346,7 @@ var TooltipContentImpl = React.forwardRef(
       if (context.trigger) {
         const handleScroll = (event) => {
           const target = event.target;
-          if (target?.contains(context.trigger)) onClose();
+          if (target == null ? void 0 : target.contains(context.trigger)) onClose();
         };
         window.addEventListener("scroll", handleScroll, { capture: true });
         return () => window.removeEventListener("scroll", handleScroll, { capture: true });

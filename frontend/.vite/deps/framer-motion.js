@@ -11,10 +11,9 @@ import {
   __toESM
 } from "./chunk-V4OQ3NZ2.js";
 
-// optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion:true
-var require_is_prop_valid_framer_motion_true = __commonJS({
-  "optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion:true"(exports, module) {
-    module.exports = {};
+// optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion
+var require_is_prop_valid_framer_motion = __commonJS({
+  "optional-peer-dep:__vite-optional-peer-dep:@emotion/is-prop-valid:framer-motion"() {
     throw new Error(`Could not resolve "@emotion/is-prop-valid" imported by "framer-motion". Is it installed?`);
   }
 });
@@ -643,7 +642,8 @@ var colorRegex = /(?:#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]
 
 // node_modules/motion-dom/dist/es/value/types/complex/index.mjs
 function test(v) {
-  return isNaN(v) && typeof v === "string" && (v.match(floatRegex)?.length || 0) + (v.match(colorRegex)?.length || 0) > 0;
+  var _a, _b;
+  return isNaN(v) && typeof v === "string" && (((_a = v.match(floatRegex)) == null ? void 0 : _a.length) || 0) + (((_b = v.match(colorRegex)) == null ? void 0 : _b.length) || 0) > 0;
 }
 var NUMBER_TOKEN = "number";
 var COLOR_TOKEN = "color";
@@ -1381,6 +1381,7 @@ var JSAnimation = class extends WithPromise {
     this.holdTime = null;
     this.playbackSpeed = 1;
     this.stop = () => {
+      var _a, _b;
       const { motionValue: motionValue2 } = this.options;
       if (motionValue2 && motionValue2.updatedAt !== time.now()) {
         this.tick(time.now());
@@ -1389,7 +1390,7 @@ var JSAnimation = class extends WithPromise {
       if (this.state === "idle")
         return;
       this.teardown();
-      this.options.onStop?.();
+      (_b = (_a = this.options).onStop) == null ? void 0 : _b.call(_a);
     };
     activeAnimations.mainThread++;
     this.options = options;
@@ -1516,6 +1517,7 @@ var JSAnimation = class extends WithPromise {
     return millisecondsToSeconds(this.currentTime);
   }
   set time(newTime) {
+    var _a;
     newTime = secondsToMilliseconds(newTime);
     this.currentTime = newTime;
     if (this.startTime === null || this.holdTime !== null || this.playbackSpeed === 0) {
@@ -1523,7 +1525,7 @@ var JSAnimation = class extends WithPromise {
     } else if (this.driver) {
       this.startTime = this.driver.now() - newTime / this.playbackSpeed;
     }
-    this.driver?.start(false);
+    (_a = this.driver) == null ? void 0 : _a.start(false);
   }
   get speed() {
     return this.playbackSpeed;
@@ -1537,13 +1539,14 @@ var JSAnimation = class extends WithPromise {
     }
   }
   play() {
+    var _a, _b;
     if (this.isStopped)
       return;
     const { driver = frameloopDriver, startTime } = this.options;
     if (!this.driver) {
       this.driver = driver((timestamp) => this.tick(timestamp));
     }
-    this.options.onPlay?.();
+    (_b = (_a = this.options).onPlay) == null ? void 0 : _b.call(_a);
     const now2 = this.driver.now();
     if (this.state === "finished") {
       this.updateFinished();
@@ -1573,17 +1576,19 @@ var JSAnimation = class extends WithPromise {
     this.holdTime = null;
   }
   finish() {
+    var _a, _b;
     this.notifyFinished();
     this.teardown();
     this.state = "finished";
-    this.options.onComplete?.();
+    (_b = (_a = this.options).onComplete) == null ? void 0 : _b.call(_a);
   }
   cancel() {
+    var _a, _b;
     this.holdTime = null;
     this.startTime = 0;
     this.tick(0);
     this.teardown();
-    this.options.onCancel?.();
+    (_b = (_a = this.options).onCancel) == null ? void 0 : _b.call(_a);
   }
   teardown() {
     this.state = "idle";
@@ -1602,12 +1607,13 @@ var JSAnimation = class extends WithPromise {
     return this.tick(sampleTime, true);
   }
   attachTimeline(timeline) {
+    var _a;
     if (this.options.allowFlatten) {
       this.options.type = "keyframes";
       this.options.ease = "linear";
       this.initAnimation();
     }
-    this.driver?.stop();
+    (_a = this.driver) == null ? void 0 : _a.stop();
     return timeline.observe(this);
   }
 };
@@ -1777,7 +1783,8 @@ function measureAllKeyframes() {
       const restore = transformsToRestore.get(element);
       if (restore) {
         restore.forEach(([key, value]) => {
-          element.getValue(key)?.set(value);
+          var _a;
+          (_a = element.getValue(key)) == null ? void 0 : _a.set(value);
         });
       }
     });
@@ -1836,7 +1843,7 @@ var KeyframeResolver = class {
   readKeyframes() {
     const { unresolvedKeyframes, name, element, motionValue: motionValue2 } = this;
     if (unresolvedKeyframes[0] === null) {
-      const currentValue = motionValue2?.get();
+      const currentValue = motionValue2 == null ? void 0 : motionValue2.get();
       const finalKeyframe = unresolvedKeyframes[unresolvedKeyframes.length - 1];
       if (currentValue !== void 0) {
         unresolvedKeyframes[0] = currentValue;
@@ -2018,7 +2025,7 @@ var NativeAnimation = class extends WithPromise {
         }
         this.animation.cancel();
       }
-      onComplete?.();
+      onComplete == null ? void 0 : onComplete();
       this.notifyFinished();
     };
   }
@@ -2034,7 +2041,8 @@ var NativeAnimation = class extends WithPromise {
     this.animation.pause();
   }
   complete() {
-    this.animation.finish?.();
+    var _a, _b;
+    (_b = (_a = this.animation).finish) == null ? void 0 : _b.call(_a);
   }
   cancel() {
     try {
@@ -2071,12 +2079,14 @@ var NativeAnimation = class extends WithPromise {
    * while deferring the commit until the next animation frame.
    */
   commitStyles() {
+    var _a, _b;
     if (!this.isPseudoElement) {
-      this.animation.commitStyles?.();
+      (_b = (_a = this.animation).commitStyles) == null ? void 0 : _b.call(_a);
     }
   }
   get duration() {
-    const duration = this.animation.effect?.getComputedTiming?.().duration || 0;
+    var _a, _b;
+    const duration = ((_b = (_a = this.animation.effect) == null ? void 0 : _a.getComputedTiming) == null ? void 0 : _b.call(_a).duration) || 0;
     return millisecondsToSeconds(Number(duration));
   }
   get time() {
@@ -2111,8 +2121,9 @@ var NativeAnimation = class extends WithPromise {
    * Attaches a timeline to the animation, for instance the `ScrollTimeline`.
    */
   attachTimeline({ timeline, observe }) {
+    var _a;
     if (this.allowFlatten) {
-      this.animation.effect?.updateTiming({ easing: "linear" });
+      (_a = this.animation.effect) == null ? void 0 : _a.updateTiming({ easing: "linear" });
     }
     this.animation.onfinish = null;
     if (timeline && supportsScrollTimeline()) {
@@ -2233,8 +2244,9 @@ var acceleratedValues = /* @__PURE__ */ new Set([
 ]);
 var supportsWaapi = memo(() => Object.hasOwnProperty.call(Element.prototype, "animate"));
 function supportsBrowserAnimation(options) {
+  var _a;
   const { motionValue: motionValue2, name, repeatDelay, repeatType, damping, type } = options;
-  if (!isHTMLElement(motionValue2?.owner?.current)) {
+  if (!isHTMLElement((_a = motionValue2 == null ? void 0 : motionValue2.owner) == null ? void 0 : _a.current)) {
     return false;
   }
   const { onUpdate, transformTemplate } = motionValue2.owner.getProps();
@@ -2249,13 +2261,15 @@ function supportsBrowserAnimation(options) {
 var MAX_RESOLVE_DELAY = 40;
 var AsyncMotionValueAnimation = class extends WithPromise {
   constructor({ autoplay = true, delay: delay2 = 0, type = "keyframes", repeat = 0, repeatDelay = 0, repeatType = "loop", keyframes: keyframes2, name, motionValue: motionValue2, element, ...options }) {
+    var _a;
     super();
     this.stop = () => {
+      var _a2, _b;
       if (this._animation) {
         this._animation.stop();
-        this.stopTimeline?.();
+        (_a2 = this.stopTimeline) == null ? void 0 : _a2.call(this);
       }
-      this.keyframeResolver?.cancel();
+      (_b = this.keyframeResolver) == null ? void 0 : _b.cancel();
     };
     this.createdAt = time.now();
     const optionsWithDefaults = {
@@ -2270,9 +2284,9 @@ var AsyncMotionValueAnimation = class extends WithPromise {
       element,
       ...options
     };
-    const KeyframeResolver$1 = element?.KeyframeResolver || KeyframeResolver;
+    const KeyframeResolver$1 = (element == null ? void 0 : element.KeyframeResolver) || KeyframeResolver;
     this.keyframeResolver = new KeyframeResolver$1(keyframes2, (resolvedKeyframes, finalKeyframe, forced) => this.onKeyframesResolved(resolvedKeyframes, finalKeyframe, optionsWithDefaults, !forced), name, motionValue2, element);
-    this.keyframeResolver?.scheduleResolve();
+    (_a = this.keyframeResolver) == null ? void 0 : _a.scheduleResolve();
   }
   onKeyframesResolved(keyframes2, finalKeyframe, options, sync2) {
     this.keyframeResolver = void 0;
@@ -2280,7 +2294,7 @@ var AsyncMotionValueAnimation = class extends WithPromise {
     this.resolvedAt = time.now();
     if (!canAnimate(keyframes2, name, type, velocity)) {
       if (MotionGlobalConfig.instantAnimations || !delay2) {
-        onUpdate?.(getFinalKeyframe(keyframes2, options, finalKeyframe));
+        onUpdate == null ? void 0 : onUpdate(getFinalKeyframe(keyframes2, options, finalKeyframe));
       }
       keyframes2[0] = keyframes2[keyframes2.length - 1];
       options.duration = 0;
@@ -2316,8 +2330,9 @@ var AsyncMotionValueAnimation = class extends WithPromise {
     });
   }
   get animation() {
+    var _a;
     if (!this._animation) {
-      this.keyframeResolver?.resume();
+      (_a = this.keyframeResolver) == null ? void 0 : _a.resume();
       flushKeyframeResolvers();
     }
     return this._animation;
@@ -2361,10 +2376,11 @@ var AsyncMotionValueAnimation = class extends WithPromise {
     this.animation.complete();
   }
   cancel() {
+    var _a;
     if (this._animation) {
       this.animation.cancel();
     }
-    this.keyframeResolver?.cancel();
+    (_a = this.keyframeResolver) == null ? void 0 : _a.cancel();
   }
 };
 
@@ -2496,7 +2512,7 @@ function getVariableValue(current2, element, depth = 1) {
 
 // node_modules/motion-dom/dist/es/animation/utils/get-value-transition.mjs
 function getValueTransition(transition, key) {
-  return transition?.[key] ?? transition?.["default"] ?? transition;
+  return (transition == null ? void 0 : transition[key]) ?? (transition == null ? void 0 : transition["default"]) ?? transition;
 }
 
 // node_modules/motion-dom/dist/es/render/utils/keys-position.mjs
@@ -2756,6 +2772,7 @@ var DOMKeyframesResolver = class extends KeyframeResolver {
     }
   }
   measureEndState() {
+    var _a;
     const { element, name, unresolvedKeyframes } = this;
     if (!element || !element.current)
       return;
@@ -2767,7 +2784,7 @@ var DOMKeyframesResolver = class extends KeyframeResolver {
     if (finalKeyframe !== null && this.finalKeyframe === void 0) {
       this.finalKeyframe = finalKeyframe;
     }
-    if (this.removedTransforms?.length) {
+    if ((_a = this.removedTransforms) == null ? void 0 : _a.length) {
       this.removedTransforms.forEach(([unsetTransformName, unsetTransformValue]) => {
         element.getValue(unsetTransformName).set(unsetTransformValue);
       });
@@ -2864,7 +2881,7 @@ function resolveElements(elementOrSelector, scope, selectorCache) {
     if (scope) {
       root = scope.current;
     }
-    const elements = selectorCache?.[elementOrSelector] ?? root.querySelectorAll(elementOrSelector);
+    const elements = (selectorCache == null ? void 0 : selectorCache[elementOrSelector]) ?? root.querySelectorAll(elementOrSelector);
     return elements ? Array.from(elements) : [];
   }
   return Array.from(elementOrSelector);
@@ -2924,7 +2941,8 @@ var MotionValueState = class {
     return remove;
   }
   get(name) {
-    return this.values.get(name)?.value;
+    var _a;
+    return (_a = this.values.get(name)) == null ? void 0 : _a.value;
   }
   destroy() {
     for (const value of this.values.values()) {
@@ -3004,6 +3022,7 @@ var MotionValue = class {
     this.canTrackVelocity = null;
     this.events = {};
     this.updateAndNotify = (v, render = true) => {
+      var _a, _b;
       const currentTime = time.now();
       if (this.updatedAt !== currentTime) {
         this.setPrevFrameValue();
@@ -3011,7 +3030,7 @@ var MotionValue = class {
       this.prev = this.current;
       this.setCurrent(v);
       if (this.current !== this.prev) {
-        this.events.change?.notify(this.current);
+        (_a = this.events.change) == null ? void 0 : _a.notify(this.current);
         if (this.dependents) {
           for (const dependent of this.dependents) {
             dependent.dirty();
@@ -3019,7 +3038,7 @@ var MotionValue = class {
         }
       }
       if (render) {
-        this.events.renderRequest?.notify(this.current);
+        (_b = this.events.renderRequest) == null ? void 0 : _b.notify(this.current);
       }
     };
     this.hasAnimated = false;
@@ -3153,7 +3172,8 @@ var MotionValue = class {
       this.stopPassiveEffect();
   }
   dirty() {
-    this.events.change?.notify(this.current);
+    var _a;
+    (_a = this.events.change) == null ? void 0 : _a.notify(this.current);
   }
   addDependent(dependent) {
     if (!this.dependents) {
@@ -3260,8 +3280,9 @@ var MotionValue = class {
    * @public
    */
   destroy() {
-    this.dependents?.clear();
-    this.events.destroy?.notify();
+    var _a, _b;
+    (_a = this.dependents) == null ? void 0 : _a.clear();
+    (_b = this.events.destroy) == null ? void 0 : _b.notify();
     this.clearListeners();
     this.stop();
     if (this.stopPassiveEffect) {
@@ -3589,7 +3610,8 @@ var getSize = (borderBoxAxis, svgAxis, htmlAxis) => (target, borderBoxSize) => {
 var getWidth = getSize("inline", "width", "offsetWidth");
 var getHeight = getSize("block", "height", "offsetHeight");
 function notifyTarget({ target, borderBoxSize }) {
-  resizeHandlers.get(target)?.forEach((handler) => {
+  var _a;
+  (_a = resizeHandlers.get(target)) == null ? void 0 : _a.forEach((handler) => {
     handler(target, {
       get width() {
         return getWidth(target, borderBoxSize);
@@ -3619,14 +3641,14 @@ function resizeElement(target, handler) {
       resizeHandlers.set(element, elementHandlers);
     }
     elementHandlers.add(handler);
-    observer?.observe(element);
+    observer == null ? void 0 : observer.observe(element);
   });
   return () => {
     elements.forEach((element) => {
       const elementHandlers = resizeHandlers.get(element);
-      elementHandlers?.delete(handler);
-      if (!elementHandlers?.size) {
-        observer?.unobserve(element);
+      elementHandlers == null ? void 0 : elementHandlers.delete(handler);
+      if (!(elementHandlers == null ? void 0 : elementHandlers.size)) {
+        observer == null ? void 0 : observer.unobserve(element);
       }
     });
   };
@@ -3974,10 +3996,11 @@ function getLayerName(pseudoElement) {
 
 // node_modules/motion-dom/dist/es/view/utils/get-view-animations.mjs
 function filterViewAnimations(animation) {
+  var _a;
   const { effect } = animation;
   if (!effect)
     return false;
-  return effect.target === document.documentElement && effect.pseudoElement?.startsWith("::view-transition");
+  return effect.target === document.documentElement && ((_a = effect.pseudoElement) == null ? void 0 : _a.startsWith("::view-transition"));
 }
 function getViewAnimations() {
   return document.getAnimations().filter(filterViewAnimations);
@@ -4086,7 +4109,8 @@ function startViewAnimation(builder) {
   });
 }
 function hasOpacity(target, key) {
-  return target?.[key]?.keyframes.opacity;
+  var _a;
+  return (_a = target == null ? void 0 : target[key]) == null ? void 0 : _a.keyframes.opacity;
 }
 
 // node_modules/motion-dom/dist/es/view/queue.mjs
@@ -4107,6 +4131,7 @@ function start(builder) {
   });
 }
 function processQueue() {
+  var _a;
   for (let i = builders.length - 1; i >= 0; i--) {
     const builder = builders[i];
     const { interrupt } = builder.options;
@@ -4120,7 +4145,7 @@ function processQueue() {
       break;
     }
   }
-  if (!current || builders[0]?.options.interrupt === "immediate") {
+  if (!current || ((_a = builders[0]) == null ? void 0 : _a.options.interrupt) === "immediate") {
     next();
   }
 }
@@ -4417,9 +4442,9 @@ var AnimatePresence = ({ children, custom, initial = true, onExitComplete, prese
           isEveryExitComplete = false;
       });
       if (isEveryExitComplete) {
-        forceRender?.();
+        forceRender == null ? void 0 : forceRender();
         setRenderedChildren(pendingPresentChildren.current);
-        propagate && safeToRemove?.();
+        propagate && (safeToRemove == null ? void 0 : safeToRemove());
         onExitComplete && onExitComplete();
       }
     };
@@ -4627,7 +4652,7 @@ function loadExternalIsValidProp(isValidProp) {
   shouldForward = (key) => key.startsWith("on") ? !isValidMotionProp(key) : isValidProp(key);
 }
 try {
-  loadExternalIsValidProp(require_is_prop_valid_framer_motion_true().default);
+  loadExternalIsValidProp(require_is_prop_valid_framer_motion().default);
 } catch {
 }
 function filterProps(props, isDom, forwardMotionProps) {
@@ -4805,6 +4830,7 @@ var SwitchLayoutGroupContext = (0, import_react21.createContext)({});
 
 // node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs
 function useVisualElement(Component3, visualState, props, createVisualElement, ProjectionNodeConstructor) {
+  var _a, _b;
   const { visualElement: parent } = (0, import_react22.useContext)(MotionContext);
   const lazyContext = (0, import_react22.useContext)(LazyContext);
   const presenceContext = (0, import_react22.useContext)(PresenceContext);
@@ -4833,7 +4859,7 @@ function useVisualElement(Component3, visualState, props, createVisualElement, P
     }
   });
   const optimisedAppearId = props[optimizedAppearDataAttribute];
-  const wantsHandoff = (0, import_react22.useRef)(Boolean(optimisedAppearId) && !window.MotionHandoffIsComplete?.(optimisedAppearId) && window.MotionHasOptimisedAnimation?.(optimisedAppearId));
+  const wantsHandoff = (0, import_react22.useRef)(Boolean(optimisedAppearId) && !((_a = window.MotionHandoffIsComplete) == null ? void 0 : _a.call(window, optimisedAppearId)) && ((_b = window.MotionHasOptimisedAnimation) == null ? void 0 : _b.call(window, optimisedAppearId)));
   useIsomorphicLayoutEffect(() => {
     if (!visualElement)
       return;
@@ -4853,7 +4879,8 @@ function useVisualElement(Component3, visualState, props, createVisualElement, P
     }
     if (wantsHandoff.current) {
       queueMicrotask(() => {
-        window.MotionHandoffMarkAsComplete?.(optimisedAppearId);
+        var _a2;
+        (_a2 = window.MotionHandoffMarkAsComplete) == null ? void 0 : _a2.call(window, optimisedAppearId);
       });
       wantsHandoff.current = false;
     }
@@ -4931,7 +4958,7 @@ function getProjectionFunctionality(props) {
     return {};
   const combined = { ...drag2, ...layout2 };
   return {
-    MeasureLayout: drag2?.isEnabled(props) || layout2?.isEnabled(props) ? combined.MeasureLayout : void 0,
+    MeasureLayout: (drag2 == null ? void 0 : drag2.isEnabled(props)) || (layout2 == null ? void 0 : layout2.isEnabled(props)) ? combined.MeasureLayout : void 0,
     ProjectionNode: combined.ProjectionNode
   };
 }
@@ -5133,7 +5160,7 @@ function buildSVGAttrs(state, {
     delete attrs.transformOrigin;
   }
   if (style2.transform) {
-    style2.transformBox = styleProp?.transformBox ?? "fill-box";
+    style2.transformBox = (styleProp == null ? void 0 : styleProp.transformBox) ?? "fill-box";
     delete attrs.transformBox;
   }
   if (attrX !== void 0)
@@ -5253,7 +5280,7 @@ var import_react27 = __toESM(require_react(), 1);
 // node_modules/framer-motion/dist/es/render/utils/resolve-variants.mjs
 function getValueState(visualElement) {
   const state = [{}, {}];
-  visualElement?.values.forEach((value, key) => {
+  visualElement == null ? void 0 : visualElement.values.forEach((value, key) => {
     state[0][key] = value.get();
     state[1][key] = value.getVelocity();
   });
@@ -5338,10 +5365,11 @@ function makeLatestValues(props, context, presenceContext, scrapeMotionValues) {
 
 // node_modules/framer-motion/dist/es/render/html/utils/scrape-motion-values.mjs
 function scrapeMotionValuesFromProps(props, prevProps, visualElement) {
+  var _a;
   const { style: style2 } = props;
   const newValues = {};
   for (const key in style2) {
-    if (isMotionValue(style2[key]) || prevProps.style && isMotionValue(prevProps.style[key]) || isForcedMotionValue(key, props) || visualElement?.getValue(key)?.liveStyle !== void 0) {
+    if (isMotionValue(style2[key]) || prevProps.style && isMotionValue(prevProps.style[key]) || isForcedMotionValue(key, props) || ((_a = visualElement == null ? void 0 : visualElement.getValue(key)) == null ? void 0 : _a.liveStyle) !== void 0) {
       newValues[key] = style2[key];
     }
   }
@@ -5609,7 +5637,8 @@ function animateTarget(visualElement, targetAndTransition, { delay: delay2 = 0, 
 
 // node_modules/framer-motion/dist/es/animation/interfaces/visual-element-variant.mjs
 function animateVariant(visualElement, variant, options = {}) {
-  const resolved = resolveVariant(visualElement, variant, options.type === "exit" ? visualElement.presenceContext?.custom : void 0);
+  var _a;
+  const resolved = resolveVariant(visualElement, variant, options.type === "exit" ? (_a = visualElement.presenceContext) == null ? void 0 : _a.custom : void 0);
   let { transition = visualElement.getDefaultTransition() || {} } = resolved || {};
   if (options.transitionOverride) {
     transition = options.transitionOverride;
@@ -5715,7 +5744,8 @@ function createAnimationState(visualElement) {
   let state = createState();
   let isInitialRender = true;
   const buildResolvedTypeValues = (type) => (acc, definition) => {
-    const resolved = resolveVariant(visualElement, definition, type === "exit" ? visualElement.presenceContext?.custom : void 0);
+    var _a;
+    const resolved = resolveVariant(visualElement, definition, type === "exit" ? (_a = visualElement.presenceContext) == null ? void 0 : _a.custom : void 0);
     if (resolved) {
       const { transition, transitionEnd, ...target } = resolved;
       acc = { ...acc, ...target, ...transitionEnd };
@@ -5843,9 +5873,13 @@ function createAnimationState(visualElement) {
     return shouldAnimate ? animate2(animations2) : Promise.resolve();
   }
   function setActive(type, isActive) {
+    var _a;
     if (state[type].isActive === isActive)
       return Promise.resolve();
-    visualElement.variantChildren?.forEach((child) => child.animationState?.setActive(type, isActive));
+    (_a = visualElement.variantChildren) == null ? void 0 : _a.forEach((child) => {
+      var _a2;
+      return (_a2 = child.animationState) == null ? void 0 : _a2.setActive(type, isActive);
+    });
     state[type].isActive = isActive;
     const animations2 = animateChanges(type);
     for (const key in state) {
@@ -5933,8 +5967,9 @@ var AnimationFeature = class extends Feature {
     }
   }
   unmount() {
+    var _a;
     this.node.animationState.reset();
-    this.unmountControls?.();
+    (_a = this.unmountControls) == null ? void 0 : _a.call(this);
   }
 };
 
@@ -6504,7 +6539,10 @@ var VisualElementDragControls = class {
       this.latestPointerEvent = null;
       this.latestPanInfo = null;
     };
-    const resumeAnimation = () => eachAxis((axis) => this.getAnimationState(axis) === "paused" && this.getAxisMotionValue(axis).animation?.play());
+    const resumeAnimation = () => eachAxis((axis) => {
+      var _a;
+      return this.getAnimationState(axis) === "paused" && ((_a = this.getAxisMotionValue(axis).animation) == null ? void 0 : _a.play());
+    });
     const { dragSnapToOrigin } = this.getProps();
     this.panSession = new PanSession(originEvent, {
       onSessionStart,
@@ -6566,8 +6604,9 @@ var VisualElementDragControls = class {
     axisValue.set(next2);
   }
   resolveConstraints() {
+    var _a;
     const { dragConstraints, dragElastic } = this.getProps();
-    const layout2 = this.visualElement.projection && !this.visualElement.projection.layout ? this.visualElement.projection.measure(false) : this.visualElement.projection?.layout;
+    const layout2 = this.visualElement.projection && !this.visualElement.projection.layout ? this.visualElement.projection.measure(false) : (_a = this.visualElement.projection) == null ? void 0 : _a.layout;
     const prevConstraints = this.constraints;
     if (dragConstraints && isRefObject(dragConstraints)) {
       if (!this.constraints) {
@@ -6645,10 +6684,14 @@ var VisualElementDragControls = class {
     eachAxis((axis) => this.getAxisMotionValue(axis).stop());
   }
   pauseAnimation() {
-    eachAxis((axis) => this.getAxisMotionValue(axis).animation?.pause());
+    eachAxis((axis) => {
+      var _a;
+      return (_a = this.getAxisMotionValue(axis).animation) == null ? void 0 : _a.pause();
+    });
   }
   getAnimationState(axis) {
-    return this.getAxisMotionValue(axis).animation?.state;
+    var _a;
+    return (_a = this.getAxisMotionValue(axis).animation) == null ? void 0 : _a.state;
   }
   /**
    * Drag works differently depending on which props are provided.
@@ -7280,7 +7323,7 @@ function buildProjectionTransform(delta, treeScale, latestTransform) {
   let transform2 = "";
   const xTranslate = delta.x.translate / treeScale.x;
   const yTranslate = delta.y.translate / treeScale.y;
-  const zTranslate = latestTransform?.z || 0;
+  const zTranslate = (latestTransform == null ? void 0 : latestTransform.z) || 0;
   if (xTranslate || yTranslate || zTranslate) {
     transform2 = `translate3d(${xTranslate}px, ${yTranslate}px, ${zTranslate}px) `;
   }
@@ -7348,7 +7391,7 @@ function cancelTreeOptimisedTransformAnimations(projectionNode) {
 }
 function createProjectionNode2({ attachResizeListener, defaultParent, measureScroll, checkIsScrollRoot, resetTransform }) {
   return class ProjectionNode {
-    constructor(latestValues = {}, parent = defaultParent?.()) {
+    constructor(latestValues = {}, parent = defaultParent == null ? void 0 : defaultParent()) {
       this.id = id2++;
       this.animationId = 0;
       this.animationCommitId = 0;
@@ -7701,11 +7744,12 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       };
     }
     measurePageBox() {
+      var _a;
       const { visualElement } = this.options;
       if (!visualElement)
         return createBox();
       const box = visualElement.measureViewportBox();
-      const wasInScrollRoot = this.scroll?.wasRoot || this.path.some(checkNodeWasScrollRoot);
+      const wasInScrollRoot = ((_a = this.scroll) == null ? void 0 : _a.wasRoot) || this.path.some(checkNodeWasScrollRoot);
       if (!wasInScrollRoot) {
         const { scroll: scroll2 } = this.root;
         if (scroll2) {
@@ -7716,9 +7760,10 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       return box;
     }
     removeElementScroll(box) {
+      var _a;
       const boxWithoutScroll = createBox();
       copyBoxInto(boxWithoutScroll, box);
-      if (this.scroll?.wasRoot) {
+      if ((_a = this.scroll) == null ? void 0 : _a.wasRoot) {
         return boxWithoutScroll;
       }
       for (let i = 0; i < this.path.length; i++) {
@@ -7803,12 +7848,13 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       }
     }
     resolveTargetDelta(forceRecalculation = false) {
+      var _a;
       const lead = this.getLead();
       this.isProjectionDirty || (this.isProjectionDirty = lead.isProjectionDirty);
       this.isTransformDirty || (this.isTransformDirty = lead.isTransformDirty);
       this.isSharedProjectionDirty || (this.isSharedProjectionDirty = lead.isSharedProjectionDirty);
       const isShared = Boolean(this.resumingFrom) || this !== lead;
-      const canSkip = !(forceRecalculation || isShared && this.isSharedProjectionDirty || this.isProjectionDirty || this.parent?.isProjectionDirty || this.attemptToResolveRelativeTarget || this.root.updateBlockedByResize);
+      const canSkip = !(forceRecalculation || isShared && this.isSharedProjectionDirty || this.isProjectionDirty || ((_a = this.parent) == null ? void 0 : _a.isProjectionDirty) || this.attemptToResolveRelativeTarget || this.root.updateBlockedByResize);
       if (canSkip)
         return;
       const { layout: layout2, layoutId } = this.options;
@@ -7879,10 +7925,11 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       return Boolean((this.relativeTarget || this.targetDelta || this.options.layoutRoot) && this.layout);
     }
     calcProjection() {
+      var _a;
       const lead = this.getLead();
       const isShared = Boolean(this.resumingFrom) || this !== lead;
       let canSkip = true;
-      if (this.isProjectionDirty || this.parent?.isProjectionDirty) {
+      if (this.isProjectionDirty || ((_a = this.parent) == null ? void 0 : _a.isProjectionDirty)) {
         canSkip = false;
       }
       if (isShared && (this.isSharedProjectionDirty || this.isTransformDirty)) {
@@ -7939,7 +7986,8 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       this.isVisible = true;
     }
     scheduleRender(notifyAll2 = true) {
-      this.options.visualElement?.scheduleRender();
+      var _a;
+      (_a = this.options.visualElement) == null ? void 0 : _a.scheduleRender();
       if (notifyAll2) {
         const stack = this.getStack();
         stack && stack.scheduleRender();
@@ -7997,9 +8045,10 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       this.mixTargetDelta(this.options.layoutRoot ? 1e3 : 0);
     }
     startAnimation(options) {
+      var _a, _b, _c;
       this.notifyListeners("animationStart");
-      this.currentAnimation?.stop();
-      this.resumingFrom?.currentAnimation?.stop();
+      (_a = this.currentAnimation) == null ? void 0 : _a.stop();
+      (_c = (_b = this.resumingFrom) == null ? void 0 : _b.currentAnimation) == null ? void 0 : _c.stop();
       if (this.pendingAnimation) {
         cancelFrame(this.pendingAnimation);
         this.pendingAnimation = void 0;
@@ -8083,12 +8132,14 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       return stack ? stack.lead === this : true;
     }
     getLead() {
+      var _a;
       const { layoutId } = this.options;
-      return layoutId ? this.getStack()?.lead || this : this;
+      return layoutId ? ((_a = this.getStack()) == null ? void 0 : _a.lead) || this : this;
     }
     getPrevLead() {
+      var _a;
       const { layoutId } = this.options;
-      return layoutId ? this.getStack()?.prevLead : void 0;
+      return layoutId ? (_a = this.getStack()) == null ? void 0 : _a.prevLead : void 0;
     }
     getStack() {
       const { layoutId } = this.options;
@@ -8154,7 +8205,7 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
         this.needsReset = false;
         targetStyle.visibility = "";
         targetStyle.opacity = "";
-        targetStyle.pointerEvents = resolveMotionValue(styleProp?.pointerEvents) || "";
+        targetStyle.pointerEvents = resolveMotionValue(styleProp == null ? void 0 : styleProp.pointerEvents) || "";
         targetStyle.transform = transformTemplate ? transformTemplate(this.latestValues, "") : "none";
         return;
       }
@@ -8162,7 +8213,7 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
       if (!this.projectionDelta || !this.layout || !lead.target) {
         if (this.options.layoutId) {
           targetStyle.opacity = this.latestValues.opacity !== void 0 ? this.latestValues.opacity : 1;
-          targetStyle.pointerEvents = resolveMotionValue(styleProp?.pointerEvents) || "";
+          targetStyle.pointerEvents = resolveMotionValue(styleProp == null ? void 0 : styleProp.pointerEvents) || "";
         }
         if (this.hasProjected && !hasTransform(this.latestValues)) {
           targetStyle.transform = transformTemplate ? transformTemplate({}, "") : "none";
@@ -8204,7 +8255,7 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
         }
       }
       if (this.options.layoutId) {
-        targetStyle.pointerEvents = lead === this ? resolveMotionValue(styleProp?.pointerEvents) || "" : "none";
+        targetStyle.pointerEvents = lead === this ? resolveMotionValue(styleProp == null ? void 0 : styleProp.pointerEvents) || "" : "none";
       }
     }
     clearSnapshot() {
@@ -8212,7 +8263,10 @@ function createProjectionNode2({ attachResizeListener, defaultParent, measureScr
     }
     // Only run on root
     resetTree() {
-      this.root.nodes.forEach((node) => node.currentAnimation?.stop());
+      this.root.nodes.forEach((node) => {
+        var _a;
+        return (_a = node.currentAnimation) == null ? void 0 : _a.stop();
+      });
       this.root.nodes.forEach(clearMeasurements);
       this.root.sharedNodes.clear();
     }
@@ -8222,7 +8276,8 @@ function updateLayout(node) {
   node.updateLayout();
 }
 function notifyLayoutUpdate(node) {
-  const snapshot = node.resumeFrom?.snapshot || node.snapshot;
+  var _a;
+  const snapshot = ((_a = node.resumeFrom) == null ? void 0 : _a.snapshot) || node.snapshot;
   if (node.isLead() && node.layout && snapshot && node.hasListeners("didUpdate")) {
     const { layoutBox: layout2, measuredBox: measuredLayout } = node.layout;
     const { animationType } = node.options;
@@ -8372,7 +8427,8 @@ function shouldAnimatePositionOnly(animationType, snapshot, layout2) {
   return animationType === "position" || animationType === "preserve-aspect" && !isNear(aspectRatio(snapshot), aspectRatio(layout2), 0.2);
 }
 function checkNodeWasScrollRoot(node) {
-  return node !== node.root && node.scroll?.wasRoot;
+  var _a;
+  return node !== node.root && ((_a = node.scroll) == null ? void 0 : _a.wasRoot);
 }
 
 // node_modules/framer-motion/dist/es/projection/node/DocumentProjectionNode.mjs
@@ -8997,10 +9053,11 @@ var VisualElement = class {
    * props.
    */
   getBaseTarget(key) {
+    var _a;
     const { initial } = this.props;
     let valueFromInitial;
     if (typeof initial === "string" || typeof initial === "object") {
-      const variant = resolveVariantFromProps(this.props, initial, this.presenceContext?.custom);
+      const variant = resolveVariantFromProps(this.props, initial, (_a = this.presenceContext) == null ? void 0 : _a.custom);
       if (variant) {
         valueFromInitial = variant[key];
       }
@@ -9065,7 +9122,7 @@ function renderHTML(element, { style: style2, vars }, styleProp, projection) {
   for (key in style2) {
     elementStyle[key] = style2[key];
   }
-  projection?.applyProjectionStyles(elementStyle, styleProp);
+  projection == null ? void 0 : projection.applyProjectionStyles(elementStyle, styleProp);
   for (key in vars) {
     elementStyle.setProperty(key, vars[key]);
   }
@@ -9082,8 +9139,9 @@ var HTMLVisualElement = class extends DOMVisualElement {
     this.renderInstance = renderHTML;
   }
   readValueFromInstance(instance, key) {
+    var _a;
     if (transformProps.has(key)) {
-      return this.projection?.isProjecting ? defaultTransformValue(key) : readTransformValue(instance, key);
+      return ((_a = this.projection) == null ? void 0 : _a.isProjecting) ? defaultTransformValue(key) : readTransformValue(instance, key);
     } else {
       const computedStyle = getComputedStyle3(instance);
       const value = (isCSSVariableName(key) ? computedStyle.getPropertyValue(key) : computedStyle[key]) || 0;
@@ -9485,6 +9543,7 @@ function scrollInfo(onScroll, { container = document.scrollingElement, ...option
   const listener = scrollListeners.get(container);
   frame.read(listener, false, true);
   return () => {
+    var _a;
     cancelFrame(listener);
     const currentHandlers = onScrollHandlers.get(container);
     if (!currentHandlers)
@@ -9496,7 +9555,7 @@ function scrollInfo(onScroll, { container = document.scrollingElement, ...option
     scrollListeners.delete(container);
     if (scrollListener) {
       getEventTarget(container).removeEventListener("scroll", scrollListener);
-      resizeListeners.get(container)?.();
+      (_a = resizeListeners.get(container)) == null ? void 0 : _a();
       window.removeEventListener("resize", scrollListener);
     }
   };
@@ -9585,8 +9644,8 @@ function useScroll({ container, target, layoutEffect = true, ...options } = {}) 
       values.scrollYProgress.set(y.progress);
     }, {
       ...options,
-      container: container?.current || void 0,
-      target: target?.current || void 0
+      container: (container == null ? void 0 : container.current) || void 0,
+      target: (target == null ? void 0 : target.current) || void 0
     });
   }, [container, target, JSON.stringify(options.offset)]);
   return values;
@@ -9962,7 +10021,7 @@ function createAnimationsFromSequence(sequence, { defaultTransition = {}, ...seq
       let { ease: ease2 = defaultTransition.ease || "easeOut", duration } = valueTransition;
       const calculatedDelay = typeof delay2 === "function" ? delay2(elementIndex, numSubjects) : delay2;
       const numKeyframes = valueKeyframesAsList.length;
-      const createGenerator = isGenerator(type) ? type : generators?.[type || "keyframes"];
+      const createGenerator = isGenerator(type) ? type : generators == null ? void 0 : generators[type || "keyframes"];
       if (numKeyframes <= 2 && createGenerator) {
         let absoluteDelta = 100;
         if (numKeyframes === 2 && isNumberKeyframesArray(valueKeyframesAsList)) {
@@ -10588,6 +10647,7 @@ var appearStoreId = (elementId, valueName) => {
 
 // node_modules/framer-motion/dist/es/animation/optimized-appear/handoff.mjs
 function handoffOptimizedAppearAnimation(elementId, valueName, frame2) {
+  var _a;
   const storeId = appearStoreId(elementId, valueName);
   const optimisedAnimation = appearAnimationStore.get(storeId);
   if (!optimisedAnimation) {
@@ -10595,10 +10655,11 @@ function handoffOptimizedAppearAnimation(elementId, valueName, frame2) {
   }
   const { animation, startTime } = optimisedAnimation;
   function cancelAnimation() {
-    window.MotionCancelOptimisedAnimation?.(elementId, valueName, frame2);
+    var _a2;
+    (_a2 = window.MotionCancelOptimisedAnimation) == null ? void 0 : _a2.call(window, elementId, valueName, frame2);
   }
   animation.onfinish = cancelAnimation;
-  if (startTime === null || window.MotionHandoffIsComplete?.(elementId)) {
+  if (startTime === null || ((_a = window.MotionHandoffIsComplete) == null ? void 0 : _a.call(window, elementId))) {
     cancelAnimation();
     return null;
   } else {
@@ -10684,16 +10745,18 @@ function startOptimizedAppearAnimation(element, name, keyframes2, options, onRea
       }
     };
     window.MotionCheckAppearSync = (visualElement, valueName, value) => {
+      var _a, _b;
       const appearId = getOptimisedAppearId(visualElement);
       if (!appearId)
         return;
-      const valueIsOptimised = window.MotionHasOptimisedAnimation?.(appearId, valueName);
-      const externalAnimationValue = visualElement.props.values?.[valueName];
+      const valueIsOptimised = (_a = window.MotionHasOptimisedAnimation) == null ? void 0 : _a.call(window, appearId, valueName);
+      const externalAnimationValue = (_b = visualElement.props.values) == null ? void 0 : _b[valueName];
       if (!valueIsOptimised || !externalAnimationValue)
         return;
       const removeSyncCheck = value.on("change", (latestValue) => {
+        var _a2;
         if (externalAnimationValue.get() !== latestValue) {
-          window.MotionCancelOptimisedAnimation?.(appearId, valueName);
+          (_a2 = window.MotionCancelOptimisedAnimation) == null ? void 0 : _a2.call(window, appearId, valueName);
           removeSyncCheck();
         }
       });

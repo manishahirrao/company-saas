@@ -5,56 +5,56 @@ import {
   Content,
   Root2,
   createPopperScope
-} from "./chunk-T3F3VOXG.js";
-import {
-  Item,
-  Root,
-  createRovingFocusGroupScope
-} from "./chunk-5LO5LCSM.js";
-import {
-  useDirection
-} from "./chunk-JWDMXHVH.js";
-import {
-  createCollection
-} from "./chunk-T6MQHAQ3.js";
-import "./chunk-SMFEHCPM.js";
+} from "./chunk-4H3QLOFS.js";
 import {
   Combination_default,
   FocusScope,
   hideOthers,
   useFocusGuards
-} from "./chunk-CCXAMAUU.js";
+} from "./chunk-ODGYCW27.js";
 import {
   DismissableLayer,
   Portal
-} from "./chunk-ZQ7N7MWR.js";
+} from "./chunk-Q3WPQ6NT.js";
+import {
+  Item,
+  Root,
+  createRovingFocusGroupScope
+} from "./chunk-656CYGDW.js";
 import {
   useId
-} from "./chunk-NX45TAAP.js";
+} from "./chunk-NTTUA5LP.js";
+import {
+  useDirection
+} from "./chunk-JWDMXHVH.js";
+import {
+  createCollection
+} from "./chunk-6QRW2GMA.js";
+import {
+  useCallbackRef
+} from "./chunk-PGJMDC7L.js";
 import {
   Presence
-} from "./chunk-TYY4466L.js";
+} from "./chunk-KMNJNKWD.js";
+import "./chunk-O4HB3ZSY.js";
 import {
   composeEventHandlers,
   useControllableState
-} from "./chunk-GSYC6XG3.js";
-import {
-  useCallbackRef
-} from "./chunk-SW7TCIU5.js";
-import "./chunk-JFB3BJE6.js";
+} from "./chunk-HP44PDVO.js";
+import "./chunk-MEWAP6LP.js";
 import {
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive,
   dispatchDiscreteCustomEvent
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   composeRefs,
   createSlot,
   useComposedRefs
-} from "./chunk-33HT33LB.js";
-import "./chunk-LJXWR6UH.js";
+} from "./chunk-YVDCDBND.js";
+import "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -245,13 +245,14 @@ var MenuContentImpl = React.forwardRef(
     const ScrollLockWrapper = disableOutsideScroll ? Combination_default : React.Fragment;
     const scrollLockWrapperProps = disableOutsideScroll ? { as: Slot, allowPinchZoom: true } : void 0;
     const handleTypeaheadSearch = (key) => {
+      var _a, _b;
       const search = searchRef.current + key;
       const items = getItems().filter((item) => !item.disabled);
       const currentItem = document.activeElement;
-      const currentMatch = items.find((item) => item.ref.current === currentItem)?.textValue;
+      const currentMatch = (_a = items.find((item) => item.ref.current === currentItem)) == null ? void 0 : _a.textValue;
       const values = items.map((item) => item.textValue);
       const nextMatch = getNextMatch(values, search, currentMatch);
-      const newItem = items.find((item) => item.textValue === nextMatch)?.ref.current;
+      const newItem = (_b = items.find((item) => item.textValue === nextMatch)) == null ? void 0 : _b.ref.current;
       (function updateSearch(value) {
         searchRef.current = value;
         window.clearTimeout(timerRef.current);
@@ -266,8 +267,9 @@ var MenuContentImpl = React.forwardRef(
     }, []);
     useFocusGuards();
     const isPointerMovingToSubmenu = React.useCallback((event) => {
-      const isMovingTowards = pointerDirRef.current === pointerGraceIntentRef.current?.side;
-      return isMovingTowards && isPointerInGraceArea(event, pointerGraceIntentRef.current?.area);
+      var _a, _b;
+      const isMovingTowards = pointerDirRef.current === ((_a = pointerGraceIntentRef.current) == null ? void 0 : _a.side);
+      return isMovingTowards && isPointerInGraceArea(event, (_b = pointerGraceIntentRef.current) == null ? void 0 : _b.area);
     }, []);
     return (0, import_jsx_runtime.jsx)(
       MenuContentProvider,
@@ -282,8 +284,9 @@ var MenuContentImpl = React.forwardRef(
         ),
         onItemLeave: React.useCallback(
           (event) => {
+            var _a;
             if (isPointerMovingToSubmenu(event)) return;
-            contentRef.current?.focus();
+            (_a = contentRef.current) == null ? void 0 : _a.focus();
             setCurrentItemId(null);
           },
           [isPointerMovingToSubmenu]
@@ -304,8 +307,9 @@ var MenuContentImpl = React.forwardRef(
             asChild: true,
             trapped: trapFocus,
             onMountAutoFocus: composeEventHandlers(onOpenAutoFocus, (event) => {
+              var _a;
               event.preventDefault();
-              contentRef.current?.focus({ preventScroll: true });
+              (_a = contentRef.current) == null ? void 0 : _a.focus({ preventScroll: true });
             }),
             onUnmountAutoFocus: onCloseAutoFocus,
             children: (0, import_jsx_runtime.jsx)(
@@ -423,7 +427,7 @@ var MenuItem = React.forwardRef(
       const menuItem = ref.current;
       if (!disabled && menuItem) {
         const itemSelectEvent = new CustomEvent(ITEM_SELECT, { bubbles: true, cancelable: true });
-        menuItem.addEventListener(ITEM_SELECT, (event) => onSelect?.(event), { once: true });
+        menuItem.addEventListener(ITEM_SELECT, (event) => onSelect == null ? void 0 : onSelect(event), { once: true });
         dispatchDiscreteCustomEvent(menuItem, itemSelectEvent);
         if (itemSelectEvent.defaultPrevented) {
           isPointerDownRef.current = false;
@@ -440,11 +444,13 @@ var MenuItem = React.forwardRef(
         disabled,
         onClick: composeEventHandlers(props.onClick, handleSelect),
         onPointerDown: (event) => {
-          props.onPointerDown?.(event);
+          var _a;
+          (_a = props.onPointerDown) == null ? void 0 : _a.call(props, event);
           isPointerDownRef.current = true;
         },
         onPointerUp: composeEventHandlers(props.onPointerUp, (event) => {
-          if (!isPointerDownRef.current) event.currentTarget?.click();
+          var _a;
+          if (!isPointerDownRef.current) (_a = event.currentTarget) == null ? void 0 : _a.click();
         }),
         onKeyDown: composeEventHandlers(props.onKeyDown, (event) => {
           const isTypingAhead = contentContext.searchRef.current !== "";
@@ -529,7 +535,7 @@ var MenuCheckboxItem = React.forwardRef(
         "data-state": getCheckedState(checked),
         onSelect: composeEventHandlers(
           checkboxItemProps.onSelect,
-          () => onCheckedChange?.(isIndeterminate(checked) ? true : !checked),
+          () => onCheckedChange == null ? void 0 : onCheckedChange(isIndeterminate(checked) ? true : !checked),
           { checkForDefaultPrevented: false }
         )
       }
@@ -567,7 +573,10 @@ var MenuRadioItem = React.forwardRef(
         "data-state": getCheckedState(checked),
         onSelect: composeEventHandlers(
           radioItemProps.onSelect,
-          () => context.onValueChange?.(value),
+          () => {
+            var _a;
+            return (_a = context.onValueChange) == null ? void 0 : _a.call(context, value);
+          },
           { checkForDefaultPrevented: false }
         )
       }
@@ -695,7 +704,8 @@ var MenuSubTrigger = React.forwardRef(
         ...props,
         ref: composeRefs(forwardedRef, subContext.onTriggerChange),
         onClick: (event) => {
-          props.onClick?.(event);
+          var _a;
+          (_a = props.onClick) == null ? void 0 : _a.call(props, event);
           if (props.disabled || event.defaultPrevented) return;
           event.currentTarget.focus();
           if (!context.open) context.onOpenChange(true);
@@ -717,10 +727,11 @@ var MenuSubTrigger = React.forwardRef(
         onPointerLeave: composeEventHandlers(
           props.onPointerLeave,
           whenMouse((event) => {
+            var _a, _b;
             clearOpenTimer();
-            const contentRect = context.content?.getBoundingClientRect();
+            const contentRect = (_a = context.content) == null ? void 0 : _a.getBoundingClientRect();
             if (contentRect) {
-              const side = context.content?.dataset.side;
+              const side = (_b = context.content) == null ? void 0 : _b.dataset.side;
               const rightSide = side === "right";
               const bleed = rightSide ? -5 : 5;
               const contentNearEdge = contentRect[rightSide ? "left" : "right"];
@@ -750,11 +761,12 @@ var MenuSubTrigger = React.forwardRef(
           })
         ),
         onKeyDown: composeEventHandlers(props.onKeyDown, (event) => {
+          var _a;
           const isTypingAhead = contentContext.searchRef.current !== "";
           if (props.disabled || isTypingAhead && event.key === " ") return;
           if (SUB_OPEN_KEYS[rootContext.dir].includes(event.key)) {
             context.onOpenChange(true);
-            context.content?.focus();
+            (_a = context.content) == null ? void 0 : _a.focus();
             event.preventDefault();
           }
         })
@@ -786,7 +798,8 @@ var MenuSubContent = React.forwardRef(
         disableOutsideScroll: false,
         trapFocus: false,
         onOpenAutoFocus: (event) => {
-          if (rootContext.isUsingKeyboardRef.current) ref.current?.focus();
+          var _a;
+          if (rootContext.isUsingKeyboardRef.current) (_a = ref.current) == null ? void 0 : _a.focus();
           event.preventDefault();
         },
         onCloseAutoFocus: (event) => event.preventDefault(),
@@ -798,11 +811,12 @@ var MenuSubContent = React.forwardRef(
           event.preventDefault();
         }),
         onKeyDown: composeEventHandlers(props.onKeyDown, (event) => {
+          var _a;
           const isKeyDownInside = event.currentTarget.contains(event.target);
           const isCloseKey = SUB_CLOSE_KEYS[rootContext.dir].includes(event.key);
           if (isKeyDownInside && isCloseKey) {
             context.onOpenChange(false);
-            subContext.trigger?.focus();
+            (_a = subContext.trigger) == null ? void 0 : _a.focus();
             event.preventDefault();
           }
         })
@@ -985,7 +999,8 @@ var DropdownMenuContent = React2.forwardRef(
         ...contentProps,
         ref: forwardedRef,
         onCloseAutoFocus: composeEventHandlers(props.onCloseAutoFocus, (event) => {
-          if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus();
+          var _a;
+          if (!hasInteractedOutsideRef.current) (_a = context.triggerRef.current) == null ? void 0 : _a.focus();
           hasInteractedOutsideRef.current = false;
           event.preventDefault();
         }),

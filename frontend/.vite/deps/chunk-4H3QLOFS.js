@@ -1,24 +1,24 @@
 import {
-  useSize
-} from "./chunk-SMFEHCPM.js";
-import {
   useCallbackRef
-} from "./chunk-SW7TCIU5.js";
+} from "./chunk-PGJMDC7L.js";
+import {
+  useSize
+} from "./chunk-O4HB3ZSY.js";
 import {
   useLayoutEffect2
-} from "./chunk-JFB3BJE6.js";
+} from "./chunk-MEWAP6LP.js";
 import {
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   useComposedRefs
-} from "./chunk-33HT33LB.js";
+} from "./chunk-YVDCDBND.js";
 import {
   require_react_dom
-} from "./chunk-LJXWR6UH.js";
+} from "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -1957,7 +1957,7 @@ var PopperAnchor = React3.forwardRef(
     const ref = React3.useRef(null);
     const composedRefs = useComposedRefs(forwardedRef, ref);
     React3.useEffect(() => {
-      context.onAnchorChange(virtualRef?.current || ref.current);
+      context.onAnchorChange((virtualRef == null ? void 0 : virtualRef.current) || ref.current);
     });
     return virtualRef ? null : (0, import_jsx_runtime2.jsx)(Primitive.div, { ...anchorProps, ref: composedRefs });
   }
@@ -1967,6 +1967,7 @@ var CONTENT_NAME = "PopperContent";
 var [PopperContentProvider, useContentContext] = createPopperContext(CONTENT_NAME);
 var PopperContent = React3.forwardRef(
   (props, forwardedRef) => {
+    var _a, _b, _c, _d, _e, _f;
     const {
       __scopePopper,
       side = "bottom",
@@ -1988,8 +1989,8 @@ var PopperContent = React3.forwardRef(
     const composedRefs = useComposedRefs(forwardedRef, (node) => setContent(node));
     const [arrow4, setArrow] = React3.useState(null);
     const arrowSize = useSize(arrow4);
-    const arrowWidth = arrowSize?.width ?? 0;
-    const arrowHeight = arrowSize?.height ?? 0;
+    const arrowWidth = (arrowSize == null ? void 0 : arrowSize.width) ?? 0;
+    const arrowHeight = (arrowSize == null ? void 0 : arrowSize.height) ?? 0;
     const desiredPlacement = side + (align !== "center" ? "-" + align : "");
     const collisionPadding = typeof collisionPaddingProp === "number" ? collisionPaddingProp : { top: 0, right: 0, bottom: 0, left: 0, ...collisionPaddingProp };
     const boundary = Array.isArray(collisionBoundary) ? collisionBoundary : [collisionBoundary];
@@ -2042,12 +2043,12 @@ var PopperContent = React3.forwardRef(
     const handlePlaced = useCallbackRef(onPlaced);
     useLayoutEffect2(() => {
       if (isPositioned) {
-        handlePlaced?.();
+        handlePlaced == null ? void 0 : handlePlaced();
       }
     }, [isPositioned, handlePlaced]);
-    const arrowX = middlewareData.arrow?.x;
-    const arrowY = middlewareData.arrow?.y;
-    const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0;
+    const arrowX = (_a = middlewareData.arrow) == null ? void 0 : _a.x;
+    const arrowY = (_b = middlewareData.arrow) == null ? void 0 : _b.y;
+    const cannotCenterArrow = ((_c = middlewareData.arrow) == null ? void 0 : _c.centerOffset) !== 0;
     const [contentZIndex, setContentZIndex] = React3.useState();
     useLayoutEffect2(() => {
       if (content) setContentZIndex(window.getComputedStyle(content).zIndex);
@@ -2064,13 +2065,13 @@ var PopperContent = React3.forwardRef(
           minWidth: "max-content",
           zIndex: contentZIndex,
           ["--radix-popper-transform-origin"]: [
-            middlewareData.transformOrigin?.x,
-            middlewareData.transformOrigin?.y
+            (_d = middlewareData.transformOrigin) == null ? void 0 : _d.x,
+            (_e = middlewareData.transformOrigin) == null ? void 0 : _e.y
           ].join(" "),
           // hide the content if using the hide middleware and should be hidden
           // set visibility to hidden and disable pointer events so the UI behaves
           // as if the PopperContent isn't there at all
-          ...middlewareData.hide?.referenceHidden && {
+          ...((_f = middlewareData.hide) == null ? void 0 : _f.referenceHidden) && {
             visibility: "hidden",
             pointerEvents: "none"
           }
@@ -2169,15 +2170,16 @@ var transformOrigin = (options) => ({
   name: "transformOrigin",
   options,
   fn(data) {
+    var _a, _b, _c;
     const { placement, rects, middlewareData } = data;
-    const cannotCenterArrow = middlewareData.arrow?.centerOffset !== 0;
+    const cannotCenterArrow = ((_a = middlewareData.arrow) == null ? void 0 : _a.centerOffset) !== 0;
     const isArrowHidden = cannotCenterArrow;
     const arrowWidth = isArrowHidden ? 0 : options.arrowWidth;
     const arrowHeight = isArrowHidden ? 0 : options.arrowHeight;
     const [placedSide, placedAlign] = getSideAndAlignFromPlacement(placement);
     const noArrowAlign = { start: "0%", center: "50%", end: "100%" }[placedAlign];
-    const arrowXCenter = (middlewareData.arrow?.x ?? 0) + arrowWidth / 2;
-    const arrowYCenter = (middlewareData.arrow?.y ?? 0) + arrowHeight / 2;
+    const arrowXCenter = (((_b = middlewareData.arrow) == null ? void 0 : _b.x) ?? 0) + arrowWidth / 2;
+    const arrowYCenter = (((_c = middlewareData.arrow) == null ? void 0 : _c.y) ?? 0) + arrowHeight / 2;
     let x = "";
     let y = "";
     if (placedSide === "bottom") {
@@ -2212,4 +2214,4 @@ export {
   Content,
   Arrow2 as Arrow
 };
-//# sourceMappingURL=chunk-T3F3VOXG.js.map
+//# sourceMappingURL=chunk-4H3QLOFS.js.map

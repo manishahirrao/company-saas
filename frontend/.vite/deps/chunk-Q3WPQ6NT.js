@@ -1,22 +1,22 @@
 import {
-  composeEventHandlers
-} from "./chunk-GSYC6XG3.js";
-import {
   useCallbackRef
-} from "./chunk-SW7TCIU5.js";
+} from "./chunk-PGJMDC7L.js";
+import {
+  composeEventHandlers
+} from "./chunk-HP44PDVO.js";
 import {
   useLayoutEffect2
-} from "./chunk-JFB3BJE6.js";
+} from "./chunk-MEWAP6LP.js";
 import {
   Primitive,
   dispatchDiscreteCustomEvent
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   useComposedRefs
-} from "./chunk-33HT33LB.js";
+} from "./chunk-YVDCDBND.js";
 import {
   require_react_dom
-} from "./chunk-LJXWR6UH.js";
+} from "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -32,7 +32,7 @@ var React2 = __toESM(require_react(), 1);
 
 // node_modules/@radix-ui/react-use-escape-keydown/dist/index.mjs
 var React = __toESM(require_react(), 1);
-function useEscapeKeydown(onEscapeKeyDownProp, ownerDocument = globalThis?.document) {
+function useEscapeKeydown(onEscapeKeyDownProp, ownerDocument = globalThis == null ? void 0 : globalThis.document) {
   const onEscapeKeyDown = useCallbackRef(onEscapeKeyDownProp);
   React.useEffect(() => {
     const handleKeyDown = (event) => {
@@ -70,7 +70,7 @@ var DismissableLayer = React2.forwardRef(
     } = props;
     const context = React2.useContext(DismissableLayerContext);
     const [node, setNode] = React2.useState(null);
-    const ownerDocument = node?.ownerDocument ?? globalThis?.document;
+    const ownerDocument = (node == null ? void 0 : node.ownerDocument) ?? (globalThis == null ? void 0 : globalThis.document);
     const [, force] = React2.useState({});
     const composedRefs = useComposedRefs(forwardedRef, (node2) => setNode(node2));
     const layers = Array.from(context.layers);
@@ -83,22 +83,22 @@ var DismissableLayer = React2.forwardRef(
       const target = event.target;
       const isPointerDownOnBranch = [...context.branches].some((branch) => branch.contains(target));
       if (!isPointerEventsEnabled || isPointerDownOnBranch) return;
-      onPointerDownOutside?.(event);
-      onInteractOutside?.(event);
-      if (!event.defaultPrevented) onDismiss?.();
+      onPointerDownOutside == null ? void 0 : onPointerDownOutside(event);
+      onInteractOutside == null ? void 0 : onInteractOutside(event);
+      if (!event.defaultPrevented) onDismiss == null ? void 0 : onDismiss();
     }, ownerDocument);
     const focusOutside = useFocusOutside((event) => {
       const target = event.target;
       const isFocusInBranch = [...context.branches].some((branch) => branch.contains(target));
       if (isFocusInBranch) return;
-      onFocusOutside?.(event);
-      onInteractOutside?.(event);
-      if (!event.defaultPrevented) onDismiss?.();
+      onFocusOutside == null ? void 0 : onFocusOutside(event);
+      onInteractOutside == null ? void 0 : onInteractOutside(event);
+      if (!event.defaultPrevented) onDismiss == null ? void 0 : onDismiss();
     }, ownerDocument);
     useEscapeKeydown((event) => {
       const isHighestLayer = index === context.layers.size - 1;
       if (!isHighestLayer) return;
-      onEscapeKeyDown?.(event);
+      onEscapeKeyDown == null ? void 0 : onEscapeKeyDown(event);
       if (!event.defaultPrevented && onDismiss) {
         event.preventDefault();
         onDismiss();
@@ -171,7 +171,7 @@ var DismissableLayerBranch = React2.forwardRef((props, forwardedRef) => {
   return (0, import_jsx_runtime.jsx)(Primitive.div, { ...props, ref: composedRefs });
 });
 DismissableLayerBranch.displayName = BRANCH_NAME;
-function usePointerDownOutside(onPointerDownOutside, ownerDocument = globalThis?.document) {
+function usePointerDownOutside(onPointerDownOutside, ownerDocument = globalThis == null ? void 0 : globalThis.document) {
   const handlePointerDownOutside = useCallbackRef(onPointerDownOutside);
   const isPointerInsideReactTreeRef = React2.useRef(false);
   const handleClickRef = React2.useRef(() => {
@@ -215,7 +215,7 @@ function usePointerDownOutside(onPointerDownOutside, ownerDocument = globalThis?
     onPointerDownCapture: () => isPointerInsideReactTreeRef.current = true
   };
 }
-function useFocusOutside(onFocusOutside, ownerDocument = globalThis?.document) {
+function useFocusOutside(onFocusOutside, ownerDocument = globalThis == null ? void 0 : globalThis.document) {
   const handleFocusOutside = useCallbackRef(onFocusOutside);
   const isFocusInsideReactTreeRef = React2.useRef(false);
   React2.useEffect(() => {
@@ -258,10 +258,11 @@ var import_react_dom = __toESM(require_react_dom(), 1);
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
 var PORTAL_NAME = "Portal";
 var Portal = React3.forwardRef((props, forwardedRef) => {
+  var _a;
   const { container: containerProp, ...portalProps } = props;
   const [mounted, setMounted] = React3.useState(false);
   useLayoutEffect2(() => setMounted(true), []);
-  const container = containerProp || mounted && globalThis?.document?.body;
+  const container = containerProp || mounted && ((_a = globalThis == null ? void 0 : globalThis.document) == null ? void 0 : _a.body);
   return container ? import_react_dom.default.createPortal((0, import_jsx_runtime2.jsx)(Primitive.div, { ...portalProps, ref: forwardedRef }), container) : null;
 });
 Portal.displayName = PORTAL_NAME;
@@ -272,4 +273,4 @@ export {
   Branch,
   Portal
 };
-//# sourceMappingURL=chunk-ZQ7N7MWR.js.map
+//# sourceMappingURL=chunk-Q3WPQ6NT.js.map

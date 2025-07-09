@@ -6,34 +6,34 @@ import {
   Item,
   Root,
   createRovingFocusGroupScope
-} from "./chunk-5LO5LCSM.js";
+} from "./chunk-656CYGDW.js";
+import "./chunk-NTTUA5LP.js";
 import {
   useDirection
 } from "./chunk-JWDMXHVH.js";
-import "./chunk-T6MQHAQ3.js";
-import {
-  useSize
-} from "./chunk-SMFEHCPM.js";
-import "./chunk-NX45TAAP.js";
+import "./chunk-6QRW2GMA.js";
+import "./chunk-PGJMDC7L.js";
 import {
   Presence
-} from "./chunk-TYY4466L.js";
+} from "./chunk-KMNJNKWD.js";
+import {
+  useSize
+} from "./chunk-O4HB3ZSY.js";
 import {
   composeEventHandlers,
   useControllableState
-} from "./chunk-GSYC6XG3.js";
-import "./chunk-SW7TCIU5.js";
-import "./chunk-JFB3BJE6.js";
+} from "./chunk-HP44PDVO.js";
+import "./chunk-MEWAP6LP.js";
 import {
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   useComposedRefs
-} from "./chunk-33HT33LB.js";
-import "./chunk-LJXWR6UH.js";
+} from "./chunk-YVDCDBND.js";
+import "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -83,7 +83,7 @@ var Radio = React.forwardRef(
           ...radioProps,
           ref: composedRefs,
           onClick: composeEventHandlers(props.onClick, (event) => {
-            if (!checked) onCheck?.();
+            if (!checked) onCheck == null ? void 0 : onCheck();
             if (isFormControl) {
               hasConsumerStoppedPropagationRef.current = event.isPropagationStopped();
               if (!hasConsumerStoppedPropagationRef.current) event.stopPropagation();
@@ -295,7 +295,8 @@ var RadioGroupItem = React2.forwardRef(
               if (event.key === "Enter") event.preventDefault();
             }),
             onFocus: composeEventHandlers(itemProps.onFocus, () => {
-              if (isArrowKeyPressedRef.current) ref.current?.click();
+              var _a;
+              if (isArrowKeyPressedRef.current) (_a = ref.current) == null ? void 0 : _a.click();
             })
           }
         )

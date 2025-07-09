@@ -7,10 +7,10 @@ import {
 
 // node_modules/@radix-ui/react-use-layout-effect/dist/index.mjs
 var React = __toESM(require_react(), 1);
-var useLayoutEffect2 = globalThis?.document ? React.useLayoutEffect : () => {
+var useLayoutEffect2 = (globalThis == null ? void 0 : globalThis.document) ? React.useLayoutEffect : () => {
 };
 
 export {
   useLayoutEffect2
 };
-//# sourceMappingURL=chunk-JFB3BJE6.js.map
+//# sourceMappingURL=chunk-MEWAP6LP.js.map

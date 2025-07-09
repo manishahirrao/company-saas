@@ -1,9 +1,9 @@
 "use client";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
-import "./chunk-33HT33LB.js";
-import "./chunk-LJXWR6UH.js";
+} from "./chunk-DX7GNSEN.js";
+import "./chunk-YVDCDBND.js";
+import "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -25,9 +25,10 @@ var Label = React.forwardRef((props, forwardedRef) => {
       ...props,
       ref: forwardedRef,
       onMouseDown: (event) => {
+        var _a;
         const target = event.target;
         if (target.closest("button, input, select, textarea")) return;
-        props.onMouseDown?.(event);
+        (_a = props.onMouseDown) == null ? void 0 : _a.call(props, event);
         if (!event.defaultPrevented && event.detail > 1) event.preventDefault();
       }
     }

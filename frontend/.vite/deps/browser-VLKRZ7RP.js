@@ -15,3 +15,4 @@ export {
   browser_default as default,
   fetch
 };
+//# sourceMappingURL=browser-VLKRZ7RP.js.map

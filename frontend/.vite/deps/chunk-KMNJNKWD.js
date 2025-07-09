@@ -1,9 +1,9 @@
 import {
   useLayoutEffect2
-} from "./chunk-JFB3BJE6.js";
+} from "./chunk-MEWAP6LP.js";
 import {
   useComposedRefs
-} from "./chunk-33HT33LB.js";
+} from "./chunk-YVDCDBND.js";
 import {
   require_react
 } from "./chunk-65KY755N.js";
@@ -61,7 +61,7 @@ function usePresence(present) {
       const currentAnimationName = getAnimationName(styles);
       if (present) {
         send("MOUNT");
-      } else if (currentAnimationName === "none" || styles?.display === "none") {
+      } else if (currentAnimationName === "none" || (styles == null ? void 0 : styles.display) === "none") {
         send("UNMOUNT");
       } else {
         const isAnimating = prevAnimationName !== currentAnimationName;
@@ -121,15 +121,16 @@ function usePresence(present) {
   };
 }
 function getAnimationName(styles) {
-  return styles?.animationName || "none";
+  return (styles == null ? void 0 : styles.animationName) || "none";
 }
 function getElementRef(element) {
-  let getter = Object.getOwnPropertyDescriptor(element.props, "ref")?.get;
+  var _a, _b;
+  let getter = (_a = Object.getOwnPropertyDescriptor(element.props, "ref")) == null ? void 0 : _a.get;
   let mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
   if (mayWarn) {
     return element.ref;
   }
-  getter = Object.getOwnPropertyDescriptor(element, "ref")?.get;
+  getter = (_b = Object.getOwnPropertyDescriptor(element, "ref")) == null ? void 0 : _b.get;
   mayWarn = getter && "isReactWarning" in getter && getter.isReactWarning;
   if (mayWarn) {
     return element.props.ref;
@@ -140,4 +141,4 @@ function getElementRef(element) {
 export {
   Presence
 };
-//# sourceMappingURL=chunk-TYY4466L.js.map
+//# sourceMappingURL=chunk-KMNJNKWD.js.map

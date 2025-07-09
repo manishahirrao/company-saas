@@ -10,25 +10,25 @@ import {
 } from "./chunk-JWDMXHVH.js";
 import {
   createCollection
-} from "./chunk-T6MQHAQ3.js";
+} from "./chunk-6QRW2GMA.js";
 import {
   useSize
-} from "./chunk-SMFEHCPM.js";
+} from "./chunk-O4HB3ZSY.js";
 import {
   composeEventHandlers,
   useControllableState
-} from "./chunk-GSYC6XG3.js";
-import "./chunk-JFB3BJE6.js";
+} from "./chunk-HP44PDVO.js";
+import "./chunk-MEWAP6LP.js";
 import {
   createContextScope
-} from "./chunk-JIDRSWP3.js";
+} from "./chunk-USWVL52G.js";
 import {
   Primitive
-} from "./chunk-CG3TS2NX.js";
+} from "./chunk-DX7GNSEN.js";
 import {
   useComposedRefs
-} from "./chunk-33HT33LB.js";
-import "./chunk-LJXWR6UH.js";
+} from "./chunk-YVDCDBND.js";
+import "./chunk-ZZLBGYQN.js";
 import {
   require_jsx_runtime
 } from "./chunk-JO3Y3TZY.js";
@@ -84,8 +84,9 @@ var Slider = React.forwardRef(
       prop: value,
       defaultProp: defaultValue,
       onChange: (value2) => {
+        var _a;
         const thumbs = [...thumbRefs.current];
-        thumbs[valueIndexToChangeRef.current]?.focus();
+        (_a = thumbs[valueIndexToChangeRef.current]) == null ? void 0 : _a.focus();
         onValueChange(value2);
       }
     });
@@ -222,20 +223,20 @@ var SliderHorizontal = React.forwardRef(
             },
             onSlideStart: (event) => {
               const value = getValueFromPointer(event.clientX);
-              onSlideStart?.(value);
+              onSlideStart == null ? void 0 : onSlideStart(value);
             },
             onSlideMove: (event) => {
               const value = getValueFromPointer(event.clientX);
-              onSlideMove?.(value);
+              onSlideMove == null ? void 0 : onSlideMove(value);
             },
             onSlideEnd: () => {
               rectRef.current = void 0;
-              onSlideEnd?.();
+              onSlideEnd == null ? void 0 : onSlideEnd();
             },
             onStepKeyDown: (event) => {
               const slideDirection = isSlidingFromLeft ? "from-left" : "from-right";
               const isBackKey = BACK_KEYS[slideDirection].includes(event.key);
-              onStepKeyDown?.({ event, direction: isBackKey ? -1 : 1 });
+              onStepKeyDown == null ? void 0 : onStepKeyDown({ event, direction: isBackKey ? -1 : 1 });
             }
           }
         )
@@ -287,20 +288,20 @@ var SliderVertical = React.forwardRef(
             },
             onSlideStart: (event) => {
               const value = getValueFromPointer(event.clientY);
-              onSlideStart?.(value);
+              onSlideStart == null ? void 0 : onSlideStart(value);
             },
             onSlideMove: (event) => {
               const value = getValueFromPointer(event.clientY);
-              onSlideMove?.(value);
+              onSlideMove == null ? void 0 : onSlideMove(value);
             },
             onSlideEnd: () => {
               rectRef.current = void 0;
-              onSlideEnd?.();
+              onSlideEnd == null ? void 0 : onSlideEnd();
             },
             onStepKeyDown: (event) => {
               const slideDirection = isSlidingFromBottom ? "from-bottom" : "from-top";
               const isBackKey = BACK_KEYS[slideDirection].includes(event.key);
-              onStepKeyDown?.({ event, direction: isBackKey ? -1 : 1 });
+              onStepKeyDown == null ? void 0 : onStepKeyDown({ event, direction: isBackKey ? -1 : 1 });
             }
           }
         )
@@ -436,7 +437,7 @@ var SliderThumbImpl = React.forwardRef(
     const value = context.values[index];
     const percent = value === void 0 ? 0 : convertValueToPercentage(value, context.min, context.max);
     const label = getLabel(index, context.values.length);
-    const orientationSize = size?.[orientation.size];
+    const orientationSize = size == null ? void 0 : size[orientation.size];
     const thumbInBoundsOffset = orientationSize ? getThumbInBoundsOffset(orientationSize, percent, orientation.direction) : 0;
     React.useEffect(() => {
       if (thumb) {
