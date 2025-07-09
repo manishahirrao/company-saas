@@ -8,6 +8,7 @@ import Layout from "@/components/Layout/Layout";
 import PWAInstallPrompt from "@/components/PWA/PWAInstallPrompt";
 import ConnectionStatus from "@/components/ConnectionStatus/ConnectionStatus";
 import IdleTimeoutHandler from "@/components/IdleTimeout/IdleTimeoutHandler";
+import TestApiConnection from "@/components/TestApiConnection";
 
 // ===== AUTH PAGES =====
 
@@ -109,7 +110,14 @@ const App = () => {
                 <Dashboard />
               </ProtectedRoute>
             } />
-
+            
+            {/* Test API Connection */}
+            <Route path="/test-api" element={
+              <div className="min-h-screen flex items-center justify-center p-4">
+                <TestApiConnection />
+              </div>
+            } />
+            
             {/* Public Auth Routes */}
             <Route path="/login" element={<PublicRoute><LoginCompanyPage /></PublicRoute>} />
             <Route path="/register" element={<PublicRoute><CompanyRegisterPage /></PublicRoute>} />

@@ -1,0 +1,40 @@
+/* Mobile-specific styles */
+@media screen and (max-width: 768px) {
+  /* Ensure proper viewport scaling */
+  html {
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+  }
+  
+  /* Improve tap targets */
+  button, 
+  [role="button"],
+  a[role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Prevent text size adjustments */
+  body {
+    -webkit-text-size-adjust: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Improve form elements */
+  input, 
+  select, 
+  textarea, 
+  button {
+    font-size: 16px !important; /* Prevent zoom on focus in iOS */
+  }
+  
+  /* Prevent long words from breaking layout */
+  * {
+    -webkit-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+}

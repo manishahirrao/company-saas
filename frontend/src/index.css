@@ -6,6 +6,9 @@
 /* Import global styles */
 @import './styles/globals.css';
 
+/* Import mobile styles */
+@import './styles/mobile.css';
+
 /* Reset default margin and padding */
 html, body {
   margin: 0;
