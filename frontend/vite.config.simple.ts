@@ -28,9 +28,11 @@ export default defineConfig(({ mode }) => {
     },
     define: {
       // Define environment variables that will be available in the client code
-      'process.env.NODE_ENV': JSON.stringify(mode),
+      'import.meta.env.MODE': JSON.stringify(mode),
+      'import.meta.env.PROD': mode === 'production',
+      'import.meta.env.DEV': mode !== 'production',
       // Clear any global variables that might interfere
-      'process.env': {}
+      'process.env.NODE_ENV': JSON.stringify(mode)
     },
     optimizeDeps: {
       esbuildOptions: {

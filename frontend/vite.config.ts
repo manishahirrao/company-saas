@@ -1,4 +1,4 @@
-// https://vitejs.dev/config/
+// vite.config.ts
 import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
@@ -8,17 +8,13 @@ import path from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
-
   const base = mode === 'production' ? env.VITE_BASE_URL || '/' : '/';
   const isDev = mode === 'development';
 
-  console.log('Vite Config - Environment Variables:', {
+  console.log('Vite Config:', {
     VITE_BASE_URL: base,
     VITE_API_BASE_URL: env.VITE_API_BASE_URL || 'Not set',
-    VITE_SUPABASE_URL: env.VITE_SUPABASE_URL ? '***' : 'Not set',
-    VITE_SUPABASE_ANON_KEY: env.VITE_SUPABASE_ANON_KEY ? '***' : 'Not set',
-    NODE_ENV: process.env.NODE_ENV,
-    MODE: mode
+    NODE_ENV: mode,
   });
 
   return {
@@ -26,12 +22,12 @@ export default defineConfig(({ mode }) => {
     appType: 'spa',
     publicDir: 'public',
     cacheDir: '.vite',
+
     define: {
+      // These are the only globals your app should need.
+      // Vite handles the rest (like import.meta.env.MODE) automatically.
       __BASE__: JSON.stringify(base),
       __SERVER_HOST__: JSON.stringify(env.VITE_SERVER_HOST || 'http://localhost:3002'),
-      // Ensure process.env is defined for compatibility
-      'process.env.NODE_ENV': JSON.stringify(mode),
-      'process.env': {}
     },
 
     server: {
@@ -39,10 +35,7 @@ export default defineConfig(({ mode }) => {
       host: '0.0.0.0',
       open: 'http://localhost:3003',
       strictPort: true,
-      // HMR is automatically configured by Vite in development mode
-      hmr: isDev ? {
-        overlay: true
-      } : false,
+      hmr: isDev ? { overlay: true } : false,
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -53,16 +46,15 @@ export default defineConfig(({ mode }) => {
           target: 'http://localhost:3002',
           changeOrigin: true,
           secure: false,
-          rewrite: (path) => path.replace(/^\/api/, '')
-        }
-      }
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
     },
 
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
       emptyOutDir: true,
-      copyPublicDir: true,
       sourcemap: isDev,
       minify: isDev ? false : 'terser',
       chunkSizeWarningLimit: 1000,
@@ -78,10 +70,10 @@ export default defineConfig(({ mode }) => {
           manualChunks: {
             react: ['react', 'react-dom', 'react-router-dom'],
             vendor: ['framer-motion', 'lucide-react'],
-            ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu']
-          }
-        }
-      }
+            ui: ['@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
+          },
+        },
+      },
     },
 
     plugins: [
@@ -98,15 +90,15 @@ export default defineConfig(({ mode }) => {
           'masked-icon.svg',
           'robots.txt',
           'icon-192x192.png',
-          'icon-512x512.png'
+          'icon-512x512.png',
         ],
         injectManifest: {
           injectionPoint: 'self.__WB_MANIFEST',
-          maximumFileSizeToCacheInBytes: 5000000
+          maximumFileSizeToCacheInBytes: 5000000,
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
-          navigateFallback: isDev ? 'index.html' : '/index.html',
+          navigateFallback: '/index.html',
           navigateFallbackDenylist: [/^\/api/, /\/.*\/api\//],
           sourcemap: isDev,
           cleanupOutdatedCaches: true,
@@ -120,19 +112,19 @@ export default defineConfig(({ mode }) => {
                 cacheName: 'api-cache',
                 expiration: {
                   maxEntries: 200,
-                  maxAgeSeconds: 60 * 60 * 24 * 365
+                  maxAgeSeconds: 60 * 60 * 24 * 365,
                 },
                 cacheableResponse: {
-                  statuses: [0, 200]
-                }
-              }
-            }
-          ]
+                  statuses: [0, 200],
+                },
+              },
+            },
+          ],
         },
         manifest: {
-          name: 'Company SaaS',
-          short_name: 'CompanySaaS',
-          description: 'Company SaaS Application',
+          name: 'VORTEX',
+          short_name: 'VORTEX',
+          description: 'Enterprise-grade AI operations platform',
           theme_color: '#ffffff',
           background_color: '#ffffff',
           display: 'standalone',
@@ -142,24 +134,24 @@ export default defineConfig(({ mode }) => {
               src: `${base}icon-192x192.png`,
               sizes: '192x192',
               type: 'image/png',
-              purpose: 'any maskable'
+              purpose: 'any maskable',
             },
             {
               src: `${base}icon-512x512.png`,
               sizes: '512x512',
               type: 'image/png',
-              purpose: 'any maskable'
-            }
-          ]
+              purpose: 'any maskable',
+            },
+          ],
         },
         devOptions: {
           enabled: isDev,
           type: 'module',
           navigateFallback: 'index.html',
           suppressWarnings: true,
-          disableRuntimeConfig: true
-        }
-      })
+          disableRuntimeConfig: true,
+        },
+      }),
     ],
 
     resolve: {
@@ -167,17 +159,14 @@ export default defineConfig(({ mode }) => {
         { find: '@', replacement: path.resolve(__dirname, './src') },
         { find: '@components', replacement: path.resolve(__dirname, './src/components') },
         { find: '@pages', replacement: path.resolve(__dirname, './src/pages') },
-        { find: '@assets', replacement: path.resolve(__dirname, './src/assets') }
-      ]
+        { find: '@assets', replacement: path.resolve(__dirname, './src/assets') },
+      ],
     },
 
     css: {
       postcss: {
-        plugins: [
-          tailwindcss,
-          autoprefixer
-        ]
-      }
-    }
+        plugins: [tailwindcss, autoprefixer],
+      },
+    },
   };
 });
