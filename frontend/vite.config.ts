@@ -6,16 +6,12 @@ import tailwindcss from 'tailwindcss';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load env file based on `mode` in the current working directory
   const env = loadEnv(mode, process.cwd(), '');
-  
-  // Set base URL - use VITE_BASE_URL in production, default to '/' in development
+
   const base = mode === 'production' ? env.VITE_BASE_URL || '/' : '/';
   const isDev = mode === 'development';
-  
-  // Log environment variables for debugging
+
   console.log('Vite Config - Environment Variables:', {
     VITE_BASE_URL: base,
     VITE_API_BASE_URL: env.VITE_API_BASE_URL || 'Not set',
@@ -24,27 +20,29 @@ export default defineConfig(({ mode }) => {
     NODE_ENV: process.env.NODE_ENV,
     MODE: mode
   });
-  
+
   return {
-    // Base URL configuration
     base,
     appType: 'spa',
     publicDir: 'public',
-    cacheDir: '.vite', // Clear cache directory
+    cacheDir: '.vite',
     define: {
       __BASE__: JSON.stringify(base),
       __DEFINES__: JSON.stringify({}),
-      // Use import.meta.env.VITE_BASE_URL directly instead of __BASE__
       __SERVER_HOST__: JSON.stringify(env.VITE_SERVER_HOST || 'http://localhost:3002'),
       global: 'window'
     },
-    
-    // Development server configuration
+
     server: {
       port: 3003,
-      host: '0.0.0.0', // Listen on all network interfaces
+      host: '0.0.0.0',
       open: 'http://localhost:3003',
       strictPort: true,
+      hmr: isDev && {
+        protocol: 'ws',
+        host: 'localhost',
+        port: 3003
+      },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
@@ -59,14 +57,13 @@ export default defineConfig(({ mode }) => {
         }
       }
     },
-    
-    // Build configuration
+
     build: {
       outDir: 'dist',
       assetsDir: 'assets',
       emptyOutDir: true,
       copyPublicDir: true,
-      sourcemap: isDev, // Only enable sourcemaps in development
+      sourcemap: isDev,
       minify: isDev ? false : 'terser',
       chunkSizeWarningLimit: 1000,
       manifest: true,
@@ -86,8 +83,7 @@ export default defineConfig(({ mode }) => {
         }
       }
     },
-    
-    // Plugins
+
     plugins: [
       react(),
       VitePWA({
@@ -106,7 +102,7 @@ export default defineConfig(({ mode }) => {
         ],
         injectManifest: {
           injectionPoint: 'self.__WB_MANIFEST',
-          maximumFileSizeToCacheInBytes: 5000000 // 5MB
+          maximumFileSizeToCacheInBytes: 5000000
         },
         workbox: {
           globPatterns: ['**/*.{js,css,html,ico,png,svg,jpg,jpeg,gif,webp,woff,woff2,ttf,eot,json}'],
@@ -124,7 +120,7 @@ export default defineConfig(({ mode }) => {
                 cacheName: 'api-cache',
                 expiration: {
                   maxEntries: 200,
-                  maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+                  maxAgeSeconds: 60 * 60 * 24 * 365
                 },
                 cacheableResponse: {
                   statuses: [0, 200]
@@ -165,8 +161,7 @@ export default defineConfig(({ mode }) => {
         }
       })
     ],
-    
-    // Resolve configuration
+
     resolve: {
       alias: [
         { find: '@', replacement: path.resolve(__dirname, './src') },
@@ -175,8 +170,7 @@ export default defineConfig(({ mode }) => {
         { find: '@assets', replacement: path.resolve(__dirname, './src/assets') }
       ]
     },
-    
-    // CSS configuration
+
     css: {
       postcss: {
         plugins: [
