@@ -49,7 +49,7 @@ export function HeroSection() {
           </motion.h1>
           
           <motion.p 
-            className="text-2xl md:text-3xl text-muted-foreground font-space font-light mb-4"
+            className="text-2xl md:text-3xl text-foreground/80 dark:text-foreground/90 font-space font-light mb-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
@@ -74,7 +74,7 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1 }}
         >
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter leading-relaxed">
+          <p className="text-xl text-foreground/80 dark:text-foreground/90 max-w-3xl mx-auto font-inter leading-relaxed">
             Transform your business operations with cutting-edge AI automation. 
             Streamline workflows, enhance productivity, and unlock the full potential of artificial intelligence.
           </p>
@@ -87,7 +87,7 @@ export function HeroSection() {
               transition={{ duration: 0.2 }}
             >
               <div className="w-2 h-2 bg-electric-green rounded-full animate-pulse" />
-              <span className="text-sm font-medium">500+ Enterprise Clients</span>
+              <span className="text-sm font-medium text-foreground/90">500+ Enterprise Clients</span>
             </motion.div>
             <motion.div 
               className="flex items-center gap-2 px-4 py-2 bg-card/30 backdrop-blur-sm rounded-full border border-electric-purple/20"
@@ -95,7 +95,7 @@ export function HeroSection() {
               transition={{ duration: 0.2 }}
             >
               <div className="w-2 h-2 bg-neon-blue rounded-full animate-pulse" />
-              <span className="text-sm font-medium">99.9% Uptime SLA</span>
+              <span className="text-sm font-medium text-foreground/90">99.9% Uptime SLA</span>
             </motion.div>
             <motion.div 
               className="flex items-center gap-2 px-4 py-2 bg-card/30 backdrop-blur-sm rounded-full border border-electric-purple/20"
@@ -103,7 +103,7 @@ export function HeroSection() {
               transition={{ duration: 0.2 }}
             >
               <div className="w-2 h-2 bg-warm-yellow rounded-full animate-pulse" />
-              <span className="text-sm font-medium">SOC 2 Certified</span>
+              <span className="text-sm font-medium text-foreground/90">SOC 2 Certified</span>
             </motion.div>
           </div>
         </motion.div>

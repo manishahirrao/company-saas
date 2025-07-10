@@ -3,11 +3,29 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, Target, Heart, Users, Award, Rocket, Globe, BarChart, Zap } from 'lucide-react';
-import Navbar from '@/components/Layout/Navbar';
-import Footer from '@/components/Layout/Footer';
+import { 
+  ArrowRight, 
+  Target, 
+  Heart, 
+  Users, 
+  Award, 
+  Rocket, 
+  Globe, 
+  BarChart, 
+  Zap, 
+  ArrowUpRight, 
+  Check, 
+  Sparkles,
+  Lightbulb,
+  Handshake,
+  ShieldCheck,
+  TrendingUp,
+  Code2,
+  BrainCircuit
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const AboutUsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -72,7 +90,7 @@ const AboutUsPage: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background relative">
-        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-40 dark:opacity-30 pointer-events-none" />
+        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-100 pointer-events-none" />
         <main className="relative z-10 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto py-24 text-center space-y-8">
             <div className="h-16 bg-gradient-to-r from-electric-purple/20 to-neon-blue/20 rounded-lg animate-pulse mx-auto max-w-2xl" />
@@ -91,99 +109,214 @@ const AboutUsPage: React.FC = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Background Grid Pattern */}
-        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-40 dark:opacity-30 pointer-events-none" />
-        
+        {/* Animated background elements */}
+        <div className="absolute inset-0 -z-10 overflow-hidden">
+          <div className="absolute top-1/4 -right-1/4 w-96 h-96 bg-gradient-to-r from-electric-purple/20 to-neon-blue/20 rounded-full filter blur-3xl opacity-30"></div>
+          <div className="absolute bottom-1/4 -left-1/4 w-96 h-96 bg-gradient-to-r from-neon-blue/20 to-electric-purple/20 rounded-full filter blur-3xl opacity-30"></div>
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiM5OTkiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTIxIDIxYzAtLjI4LS4yMi0uNS0uNS0uVjIxLjVjMCAuMjguMjIuNS41LjVoLjV2LS41aC0uNXpNMjAgMTBjNS41MjMgMCAxMCA0LjQ3NyAxMCAxMHMtNC40NzcgMTAtMTAgMTBTMTAgMjUuNTIzIDEwIDIwYzAtMS4wMTYuMTUtMS45OTYuNDM0LTIuOTExLjA5LS4yOTYtLjE0LS41ODktLjQ0Ny0uNTg5aC0uOTc0Yy0uMjc1IDAtLjUuMjI0LS41LjV2LjA1Yy4wMDEuMDIuMDAzLjA0LjAwNi4wNjEuMzI3IDIuMTM4IDEuMjM5IDQuMTEgMi41NjYgNS44MzRDNi4xODMgMjUuODUxIDQgMjMuMTkzIDQgMjBjMC00LjQxOCAzLjU4Mi04IDgtOHpNTEgMjBjMCAxLjEwNS0uMTQ2IDIuMTc2LS40MjUgMy4yMDMtLjA5LjMzLjEzLjY3LjQ4Mi42N2guOTg2Yy4yNzUgMCAuNS0uMjI0LjUtLjV2LS4wNWMtLjAwMS0uMDItLjAwMy0uMDQtLjAwNi0uMDYxLS4zMjctMi4xMzgtMS4yMzktNC4xMS0yLjU2Ni01LjgzNEM0OS44MTcgMTQuMTQ5IDUyIDE2LjgwNyA1MiAyMGMwIDQuNDE4LTMuNTgyIDgtOCA4LTUuNTIzIDAtMTAtNC40NzctMTAtMTBzNC40NzctMTAgMTAtMTBjNS4zNTIgMCA5LjY4OCA0LjE2IDkuOTc1IDkuNXoiLz48L2c+PC9nPjwvc3ZnPg==')]"></div>
+        </div>
+
         <main className="relative z-10">
           {/* Hero Section */}
-          <section className="relative py-20 md:py-28 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-electric-purple/5 via-transparent to-neon-blue/5" />
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden">
+            <div className="absolute inset-0 -z-10">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-electric-purple/5 via-background to-background"></div>
+              <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+              <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/30 to-background"></div>
+            </div>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="text-center max-w-4xl mx-auto">
-                <Badge className="mb-6 bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
-                  Our Story
-                </Badge>
-                <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/70">
-                  Empowering Careers with AI
-                </h1>
-                <p className="text-xl text-foreground/80 max-w-2xl mx-auto mb-8">
-                  We're on a mission to revolutionize professional growth through innovative AI solutions that help individuals and businesses thrive in the digital age.
-                </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <Button className="group" size="lg">
-                    <span className="group-hover:translate-x-1 transition-transform duration-200">
-                      Join Our Team
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-electric-purple/10 to-neon-blue/10 border border-electric-purple/20 mb-6 backdrop-blur-sm"
+                >
+                  <Sparkles className="h-4 w-4 text-electric-purple" />
+                  <span className="text-sm font-medium bg-clip-text text-transparent bg-gradient-to-r from-electric-purple to-neon-blue">
+                    Innovating the Future
+                  </span>
+                </motion.div>
+                
+                <div className="relative">
+                  <motion.div 
+                    className="absolute -inset-4 bg-gradient-to-r from-electric-purple/20 to-neon-blue/20 rounded-2xl blur-2xl opacity-30"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 0.3, scale: 1 }}
+                    transition={{ duration: 1, delay: 0.2 }}
+                  />
+                  <motion.h1
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.1 }}
+                    className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-6 font-space relative"
+                  >
+                    <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
+                      About Our
+                    </span>{' '}
+                    <span className="relative">
+                      <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-electric-purple to-neon-blue">
+                        Vision
+                      </span>
+                      <span className="absolute -bottom-1 left-0 w-full h-2 bg-gradient-to-r from-electric-purple/30 to-neon-blue/30 -z-0 rounded-full"></span>
                     </span>
-                    <ArrowRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                  </Button>
-                  <Button variant="outline" size="lg" className="group">
-                    <span className="group-hover:translate-x-1 transition-transform duration-200">
-                      Learn More
-                    </span>
-                    <ArrowRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                  </Button>
+                  </motion.h1>
                 </div>
+                
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-xl text-foreground/90 dark:text-foreground/90 leading-relaxed"
+                >
+                  We're on a mission to revolutionize the way people interact with technology, making it more intuitive, accessible, and impactful for everyone.
+                </motion.p>
+                
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                  className="flex flex-wrap justify-center gap-4"
+                >
+                  <Button 
+                    size="lg" 
+                    className="group relative overflow-hidden"
+                    asChild
+                  >
+                    <Link to="/contact">
+                      <span className="relative z-10 flex items-center">
+                        Get in Touch
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-electric-purple to-neon-blue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </Link>
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="group relative overflow-hidden border border-border/50 hover:border-electric-purple/50 transition-all"
+                    asChild
+                  >
+                    <Link to="/careers">
+                      <span className="relative z-10 flex items-center">
+                        Join Our Team
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                      </span>
+                      <span className="absolute inset-0 bg-gradient-to-r from-electric-purple/5 to-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    </Link>
+                  </Button>
+                </motion.div>
               </div>
             </div>
           </section>
 
           {/* Values Section */}
-          <section className="py-16 md:py-24 bg-muted/30">
+          <section className="py-16 md:py-24 relative overflow-hidden">
+            <div className="absolute inset-0 -z-10">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-electric-purple/5 via-background to-background"></div>
+              <div className="absolute inset-0 [mask-image:radial-gradient(ellipse_at_center,transparent_30%,black)]"></div>
+            </div>
+            
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <Badge className="mb-4 bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
+              <motion.div 
+                className="text-center max-w-3xl mx-auto mb-16"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <Badge className="bg-gradient-to-r from-electric-purple/10 to-neon-blue/10 text-foreground border border-electric-purple/20 mb-4 px-4 py-1.5 rounded-full">
+                  <Sparkles className="h-4 w-4 mr-2 text-electric-purple" />
                   Our Values
                 </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-                  What We Stand For
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-space">
+                  Guiding <span className="bg-clip-text text-transparent bg-gradient-to-r from-electric-purple to-neon-blue">Principles</span>
                 </h2>
-                <p className="text-foreground/70">
-                  These core principles guide everything we do at VORTEX AI, from product development to customer support.
+                <p className="text-foreground/90 dark:text-foreground/90 text-lg">
+                  These core values shape everything we do and how we work together to create impact.
                 </p>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              </motion.div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {values.map((value, index) => (
                   <motion.div
-                    key={index}
+                    key={value.title}
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="h-full"
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ 
+                      duration: 0.5, 
+                      delay: index * 0.1,
+                      type: "spring",
+                      stiffness: 100
+                    }}
+                    className="group"
                   >
-                    <Card className="h-full border-border/50 hover:border-primary/30 transition-all duration-300 hover:shadow-lg">
-                      <CardContent className="p-6">
-                        <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 text-primary">
-                          {value.icon}
+                    <Card className="h-full bg-card/50 backdrop-blur-sm border border-border/20 hover:border-electric-purple/50 transition-all duration-300 group-hover:shadow-xl group-hover:-translate-y-1 overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-electric-purple/5 to-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                      <CardHeader className="relative z-10 pb-3">
+                        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-electric-purple/10 to-neon-blue/10 flex items-center justify-center mb-4 text-electric-purple group-hover:scale-110 transition-transform duration-300">
+                          {React.cloneElement(value.icon, { className: 'w-6 h-6' })}
                         </div>
-                        <h3 className="text-xl font-semibold text-foreground mb-2">
+                        <CardTitle className="text-xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
                           {value.title}
-                        </h3>
-                        <p className="text-foreground/70">
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="relative z-10">
+                        <p className="text-foreground/90 dark:text-foreground/90 mb-8">
                           {value.description}
                         </p>
                       </CardContent>
+                      <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-electric-purple/0 via-electric-purple/50 to-neon-blue/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </Card>
                   </motion.div>
                 ))}
               </div>
+              
+              <motion.div 
+                className="mt-16 text-center"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+              >
+                <p className="text-foreground/90 dark:text-foreground/90 mb-6">
+                  Want to learn more about our culture and values?
+                </p>
+                <Button variant="outline" className="group" asChild>
+                  <Link to="/careers">
+                    <span className="relative z-10 flex items-center">
+                      Join Our Team
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </span>
+                    <span className="absolute inset-0 bg-gradient-to-r from-electric-purple/5 to-neon-blue/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  </Link>
+                </Button>
+              </motion.div>
             </div>
           </section>
 
           {/* Timeline Section */}
-          <section className="py-16 md:py-24">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center max-w-3xl mx-auto mb-16">
-                <Badge className="mb-4 bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
+          <section className="py-10 px-4 sm:px-6 lg:px-8 relative">
+            <div className="max-w-7xl mx-auto">
+              <motion.div 
+                className="text-center max-w-3xl mx-auto mb-16"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+              >
+                <Badge className="bg-gradient-to-r from-electric-purple/10 to-neon-blue/10 text-foreground border border-electric-purple/20 mb-4">
                   Our Journey
                 </Badge>
-                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                <h2 className="text-3xl md:text-4xl font-bold font-space text-foreground mb-4">
                   Milestones & Achievements
                 </h2>
-                <p className="text-foreground/70">
+                <p className="text-foreground/90 dark:text-foreground/90">
                   From our humble beginnings to becoming an industry leader in AI-powered career solutions.
                 </p>
-              </div>
+              </motion.div>
+              
               <div className="relative">
                 <div className="absolute left-1/2 w-0.5 h-full bg-gradient-to-b from-electric-purple/20 via-neon-blue/50 to-electric-purple/20 -translate-x-1/2"></div>
                 <div className="space-y-12">
@@ -197,10 +330,10 @@ const AboutUsPage: React.FC = () => {
                       className={`relative flex ${index % 2 === 0 ? 'flex-row' : 'flex-row-reverse'} items-center`}
                     >
                       <div className="w-1/2 px-8">
-                        <div className={`p-6 bg-card border border-border/50 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
-                          <div className="text-sm font-medium text-primary mb-1">{item.year}</div>
+                        <div className={`p-6 glow-card bg-card/50 backdrop-blur-sm border border-electric-purple/20 hover:border-electric-purple/50 rounded-xl transition-all duration-300 ${index % 2 === 0 ? 'text-right' : 'text-left'}`}>
+                          <div className="text-sm font-medium text-electric-purple mb-1">{item.year}</div>
                           <h3 className="text-xl font-semibold text-foreground mb-2">{item.title}</h3>
-                          <p className="text-foreground/70">{item.description}</p>
+                          <p className="text-foreground/90 dark:text-foreground/90">{item.description}</p>
                         </div>
                       </div>
                       <div className="w-1/2 flex justify-center">
@@ -224,22 +357,20 @@ const AboutUsPage: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: index * 0.1, duration: 0.5 }}
-                    className="text-center"
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    className="group"
                   >
-                    <Card className="border-border/50 hover:border-primary/30 transition-all duration-300 h-full">
-                      <CardContent className="p-8">
-                        <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4 text-primary">
-                          {stat.icon}
-                        </div>
-                        <h3 className="text-4xl font-bold text-foreground mb-2">
-                          {stat.number}
-                        </h3>
-                        <p className="text-foreground/70">
-                          {stat.label}
-                        </p>
-                      </CardContent>
-                    </Card>
+                    <div className="p-6 bg-card/50 backdrop-blur-sm border border-border/20 rounded-xl hover:border-electric-purple/50 transition-all duration-300 h-full">
+                      <div className="flex justify-center mb-4">
+                        {React.cloneElement(stat.icon, { 
+                          className: 'w-8 h-8 text-electric-purple group-hover:scale-110 transition-transform' 
+                        })}
+                      </div>
+                      <div className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-electric-purple to-neon-blue mb-2">
+                        {stat.number}
+                      </div>
+                      <div className="text-foreground/90 dark:text-foreground/90">{stat.label}</div>
+                    </div>
                   </motion.div>
                 ))}
               </div>
@@ -247,43 +378,48 @@ const AboutUsPage: React.FC = () => {
           </section>
 
           {/* CTA Section */}
-          <section className="py-16 md:py-24 bg-gradient-to-br from-electric-purple/5 via-transparent to-neon-blue/5">
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-                Ready to transform your career with AI?
-              </h2>
-              <p className="text-xl text-foreground/80 mb-8 max-w-2xl mx-auto">
-                Join thousands of professionals who are already accelerating their careers with VORTEX AI.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Button size="lg" className="group">
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    Get Started
-                  </span>
-                  <ArrowRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                </Button>
-                <Button variant="outline" size="lg" className="group">
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    Contact Sales
-                  </span>
-                  <ArrowRight className="ml-2 h-4 w-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                </Button>
-              </div>
+          <section className="py-24 px-4 sm:px-6 lg:px-8 relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-electric-purple/5 to-neon-blue/5" />
+            <div className="max-w-4xl mx-auto text-center relative z-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+                className="bg-background/50 backdrop-blur-sm p-8 rounded-2xl border border-electric-purple/20 shadow-xl"
+              >
+                <div className="w-16 h-16 bg-gradient-to-r from-electric-purple to-neon-blue rounded-2xl flex items-center justify-center mx-auto mb-6">
+                  <Rocket className="h-8 w-8 text-white" />
+                </div>
+                <h2 className="text-3xl font-bold text-foreground mb-4">
+                  Ready to Transform Your Career?
+                </h2>
+                <p className="text-foreground/90 dark:text-foreground/90 mb-8">
+                  Join thousands of professionals who are already advancing their careers with our AI-powered platform.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button size="lg" asChild className="group">
+                    <Link to="/signup">
+                      Get Started Free
+                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" asChild>
+                    <Link to="/demo">
+                      Schedule a Demo
+                    </Link>
+                  </Button>
+                </div>
+              </motion.div>
             </div>
           </section>
         </main>
-        
-        <Footer />
       </motion.div>
     </AnimatePresence>
   );
 };
 
 export default AboutUsPage;
-//               About PostPilot
-//             </Badge>
-//             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-//               Transforming Enterprise Social Media
 //               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
 //                 {" "}Through AI Innovation
 //               </span>

@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useTheme } from 'next-themes';
 import Navbar from './Navbar';
 import Footer from './Footer';
-import Breadcrumb from './Breadcrumb';
+// import Breadcrumb from './Breadcrumb';
 // import ScrollToTop from './ScrollToTop';
 // import NetworkStatus from './NetworkStatus';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
@@ -48,7 +48,7 @@ const Layout: React.FC<LayoutProps> = ({
         
         <div className="relative z-10 flex flex-col min-h-screen">
           <Navbar />
-          <Breadcrumb />
+          {/* <Breadcrumb /> */}
           <main id="main-content" className="flex-grow relative z-0">
             <ErrorBoundary>
               <div className="min-h-screen bg-background relative">

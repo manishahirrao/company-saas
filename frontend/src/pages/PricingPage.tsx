@@ -205,61 +205,96 @@ const PricingPage: React.FC = () => {
               <motion.div
                 key={plan.name}
                 variants={fadeIn}
-                initial="hidden"
-                whileInView="visible"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                whileHover={{ y: -8 }}
+                className="h-full"
               >
-                <Card 
-                  className={`${plan.popular ? 'border-2 border-primary shadow-lg shadow-primary/20' : 'border-border/50'} h-full flex flex-col transition-all hover:shadow-xl hover:-translate-y-1 bg-background/50 backdrop-blur-sm overflow-hidden`}
-                >
+                <Card className={`glow-card bg-card/50 backdrop-blur-sm border-electric-purple/20 hover:border-electric-purple/50 transition-all duration-300 h-full flex flex-col group ${plan.popular ? 'ring-2 ring-electric-purple/30' : ''}`}>
                   {plan.popular && (
                     <div className="bg-gradient-to-r from-electric-purple to-neon-blue text-white text-xs font-medium text-center py-1.5">
                       Most Popular
                     </div>
                   )}
-                  <CardHeader className={`${plan.gradient} pb-6`}>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 rounded-lg bg-white dark:bg-black/20 shadow-sm">
-                        {plan.icon}
+                  <CardHeader className="pb-6">
+                    <div className="flex items-center space-x-4">
+                      <div className={`p-3 rounded-lg bg-gradient-to-br ${plan.gradient} shadow-md group-hover:scale-110 transition-transform duration-200`}>
+                        {React.cloneElement(plan.icon, { className: 'w-6 h-6 text-white' })}
                       </div>
                       <div>
-                        <CardTitle className="text-2xl font-bold">{plan.name}</CardTitle>
-                        <p className="text-muted-foreground text-sm">{plan.description}</p>
+                        <CardTitle className="text-2xl font-space font-bold text-foreground">{plan.name}</CardTitle>
+                        <p className="text-foreground/80 dark:text-foreground/90 text-sm">{plan.description}</p>
                       </div>
                     </div>
-                    <div className="mt-6">
+                    
+                    <div className="mt-6 space-y-2">
                       <div className="flex items-baseline">
                         <span className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-electric-purple to-neon-blue">
                           ${isAnnual ? plan.price.annual : plan.price.monthly}
                         </span>
-                        <span className="ml-2 text-muted-foreground">
+                        <span className="ml-2 text-foreground/80 dark:text-foreground/90 text-lg">
                           {plan.price.monthly === 0 ? '/forever' : isAnnual ? '/year' : '/month'}
                         </span>
                       </div>
-                      {plan.price.monthly > 0 && isAnnual && (
-                        <p className="text-sm text-muted-foreground mt-1">
-                          Billed as ${plan.price.annual * 12} per year
+                      {plan.price.monthly > 0 && (
+                        <p className="text-sm text-foreground/80 dark:text-foreground/90">
+                          {isAnnual 
+                            ? `Billed as $${plan.price.annual * 12} per year (save 20%)`
+                            : `Billed monthly, or $${Math.round(plan.price.monthly * 11.4)}/year if paid annually`
+                          }
                         </p>
                       )}
+                      
+                      {/* Progress Indicator */}
+                      <div className="pt-4">
+                        <div className="flex justify-between text-xs text-foreground/80 dark:text-foreground/90 mb-1">
+                          <span>Value</span>
+                          <span>{100 - (index * 20)}%</span>
+                        </div>
+                        <div className="w-full bg-muted rounded-full h-1.5">
+                          <motion.div
+                            className="h-1.5 rounded-full bg-gradient-to-r from-electric-purple to-neon-blue"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${100 - (index * 20)}%` }}
+                            transition={{ duration: 1, delay: index * 0.1 }}
+                            viewport={{ once: true }}
+                          />
+                        </div>
+                      </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="flex-1 pt-6">
+                  
+                  <CardContent className="flex-1 pt-0">
                     <ul className="space-y-3">
-                      {plan.features.map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <CheckCircle className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                          <span className="text-sm">{feature}</span>
-                        </li>
+                      {plan.features.map((feature, i) => (
+                        <motion.li 
+                          key={i} 
+                          className="flex items-start"
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.3, delay: 0.2 + (i * 0.05) }}
+                        >
+                          <div className="bg-electric-green/10 p-1 rounded-full mr-3">
+                            <CheckCircle className="h-4 w-4 text-electric-green flex-shrink-0 mt-0.5" />
+                          </div>
+                          <span className="text-foreground/90 dark:text-foreground/90 text-sm">{feature}</span>
+                        </motion.li>
                       ))}
                     </ul>
+                    
                     {plan.limitations.length > 0 && (
-                      <div className="mt-6 pt-6 border-t border-border/30">
-                        <h4 className="text-sm font-medium text-muted-foreground mb-2">Limitations</h4>
-                        <ul className="space-y-2 text-sm text-muted-foreground">
-                          {plan.limitations.map((limitation, index) => (
-                            <li key={index} className="flex items-start">
-                              <span className="text-muted-foreground/50 mr-2">•</span>
+                      <div className="mt-6 pt-6 border-t border-electric-purple/10">
+                        <h4 className="text-sm font-medium text-foreground/80 dark:text-foreground/90 mb-3 flex items-center">
+                          <span className="w-1 h-4 bg-amber-500 rounded-full mr-2"></span>
+                          Limitations
+                        </h4>
+                        <ul className="space-y-2 text-sm text-foreground/80 dark:text-foreground/90">
+                          {plan.limitations.map((limitation, i) => (
+                            <li key={i} className="flex items-start">
+                              <span className="text-foreground/50 mr-2">•</span>
                               <span>{limitation}</span>
                             </li>
                           ))}
@@ -267,14 +302,18 @@ const PricingPage: React.FC = () => {
                       </div>
                     )}
                   </CardContent>
-                  <CardFooter className="p-6 pt-0">
+                  
+                  <CardFooter className="p-6 pt-0 mt-auto">
                     <Button 
                       asChild 
-                      className={`w-full ${plan.popular ? 'bg-gradient-to-r from-electric-purple to-neon-blue hover:opacity-90' : 'bg-foreground hover:bg-foreground/90'}`}
+                      className={`w-full group ${plan.popular ? 'bg-gradient-to-r from-electric-purple to-neon-blue hover:shadow-lg hover:shadow-electric-purple/25' : 'bg-foreground hover:bg-foreground/90'}`}
                       size="lg"
                     >
-                      <Link to={plan.ctaLink}>
-                        {plan.cta} <ArrowRight className="ml-2 h-4 w-4" />
+                      <Link to={plan.ctaLink} className="font-space">
+                        <span className="group-hover:translate-x-1 transition-transform duration-200">
+                          {plan.cta}
+                        </span>
+                        <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
                       </Link>
                     </Button>
                   </CardFooter>

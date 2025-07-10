@@ -1,8 +1,10 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, ArrowRight } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Calendar, Clock, ArrowRight, BookOpen } from 'lucide-react';
 
 
 const blogArticles = [
@@ -172,57 +174,201 @@ const blogArticles = [
 
 const Blog = () => {
   return (
-    <div className="min-h-screen bg-white">
-      
-      {/* Articles Grid */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {blogArticles.map((article) => (
-              <article key={article.id} className="bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
-                <img 
-                  src={article.image} 
-                  alt={article.title}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
-                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
-                      {article.category}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      {article.date}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      {article.readTime}
-                    </div>
-                  </div>
-                  
-                  <h2 className="text-xl font-semibold text-gray-900 mb-3 line-clamp-2">
-                    {article.title}
-                  </h2>
-                  
-                  <p className="text-gray-600 mb-4 line-clamp-3">
-                    {article.excerpt}
-                  </p>
-                  
-                  <Link to={`/blog/${article.id}`} className="block w-full">
-                    <Button variant="outline" className="w-full group">
-                      Read Article
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
+    <AnimatePresence>
+      <motion.div 
+        className="min-h-screen pt-16 relative"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        {/* Background Grid Pattern */}
+        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-10 pointer-events-none" />
+        
+        <main className="relative z-10">
+          {/* Hero Section */}
+          <section className="pt-20 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+            <div className="max-w-7xl mx-auto text-center relative z-10">
+              <motion.div 
+                className="inline-block mb-4"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <Badge className="bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
+                  Insights & Updates
+                </Badge>
+              </motion.div>
+              
+              <motion.h1 
+                className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80 mb-6 font-space"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                Blog & Resources
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl text-foreground/80 dark:text-foreground/80 max-w-3xl mx-auto mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                Discover the latest insights, tips, and strategies to enhance your career and professional growth.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="flex flex-wrap justify-center gap-4"
+              >
+                <Button variant="outline" className="group">
+                  <BookOpen className="w-4 h-4 mr-2" />
+                  View All Categories
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </motion.div>
+            </div>
+          </section>
 
-     
-    </div>
+          {/* Articles Grid */}
+          <section className="py-16 relative">
+            <div className="absolute inset-0 bg-gradient-to-br from-electric-purple/5 via-transparent to-neon-blue/5" />
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {blogArticles.map((article, index) => (
+                  <motion.article 
+                    key={article.id} 
+                    className="group"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <div className="h-full bg-card/80 dark:bg-card/90 backdrop-blur-sm rounded-2xl overflow-hidden border border-border/30 dark:border-border/50 hover:shadow-xl transition-all duration-300 flex flex-col">
+                      <div className="relative overflow-hidden aspect-video">
+                        <img 
+                          src={article.image} 
+                          alt={article.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                          <span className="bg-gradient-to-r from-electric-purple to-neon-blue text-white px-3 py-1 rounded-full text-xs font-medium">
+                            {article.category}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="p-6 flex-1 flex flex-col">
+                        <div className="flex items-center gap-3 text-sm text-foreground/70 dark:text-foreground/70 mb-4">
+                          <div className="flex items-center gap-1">
+                            <Calendar className="h-4 w-4" />
+                            {article.date}
+                          </div>
+                          <span>•</span>
+                          <div className="flex items-center gap-1">
+                            <Clock className="h-4 w-4" />
+                            {article.readTime}
+                          </div>
+                        </div>
+                        
+                        <h2 className="text-xl font-semibold text-foreground dark:text-foreground/95 mb-3 line-clamp-2 font-inter">
+                          {article.title}
+                        </h2>
+                        
+                        <p className="text-foreground/80 dark:text-foreground/80 mb-6 line-clamp-3 flex-grow">
+                          {article.excerpt}
+                        </p>
+                        
+                        <div className="mt-auto">
+                          <Link to={`/blog/${article.id}`} className="block w-full">
+                            <Button 
+                              variant="outline" 
+                              className="w-full group border-border/30 bg-transparent hover:bg-background/50"
+                            >
+                              <span className="group-hover:translate-x-1 transition-transform duration-200">
+                                Read Article
+                              </span>
+                              <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform duration-200" />
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.article>
+                ))}
+              </div>
+              
+              <motion.div 
+                className="text-center mt-16"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                <Button 
+                  size="lg" 
+                  className="group bg-gradient-to-r from-electric-purple to-neon-blue text-white hover:shadow-lg hover:shadow-electric-purple/25 transition-all duration-200"
+                >
+                  <span className="group-hover:translate-x-1 transition-transform duration-200">
+                    Load More Articles
+                  </span>
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                </Button>
+              </motion.div>
+            </div>
+          </section>
+          
+          {/* Newsletter Section */}
+          <section className="py-20 relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-r from-electric-purple to-neon-blue" />
+            <div className="absolute inset-0 bg-grid-white/[0.05]" />
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 py-16">
+              <motion.h2 
+                className="text-3xl md:text-4xl font-bold text-white mb-6 font-space"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+              >
+                Stay Updated with Our Latest Articles
+              </motion.h2>
+              <motion.p 
+                className="text-xl text-white/90 mb-10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Subscribe to our newsletter to receive the latest career tips and industry insights.
+              </motion.p>
+              <motion.div 
+                className="max-w-md mx-auto flex flex-col sm:flex-row gap-4"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="flex-1 px-6 py-4 rounded-xl border-2 border-white/20 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 backdrop-blur-sm transition-all duration-200"
+                />
+                <Button 
+                  size="lg" 
+                  className="bg-white text-electric-purple hover:bg-gray-100 px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200"
+                >
+                  Subscribe
+                </Button>
+              </motion.div>
+            </div>
+          </section>
+        </main>
+      </motion.div>
+    </AnimatePresence>
   );
 };
 

@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Badge } from '@/components/ui/badge';
 import { Calendar, MapPin, Building2, Clock, Plus, Eye, Edit, Trash2, Users, TrendingUp, Briefcase, Star, ArrowRight } from 'lucide-react';
 import { SkeletonCard } from '../Animation/SkeletonLoader';
-import HRHiringForm from '../Form/FreeJobPostingForm';
+import JobPostingForm from '../Form/JobPostingForm';
 
 interface Job {
   id: string;
@@ -23,7 +23,7 @@ interface Job {
   applications?: number;
 }
 
-const FreeJobPostingsPage: React.FC = () => {
+const JobPostingsPage: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [formData, setFormData] = useState({
     title: '',
@@ -121,7 +121,7 @@ const FreeJobPostingsPage: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         {/* Background Grid Pattern */}
-        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-50 dark:opacity-100 pointer-events-none" />
+        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-50 dark:opacity-20 pointer-events-none" />
         
         {/* Main Content */}
         <main className="relative z-10">
@@ -147,7 +147,7 @@ const FreeJobPostingsPage: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, delay: 0.2 }}
                 >
-                  FREE JOB POSTINGS
+                   JOB POSTINGS
                 </motion.h1>
                 
                 <motion.p 
@@ -281,7 +281,7 @@ const FreeJobPostingsPage: React.FC = () => {
                 ) : (
                   <div className="flex items-center gap-2">
                     <Plus className="w-5 h-5" />
-                    Post Job Free
+                    Post Job 
                   </div>
                 )}
               </Button>
@@ -290,7 +290,22 @@ const FreeJobPostingsPage: React.FC = () => {
         </Card>
 
               </motion.div> */}
-              <HRHiringForm/>
+              <div className="relative mb-12">
+                <div className="absolute -inset-1 bg-gradient-to-r from-electric-purple/30 via-neon-blue/30 to-electric-green/30 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative bg-card/80 backdrop-blur-sm border border-border/20 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-electric-purple/30">
+                  <div className="bg-gradient-to-r from-electric-purple/5 to-neon-blue/5 p-1">
+                    <div className="flex items-center gap-2 px-4 py-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      <div className="ml-2 text-xs text-muted-foreground font-mono">New Job Posting</div>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <JobPostingForm/>
+                  </div>
+                </div>
+              </div>
 
               {/* Job Listings */}
               <motion.div
@@ -431,4 +446,4 @@ const FreeJobPostingsPage: React.FC = () => {
   );
 };
 
-export default FreeJobPostingsPage;
+export default JobPostingsPage;

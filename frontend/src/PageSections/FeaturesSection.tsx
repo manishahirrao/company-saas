@@ -51,7 +51,7 @@ export function FeaturesSection() {
           <h2 className="text-5xl font-space font-bold gradient-text mb-6">
             Powerful Features
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter">
+          <p className="text-xl text-foreground/80 dark:text-foreground/90 max-w-3xl mx-auto font-inter">
             Experience the next generation of AI-powered business automation with our comprehensive suite of enterprise tools.
           </p>
         </motion.div>
@@ -77,7 +77,7 @@ export function FeaturesSection() {
                         <h3 className="text-xl font-space font-semibold text-foreground mb-1">{feature.title}</h3>
                         <div className="flex items-center gap-1">
                           <div className="w-2 h-2 bg-electric-green rounded-full animate-pulse" />
-                          <span className="text-xs text-muted-foreground">Active</span>
+                          <span className="text-xs text-foreground/80 dark:text-foreground/90">Active</span>
                         </div>
                       </div>
                     </div>
@@ -91,13 +91,13 @@ export function FeaturesSection() {
                   </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <p className="text-muted-foreground font-inter text-sm leading-relaxed">
+                  <p className="text-foreground/80 dark:text-foreground/90 font-inter text-sm leading-relaxed">
                     {feature.description}
                   </p>
                   
                   {/* Progress Indicators */}
                   <div className="space-y-2">
-                    <div className="flex justify-between text-xs text-muted-foreground">
+                    <div className="flex justify-between text-xs text-foreground/80 dark:text-foreground/90">
                       <span>Efficiency</span>
                       <span>{85 + index * 3}%</span>
                     </div>
@@ -117,11 +117,11 @@ export function FeaturesSection() {
                     <div className="grid grid-cols-2 gap-2 text-xs">
                       <div className="flex items-center gap-1">
                         <div className="w-1 h-1 bg-electric-green rounded-full" />
-                        <span className="text-muted-foreground">24/7 Active</span>
+                        <span className="text-foreground/80 dark:text-foreground/90">24/7 Active</span>
                       </div>
                       <div className="flex items-center gap-1">
                         <div className="w-1 h-1 bg-neon-blue rounded-full" />
-                        <span className="text-muted-foreground">Auto-scale</span>
+                        <span className="text-foreground/80 dark:text-foreground/90">Auto-scale</span>
                       </div>
                     </div>
                   </div>

@@ -26,11 +26,12 @@ import CustomLlmPage from '@/pages/AfterPages/Advanced/CustomLlmPage';
 import ProfilePage from '@/pages/AfterPages/Settings/ProfilePage';
 import SubscriptionPage from '@/pages/AfterPages/Settings/SubscriptionPage';
 import ApiKeysPage from '@/pages/AfterPages/Settings/ApiKeysPage';
-import SocialMediaForm from '@/pages/Product/SocialMediaForm';
-import HRHiringForm from '@/pages/Form/FreeJobPostingForm';
+import { ContentGenerator } from '@/pages/Product/SocialMediaForm';
+import HRHiringForm from '@/pages/Form/JobPostingForm';
 import VortexContactForm from '@/pages/Form/AIOperationalForm';
 import CompanyProfile from '@/pages/Profile/CompanyProfile';
 import Pricing from '@/pages/Pricing';
+import JobPostingForm from '@/pages/Form/JobPostingForm';
 
 // This component determines which dashboard to show based on user role
 const RoleSpecificDashboard = () => {
@@ -76,10 +77,10 @@ const Dashboard = () => {
               <Route path="/" element={<RoleSpecificDashboard />} />
               
               {/* Common routes accessible to all roles */}
-              <Route path="/content/post-builder" element={<SocialMediaForm />} />
+              <Route path="/content/post-builder" element={<ContentGenerator/>} />
               <Route path="/content/seo-blog" element={<SeoBlogPage />} />
               <Route path="/content/ads-copy" element={<AdsForm />} />
-              <Route path="/hiring/post-job" element={<HRHiringForm />} />
+              <Route path="/hiring/post-job" element={<JobPostingForm />} />
               <Route path="/hiring/assist" element={<HRHiringForm/>} />
               <Route path="/advanced/operations" element={<VortexContactForm />} />
               <Route path="/advanced/custom-llm" element={<VortexContactForm />} />

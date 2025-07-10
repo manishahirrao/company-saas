@@ -24,7 +24,7 @@ export function PlatformSection() {
           <h2 className="text-5xl font-space font-bold gradient-text mb-6">
             Enterprise Platform
           </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter">
+          <p className="text-xl text-foreground/80 dark:text-foreground/90 max-w-3xl mx-auto font-inter">
             Built for scale, designed for simplicity. Our enterprise-grade platform handles millions of operations while maintaining security and compliance.
           </p>
         </motion.div>
@@ -72,7 +72,7 @@ export function PlatformSection() {
             <h3 className="text-3xl font-space font-bold text-foreground mb-6">
               Built for Developers
             </h3>
-            <p className="text-lg text-muted-foreground mb-8 font-inter">
+            <p className="text-lg text-foreground/80 dark:text-foreground/90 mb-8 font-inter">
               Comprehensive APIs, SDKs, and development tools that make integration seamless. Deploy AI operations in minutes, not months.
             </p>
             

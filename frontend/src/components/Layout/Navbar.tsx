@@ -366,14 +366,11 @@ const Navbar = () => {
             onToggle(label);
           }}
           className={cn(
-            'flex items-center gap-1 px-3 py-2 text-sm font-medium rounded-md transition-colors',
-            'hover:bg-accent hover:text-accent-foreground',
-            'focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background',
-            isActive ? 'text-foreground' : 'text-muted-foreground',
+            'flex items-center gap-1 px-3 py-2 text-sm font-medium transition-colors',
+            'hover:text-primary focus:outline-none',
+            isActive ? 'text-primary' : 'text-foreground/90',
             'group',
             'transition-all duration-200',
-            'border border-transparent',
-            isActive && 'bg-accent/50 border-border/50',
             'dropdown-trigger',
             `dropdown-trigger-${label.toLowerCase().replace(/\s+/g, '-')}`
           )}
@@ -399,15 +396,16 @@ const Navbar = () => {
               ref={dropdownRef}
               id={menuId}
               className={cn(
-                'absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-popover text-popover-foreground',
-                'ring-1 ring-border ring-opacity-50 z-50',
+                'absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-background text-foreground',
+                'ring-1 ring-border/50 z-50',
                 'focus:outline-none',
                 'dark:bg-gray-900 dark:ring-gray-700',
                 'origin-top-left transition-all duration-200',
                 'py-1',
                 'shadow-xl dark:shadow-black/20',
                 'dropdown-container',
-                `dropdown-container-${label.toLowerCase().replace(/\s+/g, '-')}`
+                `dropdown-container-${label.toLowerCase().replace(/\s+/g, '-')}`,
+                'dark:bg-gray-900 dark:text-gray-100'
               )}
               data-testid={`dropdown-${label.toLowerCase().replace(/\s+/g, '-')}-menu`}
               initial={{ opacity: 0, y: 8, scale: 0.98 }}
@@ -434,21 +432,21 @@ const Navbar = () => {
                         onClick={(e) => onItemClick(e, link.href)}
                         className={cn(
                           'flex items-center w-full px-4 py-2.5 text-sm',
-                          'hover:bg-accent hover:text-accent-foreground',
-                          'focus:outline-none focus:bg-accent focus:text-accent-foreground',
+                          'hover:bg-foreground/5 hover:text-foreground',
+                          'focus:outline-none focus:bg-foreground/5 focus:text-foreground',
                           'transition-colors duration-150',
                           'group/item',
                           'focus:relative focus:z-10',
                           'border-l-2 border-transparent',
                           location.pathname === link.href 
-                            ? 'bg-accent/50 text-accent-foreground border-primary' 
-                            : 'text-muted-foreground',
+                            ? 'text-primary border-primary' 
+                            : 'text-foreground/90',
                           isFirst && 'rounded-t-md',
                           isLast && 'rounded-b-md',
-                          'dark:hover:bg-gray-800',
-                          'dark:focus:bg-gray-800',
-                          'dark:active:bg-gray-700',
-                          'dark:data-[state=open]:bg-gray-800'
+                          'dark:hover:bg-gray-800/50',
+                          'dark:focus:bg-gray-800/50',
+                          'dark:active:bg-gray-700/50',
+                          'dark:data-[state=open]:bg-gray-800/50'
                         )}
                         role="menuitem"
                         tabIndex={-1}
@@ -475,7 +473,7 @@ const Navbar = () => {
                         <div className="flex flex-col">
                           <span className="font-medium text-left">{link.label}</span>
                           {link.desc && (
-                            <span className="text-xs text-muted-foreground group-hover/item:text-accent-foreground/80 text-left">
+                            <span className="text-xs text-foreground/70 dark:text-foreground/70 group-hover/item:text-foreground/90 text-left">
                               {link.desc}
                             </span>
                           )}
@@ -541,8 +539,8 @@ const Navbar = () => {
             <Link 
               to="/" 
               className={cn(
-                'px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg',
-                'text-foreground/90 hover:text-primary hover:bg-foreground/5',
+                'px-4 py-2 text-sm font-medium transition-all duration-200',
+                'text-foreground/90 hover:text-primary',
                 location.pathname === '/' ? 'text-primary font-semibold' : ''
               )}
             >
@@ -567,14 +565,14 @@ const Navbar = () => {
             
             <Link 
               to="/pricing" 
-              className="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg text-foreground/90 hover:text-primary hover:bg-foreground/5"
+              className="px-4 py-2 text-sm font-medium transition-all duration-200 text-foreground/90 hover:text-primary"
             >
               Pricing
             </Link>
             
             <Link 
               to="/resources" 
-              className="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg text-foreground/90 hover:text-primary hover:bg-foreground/5"
+              className="px-4 py-2 text-sm font-medium transition-all duration-200 text-foreground/90 hover:text-primary"
             >
               Resources
             </Link>
@@ -589,7 +587,7 @@ const Navbar = () => {
             
             <Link 
               to={contactLink.href} 
-              className="px-4 py-2 text-sm font-medium transition-all duration-200 rounded-lg text-foreground/90 hover:text-primary hover:bg-foreground/5"
+              className="px-4 py-2 text-sm font-medium transition-all duration-200 text-foreground/90 hover:text-primary"
             >
               {contactLink.label}
             </Link>

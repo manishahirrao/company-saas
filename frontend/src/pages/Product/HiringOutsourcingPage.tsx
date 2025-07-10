@@ -696,8 +696,21 @@ const HiringOutsourcingPage = () => {
                 </CardContent>
               </Card>
             </motion.div> */}
-            <div id="HRHiringForm">
-              <HRHiringForm/>
+            <div id="HRHiringForm" className="relative mb-16">
+              <div className="absolute -inset-1 bg-gradient-to-r from-electric-purple/30 via-neon-blue/30 to-electric-green/30 rounded-2xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+              <div className="relative bg-card/80 backdrop-blur-sm border border-border/20 rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:border-electric-purple/30">
+                <div className="bg-gradient-to-r from-electric-purple/5 to-neon-blue/5 p-1">
+                  <div className="flex items-center gap-2 px-4 py-2">
+                    <div className="w-3 h-3 rounded-full bg-red-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <div className="ml-2 text-xs text-muted-foreground font-mono">HR Hiring Request</div>
+                  </div>
+                </div>
+                <div className="p-6">
+                  <HRHiringForm/>
+                </div>
+              </div>
             </div>
 
             {/* Trusted By Section */}
@@ -755,7 +768,7 @@ const HiringOutsourcingPage = () => {
 
         
         {/* Smooth scroll behavior */}
-        <style jsx global>{`
+        <style>{`
           html {
             scroll-behavior: smooth;
           }

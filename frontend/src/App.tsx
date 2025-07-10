@@ -28,7 +28,7 @@ import CompanyHome from "./pages/Home/CompanyHome";
 
 // ===== PRODUCT PAGES & OTHERS... (keeping existing imports) =====
 import LinkedInPostsPage from "./pages/Product/CompanyPostGeneration";
-import FreeJobPostingsPage from "./pages/Product/FreeJobPostingsPage";
+import JobPostingsPage from "./pages/Product/JobPostingsPage";
 import HiringOutsourcingPage from "./pages/Product/HiringOutsourcingPage";
 import AdsGeneratorPage from "./pages/Product/AdsGeneratorPage";
 import UseCasesPage from "./pages/Solutions/UseCasesPage";
@@ -50,6 +50,7 @@ import AIOperationsLanding from './pages/Product/AIOperation';
 import WebsiteDashboard from './pages/Product/WebsiteDashboard';
 import HRHiringForm from './pages/Form/HROutSourcingForm';
 import VortexContactForm from './pages/Form/AIOperationalForm';
+import JobPostingForm from './pages/Form/JobPostingForm';
 
 // ===== DASHBOARD & PAGES =====
 import Dashboard from './Dashboard/Dashboard';
@@ -129,7 +130,7 @@ const App = () => {
             <Route element={<Layout><Outlet /></Layout>}>
               <Route path="/" element={<CompanyHome />} />
               <Route path="/products/linkedin-posts" element={<LinkedInPostsPage />} />
-              <Route path="/products/job-postings" element={<FreeJobPostingsPage />} />
+              <Route path="/products/job-postings" element={<JobPostingsPage />} />
               <Route path="/products/hiring" element={<HiringOutsourcingPage />} />
               <Route path="/products/ads-generator" element={<AdsGeneratorPage />} />
               <Route path='/products/seo-blog' element={<SEOBlogPage/>}/>
@@ -139,6 +140,7 @@ const App = () => {
               <Route path='/products/webdashboard' element={<WebsiteDashboard/>}/>
               <Route path="/form/hr-hiring" element={<HRHiringForm />} />
               <Route path="/form/ai-operations" element={<VortexContactForm />} />
+              <Route path='/form/job-posting' element={<JobPostingForm/> }/>
               <Route path="/solutions/use-cases" element={<UseCasesPage />} />
               <Route path="/solutions/why-us" element={<WhyUsPage />} />
               <Route path="/about" element={<AboutUsPage />} />

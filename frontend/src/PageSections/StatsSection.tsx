@@ -33,7 +33,7 @@ export function StatsSection() {
               >
                 {stat.value}
               </motion.div>
-              <p className="text-muted-foreground font-inter">{stat.label}</p>
+              <p className="text-foreground/80 dark:text-foreground/90 font-inter">{stat.label}</p>
             </motion.div>
           ))}
         </div>

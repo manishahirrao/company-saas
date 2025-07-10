@@ -61,7 +61,7 @@ export function CTASection() {
             </motion.h2>
             
             <motion.p 
-              className="text-xl text-muted-foreground max-w-3xl mx-auto font-inter leading-relaxed"
+              className="text-xl text-foreground/80 dark:text-foreground/90 max-w-3xl mx-auto font-inter leading-relaxed"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -91,7 +91,7 @@ export function CTASection() {
                 >
                   <indicator.icon className={`w-5 h-5 ${indicator.color}`} />
                 </motion.div>
-                <span className="text-sm font-medium whitespace-nowrap">{indicator.text}</span>
+                <span className="text-sm font-medium whitespace-nowrap text-foreground/90">{indicator.text}</span>
               </motion.div>
             ))}
           </div>
@@ -109,7 +109,7 @@ export function CTASection() {
                 viewport={{ once: true }}
               >
                 <CheckCircle className="w-4 h-4 text-electric-green flex-shrink-0" />
-                <span className="text-xs font-medium text-center">{feature}</span>
+                <span className="text-xs font-medium text-center text-foreground/90">{feature}</span>
               </motion.div>
             ))}
           </div>
@@ -166,10 +166,10 @@ export function CTASection() {
             transition={{ delay: 0.8 }}
             viewport={{ once: true }}
           >
-            <p className="text-sm text-muted-foreground font-inter">
+            <p className="text-sm text-foreground/80 dark:text-foreground/90 font-inter">
               No credit card required • 14-day free trial • Cancel anytime
             </p>
-            <div className="flex items-center justify-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center justify-center gap-4 text-xs text-foreground/80 dark:text-foreground/90">
               <span className="flex items-center gap-1">
                 <div className="w-1 h-1 bg-electric-green rounded-full" />
                 GDPR Compliant

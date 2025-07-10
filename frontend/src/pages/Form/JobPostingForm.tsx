@@ -46,7 +46,7 @@ const hiringPriorities = [
   { value: 'flexible', label: 'Flexible (1-3 months)' }
 ];
 
-const HRHiringForm: React.FC = () => {
+const JobPostingForm: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     companyName: '',
     jobType: '',
@@ -105,33 +105,46 @@ const HRHiringForm: React.FC = () => {
   };
 
   const renderStepIndicator = () => (
-    <div className="flex flex-col space-y-2 mb-8">
-      <h2 className="text-2xl font-bold tracking-tight">Post a New Job</h2>
-      <p className="text-muted-foreground">
-        Fill in the details below to find the perfect candidate for your open position.
+    <div className="text-center mb-10">
+      <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70 mb-2">
+        Post a New Job
+      </h2>
+      <p className="text-muted-foreground max-w-2xl mx-auto">
+        Fill in the details below to find the perfect candidate for your open position. Our AI will help you reach the right talent.
       </p>
-      <div className="flex items-center justify-between mt-6 max-w-md">
-        {[1, 2, 3].map((step) => (
-          <React.Fragment key={step}>
-            <div className="flex flex-col items-center">
-              <div 
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
-                  currentStep >= step 
-                    ? 'bg-primary text-primary-foreground' 
-                    : 'bg-muted text-muted-foreground'
+      
+      <div className="mt-8 max-w-2xl mx-auto relative">
+        {/* Progress bar background */}
+        <div className="absolute top-1/2 left-0 right-0 h-1.5 bg-muted rounded-full -translate-y-1/2 z-0"></div>
+        
+        {/* Progress bar fill */}
+        <div 
+          className="absolute top-1/2 left-0 h-1.5 bg-primary/80 rounded-full -translate-y-1/2 z-10 transition-all duration-500 ease-out"
+          style={{ width: `${((currentStep - 1) / 2) * 100}%` }}
+        ></div>
+        
+        <div className="relative z-20 flex justify-between">
+          {[1, 2, 3].map((step) => (
+            <div key={step} className="flex flex-col items-center">
+              <button
+                type="button"
+                onClick={() => setCurrentStep(step as 1 | 2 | 3)}
+                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+                  currentStep >= step
+                    ? 'bg-primary text-primary-foreground shadow-md shadow-primary/30 scale-110'
+                    : 'bg-muted text-muted-foreground hover:bg-muted/80'
                 }`}
               >
                 {step}
-              </div>
-              <span className="text-xs mt-2 text-muted-foreground">
+              </button>
+              <span className={`text-sm mt-3 font-medium ${
+                currentStep === step ? 'text-foreground' : 'text-muted-foreground'
+              }`}>
                 {step === 1 ? 'Details' : step === 2 ? 'Requirements' : 'Finalize'}
               </span>
             </div>
-            {step < 3 && (
-              <div className="flex-1 h-0.5 bg-muted mx-2"></div>
-            )}
-          </React.Fragment>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -459,48 +472,73 @@ const HRHiringForm: React.FC = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto p-4 md:p-6 xl:p-8">
+    <div className="max-w-4xl mx-auto">
       {renderStepIndicator()}
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="space-y-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentStep}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.2 }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2, ease: "easeInOut" }}
+            className="bg-card/50 dark:bg-card/80 backdrop-blur-sm rounded-xl border border-border/50 shadow-sm p-6"
           >
             {renderFormStep()}
           </motion.div>
         </AnimatePresence>
-        <div className="flex justify-between mt-8">
-          {currentStep > 1 && (
-            <Button
-              type="button"
-              onClick={handlePrevious}
-              variant="outline"
-              className="inline-flex items-center justify-center px-6 py-3"
-            >
-              Back
-            </Button>
-          )}
+        
+        <div className="flex justify-between pt-4 border-t border-border/30">
+          <div>
+            {currentStep > 1 && (
+              <Button
+                type="button"
+                onClick={handlePrevious}
+                variant="outline"
+                className="h-11 px-6 rounded-lg border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5 transition-colors text-foreground/90"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+                Back
+              </Button>
+            )}
+          </div>
           <Button
             type="submit"
-            className="ml-auto inline-flex items-center justify-center bg-primary px-6 py-3 text-white hover:bg-primary/90"
+            className="h-11 px-8 rounded-lg bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-white font-medium shadow-md hover:shadow-lg transition-all duration-200 flex items-center gap-2 group"
           >
             {currentStep < 3 ? (
               <>
-                Next
-                <ChevronRight className="ml-2 h-4 w-4" />
+                Continue
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </>
             ) : (
-              'Submit Job Posting'
+              <>
+                Submit Job Posting
+                <Zap className="w-4 h-4 ml-1 group-hover:scale-110 transition-transform" />
+              </>
             )}
           </Button>
+        </div>
+        
+        {/* Step indicator dots */}
+        <div className="flex justify-center gap-2 mt-6">
+          {[1, 2, 3].map((step) => (
+            <div 
+              key={step}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                currentStep === step 
+                  ? 'w-8 bg-primary' 
+                  : 'bg-border/50 hover:bg-border/70 cursor-pointer'
+              }`}
+              onClick={() => setCurrentStep(step as 1 | 2 | 3)}
+            />
+          ))}
         </div>
       </form>
     </div>
   );
 };
 
-export default HRHiringForm;
+export default JobPostingForm;
