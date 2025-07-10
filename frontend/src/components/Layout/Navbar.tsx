@@ -4,6 +4,7 @@ import { ChevronDown, LogIn, Menu, X, CreditCard, Zap, TrendingUp, Settings, Bel
 import { cn } from '@/lib/utils';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from 'next-themes';
+import { VortexSVG } from '@/Logo/Logo';
 
 // Types
 interface LinkItem {
@@ -134,7 +135,7 @@ const Navbar = () => {
     { href: '/products/ads-generator', label: 'Ads Copy AI', desc: 'Generate high-converting ad content' },
     { href: '/products/linkedin-posts', label: 'AI Post Builder', desc: 'Craft professional LinkedIn content' },
     { href: '/products/aioperation', label: 'AI Operational Page', desc: 'Automate business operations with AI' },
-    { href: '/products/blog', label: 'SEO Blog Post', desc: 'Generate SEO-optimized blog content' },
+    { href: '/products/blog', label: 'AIO & SEO Blog', desc: 'Generate SEO-optimized blog content' },
     { href: '/products/llm', label: 'Custom LLM', desc: 'Train and deploy custom language models' },
   ];
 
@@ -510,29 +511,33 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center group">
-            <motion.div 
-              className="relative"
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.98 }}
-            >
-              <div className="text-2xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
-                Vortex
-              </div>
+          <div className="flex items-center">
+            <Link to="/" className="flex items-center group">
               <motion.div 
-                className="absolute -top-1 -right-1 w-2 h-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] rounded-full"
-                animate={{ 
-                  scale: [1, 1.2, 1],
-                  opacity: [0.7, 1, 0.7]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: 'easeInOut'
-                }}
-              />
-            </motion.div>
-          </Link>
+                className="relative w-10 h-10 flex items-center justify-center"
+                whileHover={{ scale: 1.05, rotate: 10 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+              >
+                <VortexSVG/>
+              </motion.div>
+              <span className="ml-3 text-xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
+                Vortex
+              </span>
+            </Link>
+            <motion.div 
+              className="ml-1 w-2 h-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] rounded-full"
+              animate={{ 
+                scale: [1, 1.2, 1],
+                opacity: [0.7, 1, 0.7]
+              }}
+              transition={{
+                duration: 2,
+                repeat: Infinity,
+                ease: 'easeInOut'
+              }}
+            />
+          </div>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-1">

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { AdvancedVortexAnimation } from "@/Logo/logo";
+import { AdvancedVortexAnimation } from '@/Logo/logo';
 import { Play } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 

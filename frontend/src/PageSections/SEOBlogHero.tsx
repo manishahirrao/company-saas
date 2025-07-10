@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Play } from 'lucide-react';
-import { AdvancedVortexAnimation } from '@/Logo/logo';
+import { AdvancedVortexAnimation } from '@/Logo/Logo';
 import { useNavigate } from 'react-router-dom';
 
 export const SEOBlogHero = () => {

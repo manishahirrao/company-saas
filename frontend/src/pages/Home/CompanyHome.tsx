@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import Navbar from "@/components/Layout/Navbar";
 import { HeroSection } from "@/PageSections/HeroSection";
 import { FeaturesSection } from "@/PageSections/FeaturesSection";
-import { StatsSection } from "@/PageSections/StatsSection";
 import { PlatformSection } from "@/PageSections/PlatformSection";
 import { CTASection } from "@/PageSections/CTASection";
 import Footer from "@/components/Layout/Footer";
@@ -84,7 +83,6 @@ export default function CompanyHome() {
         <main className="relative z-10">
           <HeroSection />
           <FeaturesSection />
-          <StatsSection />
           <PlatformSection />
           <CTASection />
         </main>

@@ -56,7 +56,7 @@ const SIDEBAR_SECTIONS = [
     items: [
       { icon: <Wand2 size={20} />, label: 'AI Post Builder', key: 'post-builder', desc: 'Craft professional LinkedIn content' },
       { icon: <GalleryHorizontal size={20} />, label: 'Ads Copy AI', key: 'ads-copy', desc: 'Generate high-converting ad content' },
-      { icon: <FileText size={20} />, label: 'SEO Blog Post', key: 'seo-blog', desc: 'Generate SEO-optimized blog content' },
+      { icon: <FileText size={20} />, label: 'AIO & SEO Blog', key: 'seo-blog', desc: 'Generate SEO-optimized blog content' },
       { icon: <Mic size={20} />, label: 'Voice Notes', key: 'voicenotes', desc: 'Convert voice to text' },
     ],
   },

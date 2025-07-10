@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowRight, Zap, Image as ImageIcon, FileText, Share, CheckCircle, Sparkles, TrendingUp, Users, Clock, Target, Calendar, Play } from 'lucide-react';
-import { AdvancedVortexAnimation } from '@/Logo/logo';
+import { AdvancedVortexAnimation } from '@/Logo/Logo';
 import { ContentGenerator } from './PostGeneration';
 
 const CompanyPostGeneration: React.FC = () => {

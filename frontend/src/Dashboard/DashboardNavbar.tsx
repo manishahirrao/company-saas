@@ -3,7 +3,7 @@ import { Bell, CreditCard, User, LogOut, Settings, Sun, Moon } from 'lucide-reac
 import { useTheme } from 'next-themes';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
-import { AdvancedVortexAnimation } from '@/Logo/logo';
+import { AdvancedVortexAnimation } from '@/Logo/Logo';
 
 const DashboardNavbar = () => {
   const { theme, setTheme, resolvedTheme } = useTheme();

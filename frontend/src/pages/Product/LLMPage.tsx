@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { SkeletonCard, SkeletonNav } from '../Animation/SkeletonLoader';
 import Navbar from '@/components/Layout/Navbar';
-import { AdvancedVortexAnimation } from "@/Logo/logo";
+import { AdvancedVortexAnimation } from '@/Logo/Logo';
 import { 
   ArrowRight, 
   Brain, 

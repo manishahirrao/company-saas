@@ -1,15 +1,16 @@
 
-import React, { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowRight, BookOpen, HelpCircle, MessageCircle, Video, FileText, Users, MapPin } from 'lucide-react';
+import { ArrowRight, BookOpen, HelpCircle, MessageCircle, Video, FileText, Users, Clock } from 'lucide-react';
+import Navbar from '@/components/Layout/Navbar';
+import Footer from '@/components/Layout/Footer';
 import Blog from './Blog';
 
 const ResourcesPage: React.FC = () => {
- const blogPosts = [
+  const blogPosts = [
   {
     title: 'How LinkedIn Automation Can Supercharge Your Job Search in 2025',
     excerpt: 'Discover how automation tools can personalize outreach, increase visibility, and speed up your job hunt.',
@@ -156,7 +157,7 @@ const ResourcesPage: React.FC = () => {
   // },
 ];
 
-const navigate = useNavigate();
+
 
   const helpTopics = [
     {
@@ -181,522 +182,321 @@ const navigate = useNavigate();
       icon: <MessageCircle className="w-6 h-6 text-orange-600" />,
       title: 'Troubleshooting',
       description: 'Solutions to common issues',
-      articles: 6
-    }
+      articles: 6,
+    },
   ];
 
   return (
-    <AnimatePresence>
-      <motion.div 
-        className="min-h-screen pt-16 relative"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-      >
-        {/* Background Grid Pattern */}
-        <div className="fixed inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-10 pointer-events-none" />
-        
-        <main className="relative z-10">
-        {/* Hero Section */}
-        <section className="pt-12 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-          {/* Background Grid Pattern */}
-          <div className="absolute inset-0 grid-pattern dark:grid-pattern opacity-50" />
-          
-          <div className="max-w-7xl mx-auto text-center relative z-10">
-            <motion.div 
-              className="mb-12"
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              {/* Main Title */}
-              <motion.h1 
-                className="text-7xl md:text-8xl font-space font-bold gradient-text mb-6"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-              >
-                Resources
-              </motion.h1>
-              
-              <motion.p 
-                className="text-2xl md:text-3xl text-foreground/90 dark:text-foreground/90 font-space font-light mb-4"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
-              >
-                Learning Center & Guides
-              </motion.p>
-              
-              <motion.div 
-                className="inline-block px-6 py-2 bg-gradient-to-r from-electric-purple/20 to-neon-blue/20 rounded-full border border-electric-purple/30"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.8 }}
-              >
-                <span className="text-electric-purple font-inter font-medium">EXPERT CONTENT</span>
-              </motion.div>
-            </motion.div>
-            
-            <motion.div 
-              className="mb-12 space-y-8"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1 }}
-            >
-              <p className="text-xl text-foreground/90 dark:text-foreground/90 max-w-3xl mx-auto font-inter leading-relaxed">
-                Everything you need to master LinkedIn for Professional and Social Media for Company, 
-                advance your career, and get the most out of PostPilot.
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-purple-50">
+      <Navbar />
+      {/* Hero Section */}
+      <section className="relative py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-pink-50 opacity-60"></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-gradient-to-r from-purple-200 to-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-72 h-72 bg-gradient-to-r from-blue-200 to-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <Badge className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border-0 px-4 py-2 text-sm font-medium">
+                <BookOpen className="inline w-4 h-4 mr-2 text-purple-400" />
+                Professional Resources
+              </Badge>
+              <h1 className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-pink-900 bg-clip-text text-transparent leading-tight">
+                Master Your Career with Expert Resources
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+                Curated guides, tutorials, and insights to help you grow professionally and master LinkedIn with AI-powered tools.
               </p>
-            </motion.div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* Blog Posts */}
+      <section className="py-24 bg-gradient-to-br from-slate-50 via-white to-purple-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <Badge className="bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border-0 px-4 py-2 text-sm font-medium">
+              <BookOpen className="inline w-4 h-4 mr-2 text-purple-400" />
+              Latest Insights
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-purple-900 to-pink-900 bg-clip-text text-transparent leading-tight mb-4">
+              Expert Blog Posts
+            </h2>
+            <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto">
+              Discover our latest articles on LinkedIn strategy, AI-powered tools, and career growth.
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:gap-10 md:grid-cols-2 lg:grid-cols-3">
+            {blogPosts.map((post, i) => (
+              <Card key={i} className="bg-white rounded-xl shadow-lg transition-all hover:-translate-y-1 hover:shadow-xl">
+                <CardHeader className="pb-2">
+                  <Badge className="mb-2 bg-gradient-to-r from-purple-100 to-pink-100 text-purple-800 border-0">
+                    {post.category}
+                  </Badge>
+                  <CardTitle className="text-2xl font-semibold text-gray-900 mb-1">
+                    {post.title}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4 min-h-[60px]">{post.excerpt}</p>
+                  <div className="flex items-center justify-between text-sm text-gray-500 mb-4">
+                    <span className="flex items-center">
+                      <Users className="w-4 h-4 mr-1 text-gray-400" />
+                      {post.author}
+                    </span>
+                    <span className="flex items-center">
+                      <Clock className="w-4 h-4 mr-1 text-gray-400" />
+                      {post.date}
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-purple-600 font-semibold bg-purple-50 rounded-full px-3 py-1">
+                      {post.readTime}
+                    </span>
+                    <Link to="/blog" className="flex items-center text-purple-600 hover:text-purple-700 transition-colors">
+                      Read More
+                      <ArrowRight className="w-4 h-4 ml-1" />
+                    </Link>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* Quick Access */}
-      <section className="py-16 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-electric-purple/5 via-transparent to-neon-blue/5" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <motion.div 
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Card className="h-full bg-card/80 dark:bg-card/90 backdrop-blur-sm border border-border/30 dark:border-border/50 hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-8 text-center h-full flex flex-col">
-                  <div className="bg-gradient-to-r from-electric-purple/10 to-neon-blue/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <BookOpen className="w-8 h-8 text-electric-purple" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground dark:text-foreground/95 mb-3 font-inter">Blog</h3>
-                  <p className="text-foreground/90 dark:text-foreground/80 mb-6 flex-grow">
-                    Expert insights, tips, and strategies for career growth and LinkedIn success.
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    className="group border-2 border-electric-purple text-electric-purple hover:bg-electric-purple hover:text-white transition-all duration-200 mx-auto"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform duration-200">
-                      Read Articles
-                    </span>
-                    <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-8 text-center">
+                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BookOpen className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Blog</h3>
+                <p className="text-gray-600 mb-4">
+                  Expert insights, tips, and strategies for career growth and LinkedIn success.
+                </p>
+                <Button variant="outline">
+                  Read Articles
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
 
-            <motion.div 
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Card className="h-full bg-card/80 dark:bg-card/90 backdrop-blur-sm border border-border/30 dark:border-border/50 hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-8 text-center h-full flex flex-col">
-                  <div className="bg-gradient-to-r from-neon-blue/10 to-electric-purple/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <HelpCircle className="w-8 h-8 text-neon-blue" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground dark:text-foreground/95 mb-3 font-inter">Help Center</h3>
-                  <p className="text-foreground/90 dark:text-foreground/80 mb-6 flex-grow">
-                    Step-by-step guides, tutorials, and answers to frequently asked questions.
-                  </p>
-                  <Button 
-                    variant="outline" 
-                    className="group border-2 border-neon-blue text-neon-blue hover:bg-neon-blue hover:text-white transition-all duration-200 mx-auto"
-                  >
-                    <span className="group-hover:translate-x-1 transition-transform duration-200">
-                      Get Help
-                    </span>
-                    <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                  </Button>
-                </CardContent>
-              </Card>
-            </motion.div>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-8 text-center">
+                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <HelpCircle className="w-8 h-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Help Center</h3>
+                <p className="text-gray-600 mb-4">
+                  Step-by-step guides, tutorials, and answers to frequently asked questions.
+                </p>
+                <Button variant="outline">
+                  Get Help
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
 
-            <motion.div 
-              whileHover={{ y: -5 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Card className="h-full bg-card/80 dark:bg-card/90 backdrop-blur-sm border border-border/30 dark:border-border/50 hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-8 text-center h-full flex flex-col">
-                  <div className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <MessageCircle className="w-8 h-8 text-purple-500" />
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground dark:text-foreground/95 mb-3 font-inter">Customer Support</h3>
-                  <p className="text-foreground/90 dark:text-foreground/80 mb-6 flex-grow">
-                    Need personalized help? Our support team is ready to assist you.
-                  </p>
-                  <Link to="/support">
-                    <Button 
-                      variant="outline" 
-                      className="group border-2 border-purple-500 text-purple-500 hover:bg-purple-500 hover:text-white transition-all duration-200 mx-auto"
-                    >
-                      <span className="group-hover:translate-x-1 transition-transform duration-200">
-                        Contact Support
-                      </span>
-                      <ArrowRight className="w-4 h-4 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
-            </motion.div>
-          </motion.div>
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-8 text-center">
+                <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MessageCircle className="w-8 h-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">Customer Support</h3>
+                <p className="text-gray-600 mb-4">
+                  Need personalized help? Our support team is ready to assist you.
+                </p>
+                <Link to="/support">
+                  <Button variant="outline">
+                    Contact Support
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </section>
 
       {/* Blog Section */}
-      <section className="py-24 relative">
-        <div className="absolute inset-0 bg-gradient-to-br from-electric-purple/5 via-transparent to-neon-blue/5" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div 
-              className="inline-block mb-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <Badge className="bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
-                Latest Articles
-              </Badge>
-            </motion.div>
-            <motion.h2 
-              className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-space"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Latest from Our Blog
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-foreground/90 dark:text-foreground/80 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
+            </h2>
+            <p className="text-xl text-gray-600">
               Stay up-to-date with the latest career advice and industry insights
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          <Blog/>
+          <Blog />
 
-          <motion.div 
-            className="text-center mt-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-          >
-            <Button 
-              size="lg" 
-              className="group bg-gradient-to-r from-electric-purple to-neon-blue text-white hover:shadow-lg hover:shadow-electric-purple/25 transition-all duration-200"
-            >
-              <span className="group-hover:translate-x-1 transition-transform duration-200">
-                View All Articles
-              </span>
-              <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+          <div className="text-center mt-12">
+            <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white">
+              View All Articles
+              <ArrowRight className="w-5 h-5 ml-2" />
             </Button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Help Topics */}
-      <section className="py-24 bg-background relative">
-        <div className="absolute inset-0 bg-grid-light dark:bg-grid-dark opacity-20 dark:opacity-10" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <motion.div 
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div 
-              className="inline-block mb-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <Badge className="bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
-                Help Center
-              </Badge>
-            </motion.div>
-            <motion.h2 
-              className="text-3xl md:text-4xl font-bold text-foreground mb-4 font-space"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Help Center Topics
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-foreground/90 dark:text-foreground/80 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
+            </h2>
+            <p className="text-xl text-gray-600">
               Find answers to your questions organized by topic
-            </motion.p>
-          </motion.div>
+            </p>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {helpTopics.map((topic, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
-              >
-                <Card className="glow-card bg-card/50 backdrop-blur-sm border-electric-purple/20 hover:border-electric-purple/50 transition-all duration-300 h-full group">
-                  <CardHeader>
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex items-center">
-                        <div className={`w-12 h-12 bg-gradient-to-br from-electric-purple to-neon-blue rounded-lg flex items-center justify-center mr-4 group-hover:scale-110 transition-transform duration-200`}>
-                          {React.cloneElement(topic.icon, { className: 'text-white text-xl w-6 h-6' })}
-                        </div>
-                        <div>
-                          <h3 className="text-xl font-space font-semibold text-foreground mb-1">{topic.title}</h3>
-                          <div className="flex items-center gap-1">
-                            <div className="w-2 h-2 bg-electric-green rounded-full animate-pulse" />
-                            <span className="text-xs text-foreground/80 dark:text-foreground/90">{topic.articles} articles</span>
-                          </div>
-                        </div>
-                      </div>
-                      <motion.div 
-                        className="text-electric-purple"
-                        whileHover={{ rotate: 90 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        →
-                      </motion.div>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <p className="text-foreground/80 dark:text-foreground/90 font-inter text-sm leading-relaxed">
-                      {topic.description}
-                    </p>
-                    
-                    {/* Progress Indicator */}
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-xs text-foreground/80 dark:text-foreground/90">
-                        <span>Completed</span>
-                        <span>{Math.min(100, Math.floor((index + 1) / helpTopics.length * 100))}%</span>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-1.5">
-                        <motion.div
-                          className="h-1.5 rounded-full bg-gradient-to-r from-electric-purple to-neon-blue"
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${Math.min(100, Math.floor((index + 1) / helpTopics.length * 100))}%` }}
-                          transition={{ duration: 1, delay: index * 0.1 }}
-                          viewport={{ once: true }}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Feature Benefits */}
-                    <div className="pt-2 border-t border-electric-purple/10">
-                      <div className="grid grid-cols-2 gap-2 text-xs">
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-electric-green rounded-full" />
-                          <span className="text-foreground/80 dark:text-foreground/90">Step-by-step</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1 h-1 bg-neon-blue rounded-full" />
-                          <span className="text-foreground/80 dark:text-foreground/90">Expert tips</span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </motion.div>
+              <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <CardContent className="p-6 text-center">
+                  <div className="mb-4">{topic.icon}</div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">{topic.title}</h3>
+                  <p className="text-gray-600 text-sm mb-3">{topic.description}</p>
+                  <p className="text-sm text-blue-600 font-medium">{topic.articles} articles</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
       </section>
 
       {/* Video Tutorials */}
-      <section className="py-24 relative bg-gradient-to-br from-electric-purple/5 via-transparent to-neon-blue/5">
+      <section className="py-24 bg-gradient-to-br from-blue-50 via-white to-purple-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div 
-            className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              <motion.div 
-                className="inline-block mb-4"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-              >
-                <Badge className="bg-gradient-to-r from-electric-purple to-neon-blue text-white border-0">
-                  Video Guides
-                </Badge>
-              </motion.div>
-              <h2 className="text-3xl md:text-4xl font-bold text-foreground dark:text-foreground/95 mb-6 font-space">
-                Video Tutorials
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              <Badge className="bg-gradient-to-r from-blue-100 to-purple-100 text-blue-800 border-0 px-4 py-2 text-sm font-medium">
+                <Video className="w-4 h-4 mr-2 text-blue-400" />
+                Video Guides
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-gray-900 via-blue-900 to-purple-900 bg-clip-text text-transparent leading-tight">
+                Expert Video Tutorials
               </h2>
-              <p className="text-lg text-foreground/90 dark:text-foreground/80 mb-8">
-                Watch step-by-step video guides to master PostPilot's features and maximize your LinkedIn presence.
+              <p className="text-xl text-gray-600 max-w-2xl">
+                Master PostPilot's features with our step-by-step video guides designed to help you grow your LinkedIn presence.
               </p>
-              <ul className="space-y-3 mb-8">
+              <div className="space-y-4">
                 {[
-                  'Getting Started with PostPilot (5 min)',
-                  'Creating Your First LinkedIn Post (8 min)',
-                  'Resume Enhancement Tutorial (12 min)',
-                  'Advanced Job Matching Tips (10 min)'
+                  { icon: <Video className="w-6 h-6 text-blue-600" />,
+                    title: 'Getting Started with PostPilot',
+                    duration: '5 min',
+                    description: 'Learn the basics of using PostPilot for LinkedIn automation'
+                  },
+                  { icon: <Video className="w-6 h-6 text-blue-600" />,
+                    title: 'Creating Your First LinkedIn Post',
+                    duration: '8 min',
+                    description: 'Step-by-step guide to crafting engaging LinkedIn content'
+                  },
+                  { icon: <Video className="w-6 h-6 text-blue-600" />,
+                    title: 'Resume Enhancement Tutorial',
+                    duration: '12 min',
+                    description: 'Advanced techniques for optimizing your LinkedIn profile'
+                  },
+                  { icon: <Video className="w-6 h-6 text-blue-600" />,
+                    title: 'Advanced Job Matching Tips',
+                    duration: '10 min',
+                    description: 'Maximize your job search effectiveness with PostPilot'
+                  }
                 ].map((item, i) => (
-                  <motion.li 
-                    key={i}
-                    className="flex items-center space-x-2"
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-                  >
-                    <Video className="w-5 h-5 text-electric-purple" />
-                    <span className="text-foreground/90 dark:text-foreground/90">{item}</span>
-                  </motion.li>
+                  <div key={i} className="flex items-center space-x-4 p-4 bg-white rounded-lg shadow-sm">
+                    <div className="p-3 bg-blue-50 rounded-lg">
+                      {item.icon}
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900">{item.title}</h3>
+                      <p className="text-gray-600">{item.description}</p>
+                      <span className="mt-2 text-sm text-blue-600">{item.duration}</span>
+                    </div>
+                  </div>
                 ))}
-              </ul>
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-              >
-                <Button 
-                  size="lg" 
-                  className="group bg-gradient-to-r from-electric-purple to-neon-blue text-white hover:shadow-lg hover:shadow-electric-purple/25 transition-all duration-200"
-                >
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
-                    Watch Tutorials
-                  </span>
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
-                </Button>
-              </motion.div>
-            </motion.div>
+              </div>
+              <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200">
+                Watch All Tutorials
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </div>
             
-            <motion.div 
-              className="relative"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Card className="bg-white/90 dark:bg-card/90 backdrop-blur-sm border border-border/50 dark:border-border/50 shadow-2xl overflow-hidden">
+            <div className="relative">
+              <Card className="bg-white shadow-2xl">
                 <CardContent className="p-0">
-                  <div className="aspect-video bg-gradient-to-br from-electric-purple/20 to-neon-blue/20 dark:from-electric-purple/10 dark:to-neon-blue/10 flex items-center justify-center">
-                    <div className="text-center p-8">
-                      <div className="bg-white/90 dark:bg-background/80 backdrop-blur-sm w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg border border-border/30 dark:border-border/20">
-                        <Video className="w-10 h-10 text-electric-purple" />
+                  <div className="aspect-video rounded-t-lg overflow-hidden">
+                    <div className="relative">
+                      <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 opacity-70"></div>
+                      <div className="absolute inset-0 bg-black/30"></div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white w-20 h-20 rounded-full flex items-center justify-center shadow-lg">
+                          <Video className="w-10 h-10 text-blue-600" />
+                        </div>
                       </div>
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-foreground/95 mb-2 font-inter">
-                        PostPilot Masterclass
-                      </h3>
-                      <p className="text-gray-700 dark:text-foreground/80">45 minutes of expert tips</p>
                     </div>
                   </div>
                   <div className="p-6">
-                    <Button className="w-full group bg-gradient-to-r from-electric-purple to-neon-blue text-white hover:shadow-lg hover:shadow-electric-purple/25 transition-all duration-200">
-                      <span className="group-hover:translate-x-1 transition-transform duration-200">
-                        Play Video
-                      </span>
-                      <ArrowRight className="w-5 h-5 ml-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200" />
+                    <h3 className="text-2xl font-semibold text-gray-900 mb-2">PostPilot Masterclass</h3>
+                    <p className="text-gray-600 mb-4">45 minutes of expert tips and strategies</p>
+                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white">
+                      Watch Masterclass
                     </Button>
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Newsletter Signup */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-electric-purple to-neon-blue" />
-        <div className="absolute inset-0 bg-grid-white/[0.05]" />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <motion.h2 
-              className="text-3xl md:text-5xl font-bold text-white mb-6 font-space"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              Stay Informed
-            </motion.h2>
-            <motion.p 
-              className="text-xl text-white/90 mb-10 max-w-2xl mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              Get the latest career tips, product updates, and industry insights delivered to your inbox.
-            </motion.p>
-            <motion.div 
-              className="max-w-md mx-auto flex flex-col sm:flex-row gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-xl border-2 border-white/20 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/30 focus:border-white/30 backdrop-blur-sm transition-all duration-200"
-              />
-              <motion.div
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto"
-              >
-                <Button 
-                  size="lg" 
-                  className="w-full h-full bg-white text-electric-purple hover:bg-gray-100 px-8 py-4 text-lg font-medium shadow-lg hover:shadow-xl transition-all duration-200"
-                >
-                  <span className="group-hover:translate-x-1 transition-transform duration-200">
+      <section className="py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-pink-600">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="space-y-8">
+            <div className="space-y-4">
+              <Badge className="bg-gradient-to-r from-white/20 to-white/10 text-white border-0 px-4 py-2 text-sm font-medium">
+                <MessageCircle className="inline w-4 h-4 mr-2 text-white/90" />
+                Stay Updated
+              </Badge>
+              <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight">
+                Join Our Community
+              </h2>
+              <p className="text-xl text-white/90 max-w-2xl mx-auto">
+                Get the latest career tips, product updates, and industry insights delivered straight to your inbox.
+              </p>
+            </div>
+            
+            <div className="max-w-md mx-auto">
+              <div className="relative">
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="w-full px-6 py-4 rounded-lg border border-white/20 bg-white/5 text-white/70 placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 transition-all duration-200"
+                />
+                <Button asChild className="absolute right-0 top-0 bottom-0 bg-white text-blue-600 hover:bg-gray-100 px-8 rounded-r-lg">
+                  <Link to="/subscribe">
                     Subscribe
-                  </span>
-                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Link>
                 </Button>
-              </motion.div>
-            </motion.div>
-          </motion.div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-        </main>
-      </motion.div>
-    </AnimatePresence>
+
+      <Footer />
+    </div>
   );
 };
 

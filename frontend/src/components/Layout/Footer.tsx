@@ -6,22 +6,28 @@ import {
   Linkedin, 
   Github, 
   Instagram,
-  ArrowRight,
   Zap,
   Users,
   TrendingUp,
   Shield,
   Globe,
   Mail,
-  MapPin,
-  Phone,
   MessageSquare,
   FileText,
   Briefcase,
   Settings,
   HelpCircle,
-  Star
+  Star,
+  Info,
+  Users as Users2,
+  Newspaper,
+  CreditCard,
+  BarChart2,
+  Code2,
+  BookOpen,
+  Signal
 } from 'lucide-react';
+import { VortexSVG } from '@/Logo/Logo';
 
 interface FooterLink {
   name: string;
@@ -34,300 +40,364 @@ interface FooterLink {
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
-  // Personal tools section links
-  const personalTools: FooterLink[] = [
-    { 
-      name: 'LinkedIn Post Builder', 
-      href: '/product/personalpostgeneration', 
-      icon: <MessageSquare className="w-4 h-4" />,
-      className: 'text-indigo-400 group-hover:translate-x-1 transition-transform'
-    },
-    { 
-      name: 'Resume Enhancer', 
-      href: '/product/resume-builder', 
-      icon: <FileText className="w-4 h-4" />,
-      className: 'text-indigo-400 group-hover:translate-x-1 transition-transform'
-    },
-    { 
-      name: 'Career Match', 
-      href: '/product/job-matcher', 
-      icon: <Briefcase className="w-4 h-4" />,
-      className: 'text-indigo-400 group-hover:translate-x-1 transition-transform'
-    },
-    { 
-      name: 'AI Workflows', 
-      href: '/product/ai-workflows', 
-      icon: <Settings className="w-4 h-4" />,
-      className: 'text-indigo-400 group-hover:translate-x-1 transition-transform'
-    },
+  // Products section
+  const productLinks: FooterLink[] = [
+    { name: 'Post a Job', href: '/products/job-postings', icon: <Users className="w-4 h-4" /> },
+    { name: 'Hire Assist', href: '/products/hiring', icon: <Zap className="w-4 h-4" /> },
+    { name: 'Ads Copy AI', href: '/products/ads-generator', icon: <TrendingUp className="w-4 h-4" /> },
+    { name: 'AI Post Builder', href: '/products/linkedin-posts', icon: <MessageSquare className="w-4 h-4" /> },
+    { name: 'AI Operational Page', href: '/products/aioperation', icon: <Shield className="w-4 h-4" /> },
+    { name: 'AIO & SEO Blog', href: '/products/blog', icon: <FileText className="w-4 h-4" /> },
+    { name: 'Custom LLM', href: '/products/llm', icon: <Globe className="w-4 h-4" /> },
   ];
 
+  // Solutions section
+  const solutionsLinks: FooterLink[] = [
+    { name: 'Why Us?', href: '/solutions/why-us', icon: <Star className="w-4 h-4" /> },
+    { name: 'By Use Case', href: '/solutions/use-cases', icon: <HelpCircle className="w-4 h-4" /> },
+  ];
+
+  // About section
+  const aboutLinks: FooterLink[] = [
+    { name: 'About Us', href: '/about', icon: <Info className="w-4 h-4" /> },
+    { name: 'Careers', href: '/careers', icon: <Briefcase className="w-4 h-4" /> },
+    { name: 'Team', href: '/team', icon: <Users2 className="w-4 h-4" /> },
+    { name: 'Blog', href: '/blog', icon: <Newspaper className="w-4 h-4" /> },
+  ];
+
+  // Pricing section
+  const pricingLinks: FooterLink[] = [
+    { name: 'Pricing Plans', href: '/pricing', icon: <CreditCard className="w-4 h-4" /> },
+    { name: 'Enterprise', href: '/enterprise', icon: <Briefcase className="w-4 h-4" /> },
+    { name: 'Compare Plans', href: '/pricing/compare', icon: <BarChart2 className="w-4 h-4" /> },
+    { name: 'Free Trial', href: '/free-trial', icon: <Zap className="w-4 h-4" /> },
+  ];
+
+  // Resources section
   const resourcesLinks: FooterLink[] = [
-    { name: 'Documentation', href: '/docs' },
-    { name: 'Tutorials', href: '/tutorials' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Community', href: '/community' },
+    { name: 'Documentation', href: '/docs', icon: <FileText className="w-4 h-4" /> },
+    { name: 'API Reference', href: '/api', icon: <Code2 className="w-4 h-4" /> },
+    { name: 'Guides', href: '/guides', icon: <BookOpen className="w-4 h-4" /> },
+    { name: 'Community', href: '/community', icon: <Users2 className="w-4 h-4" /> },
   ];
 
-  const legalLinks: FooterLink[] = [
-    { name: 'Terms of Service', href: '/terms' },
-    { name: 'Privacy Policy', href: '/privacy' },
-    { name: 'Cookie Policy', href: '/cookies' },
-    { name: 'GDPR', href: '/gdpr' },
+  // Contact section
+  const contactLinks: FooterLink[] = [
+    { name: 'Contact Us', href: '/contact', icon: <Mail className="w-4 h-4" /> },
+    { name: 'Support', href: '/support', icon: <HelpCircle className="w-4 h-4" /> },
+    { name: 'Documentation', href: '/docs', icon: <FileText className="w-4 h-4" /> },
+    { name: 'Status', href: '/status', icon: <Signal className="w-4 h-4" /> },
   ];
 
+  // Social links
   const socialLinks = [
     { 
       name: 'Twitter', 
-      href: 'https://twitter.com/postpilot', 
-      icon: <Twitter className="w-5 h-5" />,
-      className: 'hover:text-blue-400 transition-colors',
+      href: 'https://twitter.com/vortexai', 
+      icon: <Twitter className="w-4 h-4" />,
+      className: 'text-blue-400 hover:bg-blue-500/10',
       external: true
     },
     { 
       name: 'LinkedIn', 
-      href: 'https://linkedin.com/company/postpilot', 
-      icon: <Linkedin className="w-5 h-5" />,
-      className: 'hover:text-blue-600 transition-colors',
+      href: 'https://linkedin.com/company/vortexai', 
+      icon: <Linkedin className="w-4 h-4" />,
+      className: 'text-blue-500 hover:bg-blue-500/10',
       external: true
     },
     { 
       name: 'GitHub', 
-      href: 'https://github.com/postpilot', 
-      icon: <Github className="w-5 h-5" />,
-      className: 'hover:text-gray-300 transition-colors',
+      href: 'https://github.com/vortexai', 
+      icon: <Github className="w-4 h-4" />,
+      className: 'text-foreground hover:bg-foreground/10',
       external: true
     },
     { 
       name: 'Instagram', 
-      href: 'https://instagram.com/postpilot', 
-      icon: <Instagram className="w-5 h-5" />,
-      className: 'hover:text-pink-500 transition-colors',
+      href: 'https://instagram.com/vortexai', 
+      icon: <Instagram className="w-4 h-4" />,
+      className: 'text-pink-500 hover:bg-pink-500/10',
       external: true
     },
   ];
 
-  // Helper function to render links consistently
-  const renderLink = (item: FooterLink) => {
-    const linkContent = (
-      <>
-        {item.icon && <span className={`mr-2 ${item.className || ''}`}>{item.icon}</span>}
-        {item.name}
-      </>
-    );
-
-    if (item.external || item.href.startsWith('http')) {
-      return (
-        <a
-          href={item.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-muted-foreground hover:text-electric-purple transition-colors duration-200 group flex items-center"
-        >
-          {linkContent}
-        </a>
-      );
-    }
-
-    return (
-      <Link
-        to={item.href}
-        className="text-muted-foreground hover:text-electric-purple transition-colors duration-200 group flex items-center"
-      >
-        {linkContent}
-      </Link>
-    );
-  };
-
-  // Helper function to render a section with title and links
-  const renderSection = (title: string, items: FooterLink[], icon?: React.ReactNode, delay = 0) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.2 + delay }}
-      viewport={{ once: true }}
-      className="space-y-4"
-    >
-      <h4 className="text-lg font-space font-semibold text-foreground flex items-center">
-        {icon && <span className="mr-2">{icon}</span>}
-        {title}
-      </h4>
-      <ul className="space-y-2">
-        {items.map((item, index) => (
-          <motion.li 
-            key={item.href}
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 + (index * 0.05) }}
-            viewport={{ once: true }}
-          >
-            {renderLink(item)}
-          </motion.li>
-        ))}
-      </ul>
-    </motion.div>
-  );
-
-  // Navigation sections
-  const sections = [
-    {
-      title: 'Tools',
-      icon: <Settings className="w-5 h-5" />,
-      links: personalTools
-    },
-    {
-      title: 'Resources',
-      icon: <HelpCircle className="w-5 h-5" />,
-      links: resourcesLinks
-    },
-    {
-      title: 'Legal',
-      icon: <Shield className="w-5 h-5" />,
-      links: legalLinks
-    }
-  ];
-
   return (
-    <footer className="py-16 px-4 sm:px-6 lg:px-8 border-t border-electric-purple/20">
-      <motion.div 
-        className="max-w-7xl mx-auto"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-      >
-        {/* Main Footer Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Section - Takes 2 columns on desktop */}
-          <motion.div 
-            className="col-span-1 md:col-span-2"
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
+    <footer className="bg-background/95 dark:bg-background/95 border-t border-border/20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+          {/* Company Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
+            className="col-span-2"
           >
-            <div className="flex items-center mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-electric-purple to-indigo-600 rounded-lg flex items-center justify-center mr-3">
-                <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h2 className="text-2xl font-space font-bold bg-gradient-to-r from-electric-purple to-indigo-500 bg-clip-text text-transparent">
+            <div className="flex items-center mb-6">
+              <motion.div 
+                className="w-10 h-10 flex items-center justify-center mr-3"
+                whileHover={{ rotate: 10 }}
+                transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+              >
+                <VortexSVG />
+              </motion.div>
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] bg-clip-text text-transparent">
                 Vortex
               </h2>
+              <motion.div 
+                className="ml-1 w-2 h-2 bg-gradient-to-r from-[#8B5CF6] to-[#3B82F6] rounded-full"
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  opacity: [0.7, 1, 0.7]
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: 'easeInOut'
+                }}
+              />
             </div>
-            <motion.p 
-              className="text-muted-foreground font-inter mb-6"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              Empowering professionals with AI-powered tools for career growth. 
-              Enhance your professional journey with our intelligent solutions.
-            </motion.p>
+            <p className="text-muted-foreground mb-5 text-sm max-w-md">
+              Transform your business operations with our cutting-edge AI automation platform.
+              Streamline workflows and unlock the full potential of artificial intelligence.
+            </p>
             
             {/* Social Links */}
-            <motion.div 
-              className="flex space-x-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              viewport={{ once: true }}
-            >
+            <div className="flex space-x-2 mt-4">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.name}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center hover:bg-accent hover:border-electric-purple/30 transition-colors"
+                  className={`w-8 h-8 rounded-md flex items-center justify-center hover:bg-accent hover:text-accent-foreground transition-colors border ${social.className || 'border-border'}`}
                   aria-label={social.name}
                   whileHover={{ y: -2, scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.4 + (index * 0.1) }}
+                  transition={{ duration: 0.4, delay: 0.1 + (index * 0.1) }}
                   viewport={{ once: true }}
                 >
                   {social.icon}
                 </motion.a>
               ))}
-            </motion.div>
+            </div>
           </motion.div>
 
-          {/* Navigation Sections */}
-          {sections.map((section, index) => (
-            <motion.div
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 + (index * 0.1) }}
-              viewport={{ once: true }}
-              className="space-y-4"
-            >
-              <h3 className="text-lg font-space font-semibold text-foreground flex items-center">
-                {section.icon}
-                <span className="ml-2">{section.title}</span>
-              </h3>
-              <ul className="space-y-2">
-                {section.links.map((link, linkIndex) => (
-                  <motion.li 
-                    key={link.href}
-                    initial={{ opacity: 0, y: 10 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: 0.3 + (index * 0.1) + (linkIndex * 0.05) }}
-                    viewport={{ once: true }}
-                    className="group"
-                  >
-                    <Link 
-                      to={link.href}
-                      className="text-muted-foreground hover:text-foreground transition-colors flex items-center group-hover:translate-x-1"
-                    >
-                      {link.icon && <span className="mr-2">{link.icon}</span>}
-                      {link.name}
-                    </Link>
-                  </motion.li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Bottom Bar */}
-        <motion.div 
-          className="border-t border-border mt-12 pt-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          viewport={{ once: true }}
-        >
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-muted-foreground/60 font-inter text-sm">
-              &copy; {currentYear} PostPilot. All rights reserved.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 mt-4 md:mt-0">
-              {legalLinks.map((link, index) => (
+          {/* Products */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-sm font-semibold mb-3 text-foreground flex items-center">
+              <Briefcase className="w-4 h-4 mr-2 text-muted-foreground" />
+              Products
+            </h3>
+            <div className="space-y-1.5">
+              {productLinks.map((link, index) => (
                 <motion.div
-                  key={link.href}
+                  key={link.name}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: 0.6 + (index * 0.1) }}
+                  transition={{ duration: 0.4, delay: 0.2 + (index * 0.05) }}
                   viewport={{ once: true }}
                 >
-                  <Link 
+                  <Link
                     to={link.href}
-                    className="text-muted-foreground hover:text-foreground text-sm transition-colors"
+                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors text-xs py-1"
                   >
-                    {link.name}
+                    {link.icon}
+                    <span className="ml-2.5">{link.name}</span>
                   </Link>
                 </motion.div>
               ))}
             </div>
+          </motion.div>
+
+          {/* Solutions */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-sm font-semibold mb-3 text-foreground flex items-center">
+              <Star className="w-4 h-4 mr-2 text-muted-foreground" />
+              Solutions
+            </h3>
+            <div className="space-y-1.5">
+              {solutionsLinks.map((link, index) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 + (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors text-xs py-1"
+                  >
+                    {link.icon}
+                    <span className="ml-2.5">{link.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* About */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-sm font-semibold mb-3 text-foreground flex items-center">
+              <Shield className="w-4 h-4 mr-2 text-muted-foreground" />
+              About
+            </h3>
+            <div className="space-y-1.5">
+              {aboutLinks.map((link, index) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 + (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors text-xs py-1"
+                  >
+                    {link.icon}
+                    <span className="ml-2.5">{link.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Pricing */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-sm font-semibold mb-3 text-foreground flex items-center">
+              <CreditCard className="w-4 h-4 mr-2 text-muted-foreground" />
+              Pricing
+            </h3>
+            <div className="space-y-1.5">
+              {pricingLinks.map((link, index) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 + (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors text-xs py-1"
+                  >
+                    {link.icon}
+                    <span className="ml-2.5">{link.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Resources */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-sm font-semibold mb-3 text-foreground flex items-center">
+              <BookOpen className="w-4 h-4 mr-2 text-muted-foreground" />
+              Resources
+            </h3>
+            <div className="space-y-1.5">
+              {resourcesLinks.map((link, index) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 + (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors text-xs py-1"
+                  >
+                    {link.icon}
+                    <span className="ml-2.5">{link.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Contact */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <h3 className="text-sm font-semibold mb-3 text-foreground flex items-center">
+              <Mail className="w-4 h-4 mr-2 text-muted-foreground" />
+              Contact
+            </h3>
+            <div className="space-y-1.5">
+              {contactLinks.map((link, index) => (
+                <motion.div
+                  key={link.name}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: 0.2 + (index * 0.05) }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to={link.href}
+                    className="flex items-center text-muted-foreground hover:text-foreground transition-colors text-xs py-1"
+                  >
+                    {link.icon}
+                    <span className="ml-2.5">{link.name}</span>
+                  </Link>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Copyright */}
+        <motion.div 
+          className="border-t border-border/20 mt-8 pt-6 text-center text-muted-foreground text-xs"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.5 }}
+          viewport={{ once: true }}
+        >
+          <p>&copy; {currentYear} Vortex AI. All rights reserved.</p>
+          <div className="mt-2 flex justify-center space-x-4 text-xs">
+            <Link to="/privacy" className="hover:text-foreground transition-colors">Privacy Policy</Link>
+            <span>•</span>
+            <Link to="/terms" className="hover:text-foreground transition-colors">Terms of Service</Link>
+            <span>•</span>
+            <Link to="/cookies" className="hover:text-foreground transition-colors">Cookie Policy</Link>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
     </footer>
-  )
+  );
 };
 
 export default Footer;
